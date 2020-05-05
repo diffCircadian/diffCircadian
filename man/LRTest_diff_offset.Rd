@@ -18,23 +18,23 @@ LRTest_diff_offset(tt1, yy1, tt2, yy2, period = 24)
 \item{period}{Period of the since curve. Default is 24.}
 }
 \value{
-A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+A list, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1}
-\item{offset}{offset based on formula 1 or on formula 2}
-\item{A}{A based on formula 2}
-\item{B}{B based on formula 2}
-\item{SST}{Total sum of square}
-\item{SSE}{Error sum of square}
-\item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+\item{offset_1}{offset estimate of the 1st data}
+\item{offset_2}{offset estimate of the 2nd data}
+\item{offset_c}{offset estimate pooling all data together}
+\item{l0}{log likelihood under the null (same variance between the two groups)}
+\item{l1}{log likelihood under the alternative (different variance between the two groups)}
+\item{df}{degree of freedom for the LR test}
+\item{stat}{the LR statistics}
+\item{pvalue}{the p-value from the LR test}
 }
 \description{
-Likelihood ratio test for amplitute
+Likelihood ratio test for differential offset
 }
 \details{
-Test diff amp of circadian curve fitting using likelihood ratio test
+Test differential offset of circadian curve fitting using likelihood ratio test
 }
 \examples{
 set.seed(32608)

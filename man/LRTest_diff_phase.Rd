@@ -18,23 +18,23 @@ LRTest_diff_phase(tt1, yy1, tt2, yy2, period = 24)
 \item{period}{Period of the since curve. Default is 24.}
 }
 \value{
-A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+A list, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1}
-\item{offset}{offset based on formula 1 or on formula 2}
-\item{A}{A based on formula 2}
-\item{B}{B based on formula 2}
-\item{SST}{Total sum of square}
-\item{SSE}{Error sum of square}
-\item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+\item{phase_1}{phase estimate of the 1st data, phase is restricted in (0, period)}
+\item{phase_2}{phase estimate of the 2nd data, phase is restricted in (0, period)}
+\item{phase_c}{phase estimate pooling all data together, phase is restricted in (0, period)}
+\item{l0}{log likelihood under the null (same variance between the two groups)}
+\item{l1}{log likelihood under the alternative (different variance between the two groups)}
+\item{df}{degree of freedom for the LR test}
+\item{stat}{the LR statistics}
+\item{pvalue}{the p-value from the LR test}
 }
 \description{
-Likelihood ratio test for phase
+Likelihood ratio test for differential phase
 }
 \details{
-Test diff phase of circadian curve fitting using likelihood ratio test
+Test differential phase of circadian curve fitting using likelihood ratio test
 }
 \examples{
 set.seed(32608)

@@ -8,17 +8,7 @@
 ##' @param yy2 expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
 ##' @param parStart initial value for optimzation purpose
-##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
-##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
-##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1}
-##' \item{offset}{offset based on formula 1 or on formula 2}
-##' \item{A}{A based on formula 2}
-##' \item{B}{B based on formula 2}
-##' \item{SST}{Total sum of square}
-##' \item{SSE}{Error sum of square}
-##' \item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+##' @return A vector of 7 with the following order: amp_1, phase_c, offset_1, theta_1, amp_2, offset_2, theta_2
 ##' @author Caleb
 ##' @import minpack.lm
 ##' @export
@@ -48,14 +38,12 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	
 	if(is.null(parStart)){
 	  par1 <- fitSinCurve(tt1,yy1)
-	  yhat1 <- par1$amp * sin(2*pi/24 * (tt1 + par1$phase)) + par1$offset
-	  #theta1 <- 1/mean((yy1-yhat1)^2)
-	  theta1 <- n1/par1$SSE
-	  
+	  yhat1 <- par1$amp * sin(2*pi/period * (tt1 + par1$phase)) + par1$offset
+	  theta1 <- n1/par1$rss
+
 	  par2 <- fitSinCurve(tt2,yy2)
-	  yhat2 <- par2$amp * sin(2*pi/24 * (tt2 + par2$phase)) + par2$offset
-	  #theta2 <- 1/mean((yy2-yhat2)^2)
-	  theta2 <- n2/par2$SSE
+	  yhat2 <- par2$amp * sin(2*pi/period * (tt2 + par2$phase)) + par2$offset
+	  theta2 <- n2/par2$rss
 	  
 	  beta0 <- c(par1$amp, 
 	             (par1$phase + par2$phase)/2, 
@@ -70,15 +58,7 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	}
 	
 	w <- 2*pi/period
-	
-	# beta[1]: amp_1
-	# beta[2]: phase_c
-	# beta[3]: offset_1
-	# beta[4]: theta_1
-	# beta[5]: amp_2
-	# beta[6]: offset_2
-	# beta[7]: theta_2
-	
+		
 	f <- function(beta){
 	  amp_1 <- beta[1]
 	  phase_c <- beta[2]
@@ -106,8 +86,6 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	  ll <- l1a + l1b + l2a + l2b
 	  as.numeric(ll)
 	}
-	#f(beta0)
-	#optimx(beta0, fn=f)
 	
 	#beta <- beta0
 	g <- function(beta){
@@ -151,8 +129,6 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	    partial_offset_2, 
 	    partial_theta_2)
 	}
-	#g(beta0)
-	#optimx(beta0, fn=f, gr = g, control=list(follow.on = TRUE,usenumDeriv=FALSE,kkttol=10,starttests=FALSE, save.failures=TRUE, trace=0))
 	
 	h <- function(beta){
 	  amp_1 <- beta[1]
@@ -233,30 +209,6 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	  hmatrix[7,7] <- h_theta2_theta2
 	  hmatrix
 	}
-	#h(beta0)
-	if(F){
-	  betaStar <- c(3.039525, 5.356788, 3.017614, 1.059177, 15.07628, 1.787642, 1.020192)
-	  f(betaStar)
-	  g(betaStar)
-	  h(betaStar)
-	  
-	  f(beta0)
-	  g(beta0)
-	  h(beta0)
-	  optimx(beta0, fn=f)
-	  optimx(betaStar, fn=f)
-	  
-	  optimx(beta0, fn=f, gr = g, 
-	         control=list(follow.on = TRUE,usenumDeriv=FALSE,kkttol=10,starttests=FALSE, save.failures=TRUE, trace=0))
-	  optimx(betaStar, fn=f, gr = g, 
-	         control=list(follow.on = TRUE,usenumDeriv=FALSE,kkttol=10,starttests=FALSE, save.failures=TRUE, trace=0))
-	  optimx(beta0, fn=f, gr = g, hess=h, 
-	         lower=c(-Inf, -Inf, -Inf, 0, -Inf, -Inf, 0), 
-	         upper=c(Inf,Inf,Inf,Inf,Inf,Inf,Inf), 
-	         method = "L-BFGS-B", 
-	         control=list(follow.on = TRUE,usenumDeriv=FALSE,kkttol=10,starttests=FALSE, save.failures=TRUE, trace=0))
-	  
-	}
 	anopt <- optimx(beta0, fn=f, gr = g, hess=h, 
 	       lower=c(-Inf, -Inf, -Inf, 0, -Inf, -Inf, 0), 
 	       upper=c(Inf,Inf,Inf,Inf,Inf,Inf,Inf), 
@@ -267,7 +219,7 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 
 	res <- as.numeric(anopt[1:length(beta0)])
 	if(any(is.na(res))){
-	  bnopt <- optimx(beta0, fn=f, method=c("BFGS"))
+	  bnopt <- suppressWarnings(optimx(beta0, fn=f, method=c("BFGS")))
 	  #bnopt <- optimx(beta0, fn=f, method=c("nlm"))
 	  res <- as.numeric(bnopt[1:length(beta0)])
 	}

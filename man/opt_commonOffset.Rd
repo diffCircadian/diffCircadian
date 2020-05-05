@@ -20,17 +20,7 @@ opt_commonOffset(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 \item{parStart}{initial value for optimzation purpose}
 }
 \value{
-A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
-Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
-Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1}
-\item{offset}{offset based on formula 1 or on formula 2}
-\item{A}{A based on formula 2}
-\item{B}{B based on formula 2}
-\item{SST}{Total sum of square}
-\item{SSE}{Error sum of square}
-\item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+A vector of 7 with the following order: amp_1, phase_1, offset_c, theta_1, amp_2, phase_2,  theta_2
 }
 \description{
 Optimization for common offset exist

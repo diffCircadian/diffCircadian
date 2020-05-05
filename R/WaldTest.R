@@ -5,17 +5,15 @@
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
-##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+##' @return A list of A, B, offset, df, stat, and pvalue
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1}
-##' \item{offset}{offset based on formula 1 or on formula 2}
 ##' \item{A}{A based on formula 2}
 ##' \item{B}{B based on formula 2}
-##' \item{SST}{Total sum of square}
-##' \item{SSE}{Error sum of square}
-##' \item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+##' \item{offset}{offset based on formula 1 or on formula 2}
+##' \item{df}{degree of freedom for the Wald test}
+##' \item{stat}{the Wald statistics}
+##' \item{pvalue}{the p-value from the Wald test}
 ##' @author Caleb
 ##' @export
 ##' @examples
@@ -72,16 +70,24 @@ WaldTest <- function(tt, yy, period = 24){
     I_test %*% matrix(c(A, B), nrow = 2, ncol = 1)		
   
   df <- 2
-  stat <- Waldstat
-  pvalue <- pchisq(Waldstat,2,lower.tail = F)
+  stat <- as.numeric(Waldstat)
+  pvalue <- pchisq(stat,2,lower.tail = F)
   
+	if(F){
+		## for internal test purpose
+	  res <- list(
+		  A=A,B=B,offset=offset,invSigmaA2=invSigmaA2,
+		  det_A_A=det_A_A, det_A_B=det_A_B, det_A_offset=det_A_offset, det_A_sigma2=det_A_sigma2,
+		  det_B_B=det_B_B, det_B_offset=det_B_offset, det_B_sigma2=det_B_sigma2, 
+		  det_offset_offset=det_offset_offset, det_offset_sigma2=det_offset_sigma2, 
+		  det_sigma2_sigma2=det_sigma2_sigma2,
+		  df=df, stat=stat, pvalue=pvalue)
+	}
   res <- list(
-	  A=A,B=B,offset=offset,invSigmaA2=invSigmaA2,
-	  det_A_A=det_A_A, det_A_B=det_A_B, det_A_offset=det_A_offset, det_A_sigma2=det_A_sigma2,
-	  det_B_B=det_B_B, det_B_offset=det_B_offset, det_B_sigma2=det_B_sigma2, 
-	  det_offset_offset=det_offset_offset, det_offset_sigma2=det_offset_sigma2, 
-	  det_sigma2_sigma2=det_sigma2_sigma2,
-	  df=df, stat=stat, pvalue=pvalue)
+	  A=A,B=B,offset=offset,
+	  df=df, stat=stat, pvalue=pvalue
+		)
+
   return(res)
   
 }

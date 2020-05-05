@@ -5,17 +5,19 @@
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
-##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+##' @return A list of amp, phase, offset, sigma02, sigmaA2, l0, l1, df, stat, and pvalue. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 ##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1}
+##' \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
 ##' \item{offset}{offset based on formula 1 or on formula 2}
-##' \item{A}{A based on formula 2}
-##' \item{B}{B based on formula 2}
-##' \item{SST}{Total sum of square}
-##' \item{SSE}{Error sum of square}
-##' \item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+##' \item{sigma02}{Variance estimate under the null (intercept only)}
+##' \item{sigmaA2}{Variance estimate under the alternative (since curve fitting)}
+##' \item{l0}{log likelihood under the null (intercept only)}
+##' \item{l1}{log likelihood under the alternative (since curve fitting)}
+##' \item{df}{degree of freedom for the LR test}
+##' \item{stat}{the LR statistics}
+##' \item{pvalue}{the p-value from the LR test}
 ##' @author Caleb
 ##' @export
 ##' @examples

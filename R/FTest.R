@@ -5,17 +5,15 @@
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
-##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+##' @return A list of amp, phase, offset, peak, SST, SSE, R2. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 ##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1}
+##' \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
 ##' \item{offset}{offset based on formula 1 or on formula 2}
-##' \item{A}{A based on formula 2}
-##' \item{B}{B based on formula 2}
-##' \item{SST}{Total sum of square}
-##' \item{SSE}{Error sum of square}
-##' \item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+##' \item{tss}{Total sum of square}
+##' \item{rss}{residual sum of square, SSE/n is the MLE of the variance sigma2}
+##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
 ##' @export
 ##' @examples
@@ -31,8 +29,8 @@
 FTest <- function(tt,yy, period = 24){
   fitCurveOut <- fitSinCurve(tt,yy,period=period)
   n <- length(yy)
-  rss <- fitCurveOut$SSE
-  tss <- fitCurveOut$SST
+  rss <- fitCurveOut$rss
+  tss <- fitCurveOut$tss
   amp <- fitCurveOut$amp
   phase <- fitCurveOut$phase
   offset <- fitCurveOut$offset

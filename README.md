@@ -51,6 +51,7 @@ Amp2 <- 3
 Phase2 <- 5
 Offset2 <- 2
 yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
+
 ## Differential pattern fitting
 LRTest_diff_sigma2(tt1, yy1, tt2, yy2)
 

@@ -1,23 +1,23 @@
-##' Likelihood ratio test for phase
+##' Likelihood ratio test for differential phase
 ##'
-##' Test diff phase of circadian curve fitting using likelihood ratio test
+##' Test differential phase of circadian curve fitting using likelihood ratio test
 ##' @title LRTest_diff_phase
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2
 ##' @param yy2 expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
-##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
+##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1}
-##' \item{offset}{offset based on formula 1 or on formula 2}
-##' \item{A}{A based on formula 2}
-##' \item{B}{B based on formula 2}
-##' \item{SST}{Total sum of square}
-##' \item{SSE}{Error sum of square}
-##' \item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+##' \item{phase_1}{phase estimate of the 1st data, phase is restricted in (0, period)}
+##' \item{phase_2}{phase estimate of the 2nd data, phase is restricted in (0, period)}
+##' \item{phase_c}{phase estimate pooling all data together, phase is restricted in (0, period)}
+##' \item{l0}{log likelihood under the null (same variance between the two groups)}
+##' \item{l1}{log likelihood under the alternative (different variance between the two groups)}
+##' \item{df}{degree of freedom for the LR test}
+##' \item{stat}{the LR statistics}
+##' \item{pvalue}{the p-value from the LR test}
 ##' @author Caleb
 ##' @export
 ##' @examples
@@ -35,17 +35,6 @@
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 ##' LRTest_diff_phase(tt1, yy1, tt2, yy2)
 
-#model: y=A*sin(2*pi*x+B)+C
-#y: a 1*n vector of data y
-#A: estimated A^hat from fitCurve
-#B: estimated B^hat from fitCurve
-#C: estimated C^hat from fitCurve
-#sigma0: sigma0^hat under H0
-#sigmaA: sigmaA^hat under H1
-#n: length of data y
-#df0: df under H0
-#df1: df under H1
-
 
 LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24){
 	n1 <- length(tt1)
@@ -56,11 +45,11 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24){
 	w <- 2*pi/period
 	## fit Ha, individual curves
   par1 <- fitSinCurve(tt1,yy1)
-	sum_diffy_1_sq <- par1$SSE
+	sum_diffy_1_sq <- par1$rss
 	theta1 <- n1/sum_diffy_1_sq
 
   par2 <- fitSinCurve(tt2,yy2)
-	sum_diffy_2_sq <- par2$SSE
+	sum_diffy_2_sq <- par2$rss
 	theta2 <- n2/sum_diffy_2_sq
 		
 	l1_Ha <- 1/2 * n1 * log(theta1) - 1/2 * n1
@@ -111,7 +100,7 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24){
   dfdiff <- 1
   pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
   
-  res <- list(phase_c=phase_c, offset_1=par1$phase, offset_2=par2$phase,
+  res <- list(phase_1=par1$phase, phase_2=par2$phase, phase_c=phase_c, 
 	  l0=l0, 
 	  la=la, 
 	  df = dfdiff, 
@@ -119,3 +108,4 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24){
 	  pvalue=pvalue)
   return(res)
 }
+

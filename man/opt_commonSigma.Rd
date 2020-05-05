@@ -4,8 +4,7 @@
 \alias{opt_commonSigma}
 \title{fit the data based on joint sin curve assuming common sigmas}
 \usage{
-opt_commonSigma(tt1, yy1, tt2, yy2, period = 24, parStart = list(amp =
-  3, phase = 0, offset = 0))
+opt_commonSigma(tt1, yy1, tt2, yy2, period = 24)
 }
 \arguments{
 \item{tt1}{time vector of condition 1}
@@ -24,14 +23,9 @@ opt_commonSigma(tt1, yy1, tt2, yy2, period = 24, parStart = list(amp =
 A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1}
-\item{offset}{offset based on formula 1 or on formula 2}
-\item{A}{A based on formula 2}
-\item{B}{B based on formula 2}
-\item{SST}{Total sum of square}
-\item{SSE}{Error sum of square}
-\item{R2}{Pseudo R2 defined as (SST - SSE)/SST}
+\item{sigma2_1}{variance estimate of the 1st data}
+\item{sigma2_2}{variance estimate of the 2nd data}
+\item{sigma2_C}{variance estimate pooling all data together}
 }
 \description{
 Optimization for common sigmas exist
