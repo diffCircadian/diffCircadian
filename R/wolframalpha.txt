@@ -1,0 +1,76 @@
+Wolframalpha notation
+
+https://www.wolframalpha.com/input/?i=grad%28cos%28x+%2B+y%29%29
+
+a b c d e f g
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, d]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, e]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, f]
+D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], a]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], b]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], c]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], d]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], e]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, a], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], b]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], c]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], d]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], e]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, b], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c], c]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c], d]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c], e]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, c], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, d], d]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, d], e]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, d], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, d], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, e], e]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, e], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, e], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, f], f]
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, f], g]
+
+D[D[- ln[d]/2 - ln[g]/2 + (y - a*sin[w*(x + b)] - c)^2 * d / 2 + (u - a*sin[w*(v + e)] - f)^2 * g / 2, g], g]
+
+
+
+D[3x^3 + log[y], x, y]
+
+
+
+grad(f(v,x,y,z) = (a - x * sin(b * (y + c)) - z)^2 * v/ 2)
+hessian(f(x,y,z) = (a - x * sin(b * (y + c)) - z)^2 / 2)
+
+
+grad(cos(x + y))
+
+
+grad(f(θ) = 1/2 * ln(θ))
+
+grad(f(x,y) = x/(x + y))
+
+
+grad(f(x,y) = x*log(y))
+
+gradient of -n/2 * log(θ) with respect to θ 
+
+
+gradient of -n/2 log θ + θ / 2 * (y - E sin(w(t + φ)) - C)^2 with respect to θ 
+
+
+gradient of -n/2 log θ + θ / 2 * (y - E sin(w(t + φ)) - C)^2 with respect to θ E φ C
+x^3 (y^2 - z)^2 with respect to x

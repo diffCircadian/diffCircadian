@@ -1,2 +1,2 @@
 # diffCircadian
-Differential circadian analysis
+Omics data circadian and differential circadian analysis
