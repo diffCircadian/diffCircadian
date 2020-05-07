@@ -51,7 +51,11 @@ Amp2 <- 3
 Phase2 <- 5
 Offset2 <- 2
 yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
+```
 
+## Likelihood ratio test
+
+```{R}
 ## Differential pattern fitting
 LRTest_diff_sigma2(tt1, yy1, tt2, yy2)
 
@@ -64,5 +68,11 @@ LRTest_diff_phase(tt1, yy1, tt2, yy2)
 ## Differential offset 
 LRTest_diff_offset(tt1, yy1, tt2, yy2)
 
+```
 
+## Wald test
+
+```{R}
+## Differential amplitute
+WaldTest_diff_amp(tt1, yy1, tt2, yy2)
 ```
