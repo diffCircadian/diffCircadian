@@ -17,7 +17,7 @@ opt_commonPhase(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{parStart}{initial value for optimzation purpose}
+\item{parStart}{initial value for optimzation purpose. This has the same order as the output vector.}
 }
 \value{
 A vector of 7 with the following order: amp_1, phase_c, offset_1, theta_1, amp_2, offset_2, theta_2

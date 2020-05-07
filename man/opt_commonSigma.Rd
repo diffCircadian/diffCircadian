@@ -4,7 +4,7 @@
 \alias{opt_commonSigma}
 \title{fit the data based on joint sin curve assuming common sigmas}
 \usage{
-opt_commonSigma(tt1, yy1, tt2, yy2, period = 24)
+opt_commonSigma(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
 \arguments{
 \item{tt1}{time vector of condition 1}
@@ -17,7 +17,7 @@ opt_commonSigma(tt1, yy1, tt2, yy2, period = 24)
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{parStart}{initial value for optimzation purpose}
+\item{parStart}{initial value for optimzation purpose. This is a 2 element vector. Only sigma2_1 and sigma2_2 are needed.}
 }
 \value{
 A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 

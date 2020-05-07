@@ -7,7 +7,7 @@
 ##' @param tt2 time vector of condition 2
 ##' @param yy2 expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
-##' @param parStart initial value for optimzation purpose
+##' @param parStart initial value for optimzation purpose. This is a 2 element vector. Only sigma2_1 and sigma2_2 are needed.
 ##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
@@ -33,19 +33,24 @@
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 ##' opt_commonSigma(tt1, yy1, tt2, yy2)
 
-opt_commonSigma <- function(tt1, yy1, tt2, yy2, period = 24){
+opt_commonSigma <- function(tt1, yy1, tt2, yy2, period = 24, parStart = NULL){
 	
 	n1 <- length(tt1)
 	stopifnot(n1 == length(yy1))
 	n2 <- length(tt2)
 	stopifnot(length(tt2) == length(yy2))
 	
-	fit1 <- fitSinCurve(tt1, yy1, period = 24)
-	fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	if(is.null(parStart)){
+		fit1 <- fitSinCurve(tt1, yy1, period = 24)
+		fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	  sigma2_1 <- 1/n1 * fit1$rss
+	  sigma2_2 <- 1/n2 * fit2$rss		
+	} else {
+		sigma2_1 <- parStart[1]
+		sigma2_2 <- parStart[2]
+	}
 		
-  sigma2_1 <- 1/n1 * fit1$rss
-  sigma2_2 <- 1/n2 * fit2$rss
-  sigma2_C <- 1/(n1 + n2) * (fit1$rss + fit2$rss)
+  sigma2_C <- 1/(n1 + n2) * (sigma2_1 * n1 + sigma2_2 * n2)
 
 	res <- list(sigma2_1 = sigma2_1, sigma2_2 = sigma2_2, sigma2_C = sigma2_C)
 	res

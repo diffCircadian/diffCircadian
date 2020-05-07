@@ -1,7 +1,7 @@
-##' Wald test for differential amplitute
+##' Wald test for differential sigma2
 ##'
-##' Test differential amplitute of circadian curve fitting using Wald test
-##' @title WaldTest_diff_amp
+##' Test differential sigma2 of circadian curve fitting using Wald test
+##' @title WaldTest_diff_sigma2
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2
@@ -10,9 +10,9 @@
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp_1}{amplitute estimate of the 1st data}
-##' \item{amp_2}{amplitute estimate of the 2nd data}
-##' \item{amp_c}{amplitute estimate pooling all data together}
+##' \item{sigma2_1}{variance estimate of the 1st data}
+##' \item{sigma2_2}{variance estimate of the 2nd data}
+##' \item{sigma2_C}{variance estimate pooling all data together}
 ##' \item{df}{degree of freedom for the Wald test}
 ##' \item{stat}{the Wald statistics}
 ##' \item{pvalue}{the p-value from the Wald test}
@@ -31,30 +31,33 @@
 ##' Phase2 <- 5
 ##' Offset2 <- 2
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
-##' WaldTest_diff_amp(tt1, yy1, tt2, yy2)
+##' WaldTest_diff_sigma2(tt1, yy1, tt2, yy2)
 
 
-WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
+WaldTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24){
 	n1 <- length(tt1)
 	stopifnot(n1 == length(yy1))
 	n2 <- length(tt2)
 	stopifnot(length(tt2) == length(yy2))
 
 	w <- 2*pi/period
+
+	fit1 <- fitSinCurve(tt1, yy1, period = 24)
+	fit2 <- fitSinCurve(tt2, yy2, period = 24)
+  sigma2_1 <- 1/n1 * fit1$rss
+  sigma2_2 <- 1/n2 * fit2$rss		
+
 	## fit Ha, individual curves
   par1 <- fitSinCurve(tt1,yy1)
-	sum_diffy_1_sq <- par1$rss
-	theta1 <- n1/sum_diffy_1_sq
+  sigma2_1 <- 1/n1 * par1$rss
+	theta1 <- 1/sigma2_1
 
   par2 <- fitSinCurve(tt2,yy2)
-	sum_diffy_2_sq <- par2$rss
-	theta2 <- n2/sum_diffy_2_sq
-			  
-  beta0 <- c((par1$amp + par2$amp)/2, 
-                par1$phase, par1$offset, theta1, 
-                par2$phase, par2$offset, theta2
-              )
-	this_opt_commonAmp <- opt_commonAmp(tt1, yy1, tt2, yy2, period=period, parStart=beta0)
+  sigma2_2 <- 1/n2 * par2$rss
+	theta2 <- 1/sigma2_2
+	
+	this_opt_commonSigma <- opt_commonSigma(tt1, yy1, tt2, yy2, period = period, parStart = c(sigma2_1,sigma2_2))
+	thetac <- 1/this_opt_commonSigma$sigma2_C
 	
   beta_ha <- c(par1$amp, 
                 par1$phase, 
@@ -66,28 +69,29 @@ WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
 								theta2
               )
 	#
-  beta_h0 <- c(this_opt_commonAmp[1], 
-                this_opt_commonAmp[2], 
-								this_opt_commonAmp[3], 
-								this_opt_commonAmp[4], 
-								this_opt_commonAmp[1],
-								this_opt_commonAmp[5], 
-								this_opt_commonAmp[6], 
-								this_opt_commonAmp[7]
+  beta_h0 <- c(par1$amp, 
+                par1$phase, 
+								par1$offset, 
+								thetac, 
+								par2$amp,
+								par2$phase, 
+								par2$offset, 
+								thetac
               )
   #
+	
 	I8 <- fisherInformation2(beta_ha, tt1, yy1, tt2, yy2, period=period)	
   beta_diff <- matrix(beta_ha - beta_h0,ncol=1)	
   #stat <- t(beta_diff) %*% I8 %*% beta_diff
 	
-	beta_diff2 <- beta_diff[c(1,5)]
-  I2 <- solve(solve(I8)[c(1,5),c(1,5)])
+	beta_diff2 <- beta_diff[c(4,8)]
+  I2 <- solve(solve(I8)[c(4,8),c(4,8)])
   stat <- as.numeric(t(beta_diff2) %*% I2 %*% beta_diff2)
 	   
   dfdiff <- 1
   pvalue <- pchisq(stat,dfdiff,lower.tail = F)
   
-  res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=this_opt_commonAmp[1], 
+  res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=this_opt_commonSigma$sigma2_C, 
 	  df = dfdiff, 
 	  stat = stat, 
 	  pvalue = pvalue)

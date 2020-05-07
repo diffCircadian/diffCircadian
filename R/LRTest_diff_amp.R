@@ -95,7 +95,7 @@ LRTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
   dfdiff <- 1
   pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
   
-  res <- list(amp_c=amp_c, amp_1=par1$amp, amp_2=par2$amp,
+  res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=amp_c, 
 	  l0=l0, 
 	  la=la, 
 	  df = dfdiff, 

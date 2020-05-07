@@ -7,7 +7,7 @@
 ##' @param tt2 time vector of condition 2
 ##' @param yy2 expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
-##' @param parStart initial value for optimzation purpose
+##' @param parStart initial value for optimzation purpose. This has the same order as the output vector.
 ##' @return A vector of 7 with the following order: amp_1, phase_1, offset_c, theta_1, amp_2, phase_2,  theta_2
 ##' @author Caleb
 ##' @import minpack.lm

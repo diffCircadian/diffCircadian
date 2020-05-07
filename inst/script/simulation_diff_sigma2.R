@@ -17,14 +17,14 @@ for(b in 1:B){
 	Phase2 <- 6
 	Offset2 <- 3
 	yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
-	atest <- LRTest_diff_phase(tt1, yy1, tt2, yy2)	
+	atest <- LRTest_diff_sigma2(tt1, yy1, tt2, yy2)	
 	pvalues[b] <- atest$pvalue
 }
 
 hist(pvalues)
 
 
-
+library(diffCircadian)
 set.seed(32608)
 B <- 1000
 pvalues <- rep(NA, B)
@@ -42,7 +42,7 @@ for(b in 1:B){
 	Phase2 <- 6
 	Offset2 <- 3
 	yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
-	atest <- WaldTest_diff_phase(tt1, yy1, tt2, yy2)	
+	atest <- WaldTest_diff_sigma2(tt1, yy1, tt2, yy2)	
 	pvalues[b] <- atest$pvalue
 }
 

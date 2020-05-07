@@ -20,7 +20,7 @@ fisherInformation2(beta, tt1, yy1, tt2, yy2, period = 24)
 \item{period}{Period of the since curve. Default is 24.}
 }
 \value{
-The Fisher information matrix
+The Fisher information matrix, this is a 8*8 matrix, with the same order as the input beta parameter.
 }
 \description{
 Fisher information matrix when two conditions exist

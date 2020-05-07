@@ -67,12 +67,20 @@ LRTest_diff_phase(tt1, yy1, tt2, yy2)
 
 ## Differential offset 
 LRTest_diff_offset(tt1, yy1, tt2, yy2)
-
 ```
 
 ## Wald test
 
 ```{R}
+## Differential pattern fitting
+WaldTest_diff_sigma2(tt1, yy1, tt2, yy2)
+
 ## Differential amplitute
 WaldTest_diff_amp(tt1, yy1, tt2, yy2)
+
+## Differential phase 
+WaldTest_diff_phase(tt1, yy1, tt2, yy2)
+
+## Differential offset 
+WaldTest_diff_offset(tt1, yy1, tt2, yy2)
 ```
