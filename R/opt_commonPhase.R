@@ -49,8 +49,8 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	             (par1$phase + par2$phase)/2, 
 	             par1$offset,
 	             theta1, 
-	             par1$amp, 
-	             par1$offset,
+	             par2$amp, 
+	             par2$offset,
 	             theta2
 	              )
 	} else {

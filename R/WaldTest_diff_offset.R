@@ -54,8 +54,8 @@ WaldTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24){
   beta0 <- c(par1$amp, 
              par1$phase, 
 						 (par1$offset + par2$offset)/2, 
+						 theta1,
 						 par2$amp, 
-						 theta1, 
              par2$phase, 
 						 theta2
               )

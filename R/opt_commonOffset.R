@@ -49,7 +49,7 @@ opt_commonOffset <- function(tt1, yy1, tt2, yy2, period = 24,
 	             par1$phase, 
 	             (par1$offset + par2$offset)/2,
 	             theta1, 
-	             par1$amp, 
+	             par2$amp, 
 	             par2$phase, 
 	             theta2
 	              )
