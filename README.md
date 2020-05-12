@@ -34,6 +34,14 @@ yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
 WaldTest(tt, yy) ## Wald test
 LRTest(tt, yy) ## LR test
 FTest(tt, yy)  ## F test
+
+## curve fitting visualization
+aLRtest <- LRTest(tt, yy) 
+tt0 <- seq(0,24,0.1) 
+yy0 <- aLRtest$amp * sin(2*pi/24 * (tt0 + aLRtest$phase)) + aLRtest$offset
+
+plot(tt,yy)
+lines(tt0,yy0)
 ```
 
 ## Short tutorial for differential circadian analysis
