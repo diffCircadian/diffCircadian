@@ -10,7 +10,7 @@
 ##' @param parStart initial value for optimzation purpose. This has the same order as the output vector.
 ##' @return A vector of 7 with the following order: amp_1, phase_c, offset_1, theta_1, amp_2, offset_2, theta_2
 ##' @author Caleb
-##' @import minpack.lm
+##' @import optimx
 ##' @export
 ##' @examples
 ##' set.seed(32608)
@@ -213,9 +213,10 @@ opt_commonPhase <- function(tt1, yy1, tt2, yy2, period = 24,
 	       lower=c(-Inf, -Inf, -Inf, 0, -Inf, -Inf, 0), 
 	       upper=c(Inf,Inf,Inf,Inf,Inf,Inf,Inf), 
 	       method = "L-BFGS-B", 
-	       control=list(follow.on = TRUE,usenumDeriv=FALSE,kkttol=10,
-	                    starttests=FALSE, save.failures=TRUE, trace=0,
-	                    kkt=FALSE))
+	       control=list(follow.on = FALSE,usenumDeriv=FALSE,
+					 starttests=FALSE, save.failures=FALSE, trace=0, 
+					 dowarn=FALSE, 
+					 kkt=FALSE))
 
 	res <- as.numeric(anopt[1:length(beta0)])
 	if(any(is.na(res))){

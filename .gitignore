@@ -4,6 +4,7 @@
 
 # Session Data files
 .RData
+.Rhistory
 
 # User-specific files
 .Ruserdata
@@ -41,3 +42,4 @@ vignettes/*.pdf
 ## from MAC computer
 .DS_Store
 */.DS_Store
+inst/.DS_Store
