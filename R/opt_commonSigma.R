@@ -15,8 +15,6 @@
 ##' \item{sigma2_2}{variance estimate of the 2nd data}
 ##' \item{sigma2_C}{variance estimate pooling all data together}
 ##' @author Caleb
-##' @import minpack.lm
-##' @import optimx
 ##' @export
 ##' @examples
 ##' set.seed(32608)

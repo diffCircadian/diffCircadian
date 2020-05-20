@@ -27,7 +27,7 @@ hist(pvalues)
 pvalues1 <- pvalues
 
 set.seed(32608)
-B <- 5000
+B <- 1000
 pvalues <- rep(NA, B)
 for(b in 1:B){
 	if(b %% 100 == 0)	print(b)

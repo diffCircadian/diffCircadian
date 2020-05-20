@@ -13,5 +13,5 @@ Depends: R (>= 3.6)
 Imports: minpack.lm, optimx
 BugReports: https://github.com/Caleb-Huo/diffCircadian/issues
 Packaged: 2020-04-04 01:12:24 EST; Caleb
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 NeedsCompilation: no
