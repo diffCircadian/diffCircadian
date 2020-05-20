@@ -41,3 +41,4 @@ vignettes/*.pdf
 ## from MAC computer
 .DS_Store
 */.DS_Store
+.Rproj.user
