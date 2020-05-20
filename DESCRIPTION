@@ -11,6 +11,7 @@ Description: Statistical methods for ircadian and differential circadian analysi
 License: GPL-3
 Depends: R (>= 3.6)
 Imports: minpack.lm, optimx
+Encoding: UTF-8
 BugReports: https://github.com/Caleb-Huo/diffCircadian/issues
 Packaged: 2020-04-04 01:12:24 EST; Caleb
 RoxygenNote: 7.1.0
