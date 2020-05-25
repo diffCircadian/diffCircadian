@@ -2,6 +2,8 @@
 ##'
 ##' Test differential offset of circadian curve fitting using Permutation test
 ##' @title PermTest_diff_offset
+##' @import foreach
+##' @import doParallel
 ##' @param tt1 time matrix for miltiple genes of condition 1
 ##' @param yy1 expression matrix for miltiple genes of condition 1
 ##' @param tt2 time matrix for miltiple genes of condition 2
@@ -37,8 +39,7 @@
 ##' PermTest_diff_offset(tt1, yy1, tt2, yy2, B=1000)
 
 
-library(foreach)
-library(doParallel)
+
 PermTest_diff_offset <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   numCores <- detectCores()
   registerDoParallel(numCores)

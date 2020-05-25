@@ -2,6 +2,8 @@
 ##'
 ##' Test differential R2 of circadian curve fitting using Permutation test
 ##' @title PermTest_diff_R2
+##' @import foreach
+##' @import doParallel
 ##' @param tt1 time matrix for miltiple genes of condition 1
 ##' @param yy1 expression matrix for miltiple genes of condition 1
 ##' @param tt2 time matrix for miltiple genes of condition 2
@@ -37,8 +39,6 @@
 ##' PermTest_diff_R2(tt1, yy1, tt2, yy2, B=1000)
 
 
-library(foreach)
-library(doParallel)
 PermTest_diff_R2 <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   numCores <- detectCores()
   registerDoParallel(numCores)
