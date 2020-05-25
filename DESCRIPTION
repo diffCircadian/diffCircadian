@@ -10,7 +10,7 @@ VignetteBuilder: knitr
 Description: Statistical methods for ircadian and differential circadian analysis.
 License: GPL-3
 Depends: R (>= 3.6)
-Imports: minpack.lm, optimx
+Imports: minpack.lm, optimx, doParallel, parallel, foreach
 Encoding: UTF-8
 BugReports: https://github.com/Caleb-Huo/diffCircadian/issues
 Packaged: 2020-04-04 01:12:24 EST; Caleb

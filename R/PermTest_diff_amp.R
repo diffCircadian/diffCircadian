@@ -4,6 +4,7 @@
 ##' @title PermTest_diff_amp
 ##' @import foreach
 ##' @import doParallel
+##' @import parallel
 ##' @param tt1 time matrix for miltiple genes of condition 1
 ##' @param yy1 expression matrix for miltiple genes of condition 1
 ##' @param tt2 time matrix for miltiple genes of condition 2
