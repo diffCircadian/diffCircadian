@@ -4,12 +4,8 @@
 \alias{fitSinCurve}
 \title{fit the data based on sin curve}
 \usage{
-fitSinCurve(
-  tt,
-  yy,
-  period = 24,
-  parStart = list(amp = 3, phase = 0, offset = 0)
-)
+fitSinCurve(tt, yy, period = 24, parStart = list(amp = 3, phase = 0,
+  offset = 0))
 }
 \arguments{
 \item{tt}{time vector}
