@@ -49,26 +49,36 @@ PermTest_diff_phase <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   stopifnot(nrow(yy1) == nrow(yy2))
   
   delta_phase <- rep(0,K)
+  phase1 <- rep(0,K)
+  phase2 <- rep(0,K)
   pvalue <- rep(0,K)
   
   
   for (k in 1:K){
     par1 <- fitSinCurve(tt1[k,],yy1[k,])
     par2 <- fitSinCurve(tt2[k,],yy2[k,])
-    phase1 <- par1$phase
-    phase2 <- par2$phase
-    delta_phase[k] <- abs(phase1-phase2)
+    phase1[k] <- par1$phase
+    phase2[k] <- par2$phase
+    delta_phase[k] <- abs(phase1[k]-phase2[k])
   }
   p <- foreach (k = 1:K,.combine=c) %dopar% {
     perm_delta_phase <- rep(0,B)
     for(b in 1:B){
       set.seed(b)
       
-      perm_yy1 <- sample(c(yy1[k,],yy2[k,]),length(yy1[k,]),replace = T)
-      perm_yy2 <- sample(c(yy1[k,],yy2[k,]),length(yy2[k,]),replace = T)
+      n1 <- length(tt1[k,])
+      n2 <- length(tt2[k,])
+      tt1_ind <- rep(1,n1)
+      tt2_ind <- rep(2,n2)
+      index <- c(tt1_ind,tt2_ind)
+      tt12 <- c(tt1[k,],tt2[k,])
+      index <- sample(index)
+      ttmat <- cbind(tt12,index)
+      perm_tt1 <- ttmat[which(index==1),1]
+      perm_tt2 <- ttmat[which(index==2),1]
       
-      perm_phase1 <- fitSinCurve(tt1[k,],perm_yy1)$phase
-      perm_phase2 <- fitSinCurve(tt2[k,],perm_yy2)$phase
+      perm_phase1 <- fitSinCurve(perm_tt1,yy1[k,])$phase
+      perm_phase2 <- fitSinCurve(perm_tt2,yy2[k,])$phase
       
       perm_delta_phase[b] <- abs(perm_phase1-perm_phase2)
     }
@@ -78,5 +88,5 @@ PermTest_diff_phase <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   for(k in 1:K){
     pvalue[k] <- sum(p>delta_phase[k])/(K*B)
   }
-  return(pvalue)
+  return(list(pvalue=pvalue,phase1=phase1,phase2=phase2,deltaPhase=delta_phase))
 }

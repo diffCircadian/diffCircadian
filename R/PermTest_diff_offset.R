@@ -50,26 +50,37 @@ PermTest_diff_offset <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   stopifnot(nrow(yy1) == nrow(yy2))
   
   delta_offset <- rep(0,K)
+  offset1 <- rep(0,K)
+  offset2 <- rep(0,K)
   pvalue <- rep(0,K)
   
   
   for (k in 1:K){
     par1 <- fitSinCurve(tt1[k,],yy1[k,])
     par2 <- fitSinCurve(tt2[k,],yy2[k,])
-    offset1 <- par1$offset
-    offset2 <- par2$offset
-    delta_offset[k] <- abs(offset1-offset2)
+    offset1[k] <- par1$offset
+    offset2[k] <- par2$offset
+    delta_offset[k] <- abs(offset1[k]-offset2[k])
   }
   p <- foreach (k = 1:K,.combine=c) %dopar% {
     perm_delta_offset <- rep(0,B)
     for(b in 1:B){
       set.seed(b)
       
-      perm_yy1 <- sample(c(yy1[k,],yy2[k,]),length(yy1[k,]),replace = T)
-      perm_yy2 <- sample(c(yy1[k,],yy2[k,]),length(yy2[k,]),replace = T)
+      n1 <- length(tt1[k,])
+      n2 <- length(tt2[k,])
+      tt1_ind <- rep(1,n1)
+      tt2_ind <- rep(2,n2)
+      index <- c(tt1_ind,tt2_ind)
+      tt12 <- c(tt1[k,],tt2[k,])
+      index <- sample(index)
+      ttmat <- cbind(tt12,index)
+      perm_tt1 <- ttmat[which(index==1),1]
+      perm_tt2 <- ttmat[which(index==2),1]
       
-      perm_offset1 <- fitSinCurve(tt1[k,],perm_yy1)$offset
-      perm_offset2 <- fitSinCurve(tt2[k,],perm_yy2)$offset
+      perm_offset1 <- fitSinCurve(perm_tt1,yy1[k,])$offset
+      perm_offset2 <- fitSinCurve(perm_tt2,yy2[k,])$offset
+      
       
       perm_delta_offset[b] <- abs(perm_offset1-perm_offset2)
     }
@@ -79,5 +90,5 @@ PermTest_diff_offset <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   for(k in 1:K){
     pvalue[k] <- sum(p>delta_offset[k])/(K*B)
   }
-  return(pvalue)
+  return(list(pvalue=pvalue,offset1=offset1,offset2=offset2,deltaOffset=delta_offset))
 }

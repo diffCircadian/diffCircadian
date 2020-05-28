@@ -50,26 +50,41 @@ PermTest_diff_amp <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   stopifnot(nrow(yy1) == nrow(yy2))
   
   delta_amp <- rep(0,K)
+  amp1 <- rep(0,K)
+  amp2 <- rep(0,K)
   pvalue <- rep(0,K)
   
   
   for (k in 1:K){
     par1 <- fitSinCurve(tt1[k,],yy1[k,])
     par2 <- fitSinCurve(tt2[k,],yy2[k,])
-    amp1 <- par1$amp
-    amp2 <- par2$amp
-    delta_amp[k] <- abs(amp1-amp2)
+    amp1[k] <- par1$amp
+    amp2[k] <- par2$amp
+    delta_amp[k] <- abs(amp1[k]-amp2[k])
   }
   p <- foreach (k = 1:K,.combine=c) %dopar% {
     perm_delta_amp <- rep(0,B)
     for(b in 1:B){
       set.seed(b)
       
-      perm_yy1 <- sample(c(yy1[k,],yy2[k,]),length(yy1[k,]),replace = T)
-      perm_yy2 <- sample(c(yy1[k,],yy2[k,]),length(yy2[k,]),replace = T)
+      n1 <- length(tt1[k,])
+      n2 <- length(tt2[k,])
       
-      perm_amp1 <- fitSinCurve(tt1[k,],perm_yy1)$amp
-      perm_amp2 <- fitSinCurve(tt2[k,],perm_yy2)$amp
+      tt1_ind <- rep(1,n1)
+      tt2_ind <- rep(2,n2)
+      
+      index <- c(tt1_ind,tt2_ind)
+      tt12 <- c(tt1[k,],tt2[k,])
+      
+      index <- sample(index)
+      ttmat <- cbind(tt12,index)
+      
+      perm_tt1 <- ttmat[which(index==1),1]
+      perm_tt2 <- ttmat[which(index==2),1]
+      
+      
+      perm_amp1 <- fitSinCurve(perm_tt1,yy1[k,])$amp
+      perm_amp2 <- fitSinCurve(perm_tt2,yy2[k,])$amp
       
       perm_delta_amp[b] <- abs(perm_amp1-perm_amp2)
     }
@@ -79,5 +94,5 @@ PermTest_diff_amp <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   for(k in 1:K){
     pvalue[k] <- sum(p>delta_amp[k])/(K*B)
   }
-  return(pvalue)
+  return(list(pvalue=pvalue,amp1=amp1,amp2=amp2,deltaAmp=delta_amp))
 }
