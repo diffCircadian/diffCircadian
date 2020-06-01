@@ -38,18 +38,18 @@ tt1 <- matrix(0,K,n)
 yy1 <- matrix(0,K,n)
 tt2 <- matrix(0,K,n)
 yy2 <- matrix(0,K,n)
-Amp1 <- 2
-Phase1 <- 6
-Offset1 <- 3
-Amp2 <- 3
-Phase2 <- 5
-Offset2 <- 2
 for(k in 1:K){
 set.seed(k)
-tt1[k,] <- runif(n,0,24) 
+tt1[k,] <- runif(n,0,24)
+tt2[k,] <- runif(n,0,24)
+Amp1 <- runif(1,1,2)
+Amp2 <- runif(1,3,4)
+Phase1 <- runif(1,0,2)
+Phase2 <- runif(1,5,7)
+Offset1 <- runif(1,0,3)
+Offset2 <- runif(1,5,8)
 yy1[k,] <- Amp1 * sin(2*pi/24 * (tt1[k,] + Phase1)) + Offset1 + rnorm(n,0,1)
-tt2[k,] <- runif(n,0,24) 
-yy2[k,] <- Amp2 * sin(2*pi/24 * (tt2[k,] + Phase2)) + Offset2 + rnorm(n,0,1)
+yy2[k,] <- Amp2 * sin(2*pi/24 * (tt2[k,] + Phase2)) + Offset2 + rnorm(n,0,3)
 }
 PermTest_diff_amp(tt1, yy1, tt2, yy2, B=1000)
 }
