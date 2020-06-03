@@ -38,7 +38,7 @@ Amp <- 2
 Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-WaldTest(tt, yy)
+WaldTest_finiteN(tt, yy)
 }
 \author{
 Caleb

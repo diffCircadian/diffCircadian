@@ -24,7 +24,7 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' WaldTest(tt, yy)
+##' WaldTest_finiteN(tt, yy)
 
 WaldTest <- function(tt, yy, period = 24){
   afit <- fitSinCurve(tt, yy)
@@ -69,9 +69,15 @@ WaldTest <- function(tt, yy, period = 24){
   Waldstat <- matrix(c(A, B), nrow = 1, ncol = 2) %*% 
     I_test %*% matrix(c(A, B), nrow = 2, ncol = 1)		
   
-  df <- 2
+  df <- 2		
   stat <- as.numeric(Waldstat)
   pvalue <- pchisq(stat,2,lower.tail = F)
+	
+	r <- 2
+	k <- 3
+	Fstat <- stat * (n-k)/n/r
+  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
+	
   
 	if(F){
 		## for internal test purpose
@@ -85,7 +91,7 @@ WaldTest <- function(tt, yy, period = 24){
 	}
   res <- list(
 	  A=A,B=B,offset=offset,
-	  df=df, stat=stat, pvalue=pvalue
+	  r=r, k=k, Fstat=Fstat, pvalue=pvalue
 		)
 
   return(res)

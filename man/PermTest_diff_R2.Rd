@@ -7,11 +7,11 @@
 PermTest_diff_R2(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }
 \arguments{
-\item{tt1}{time matrix for miltiple genes of condition 1}
+\item{tt1}{time vector for miltiple genes of condition 1}
 
 \item{yy1}{expression matrix for miltiple genes of condition 1}
 
-\item{tt2}{time matrix for miltiple genes of condition 2}
+\item{tt2}{time vector for miltiple genes of condition 2}
 
 \item{yy2}{expression matrix for miltiple genes of condition 2}
 
@@ -34,22 +34,20 @@ Test differential R2 of circadian curve fitting using Permutation test
 \examples{
 K=100
 n=10
-tt1 <- matrix(0,K,n)
+tt1 <- seq(2,2*n,2)
 yy1 <- matrix(0,K,n)
-tt2 <- matrix(0,K,n)
+tt2 <- seq(2,2*n,2)
 yy2 <- matrix(0,K,n)
 for(k in 1:K){
 set.seed(k)
-tt1[k,] <- runif(n,0,24)
-tt2[k,] <- runif(n,0,24)
 Amp1 <- runif(1,1,2)
 Amp2 <- runif(1,3,4)
 Phase1 <- runif(1,0,2)
 Phase2 <- runif(1,5,7)
 Offset1 <- runif(1,0,3)
 Offset2 <- runif(1,5,8)
-yy1[k,] <- Amp1 * sin(2*pi/24 * (tt1[k,] + Phase1)) + Offset1 + rnorm(n,0,1)
-yy2[k,] <- Amp2 * sin(2*pi/24 * (tt2[k,] + Phase2)) + Offset2 + rnorm(n,0,3)
+yy1[k,] <- Amp1 * sin(2*pi/24 * (tt1 + Phase1)) + Offset1 + rnorm(n,0,1)
+yy2[k,] <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,3)
 }
 PermTest_diff_R2(tt1, yy1, tt2, yy2, B=1000)
 }

@@ -1,4 +1,4 @@
-##' Wald test for circadian pattern detection
+##' Large Sample Regular Wald test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using Wald test
 ##' @title WaldTest
@@ -24,9 +24,9 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' WaldTest_finiteN(tt, yy)
+##' WaldTest(tt, yy)
 
-WaldTest_finiteN <- function(tt, yy, period = 24){
+WaldTest_reg <- function(tt, yy, period = 24){
   afit <- fitSinCurve(tt, yy)
   n <- length(tt)
   
@@ -69,15 +69,9 @@ WaldTest_finiteN <- function(tt, yy, period = 24){
   Waldstat <- matrix(c(A, B), nrow = 1, ncol = 2) %*% 
     I_test %*% matrix(c(A, B), nrow = 2, ncol = 1)		
   
-  df <- 2		
+  df <- 2
   stat <- as.numeric(Waldstat)
   pvalue <- pchisq(stat,2,lower.tail = F)
-	
-	r <- 2
-	k <- 3
-	Fstat <- stat * (n-k)/n/r
-  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
-	
   
 	if(F){
 		## for internal test purpose
@@ -91,7 +85,7 @@ WaldTest_finiteN <- function(tt, yy, period = 24){
 	}
   res <- list(
 	  A=A,B=B,offset=offset,
-	  r=r, k=k, Fstat=Fstat, pvalue=pvalue
+	  df=df, stat=stat, pvalue=pvalue
 		)
 
   return(res)

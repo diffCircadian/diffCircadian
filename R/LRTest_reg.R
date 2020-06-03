@@ -1,4 +1,4 @@
-##' Likelihood ratio test for circadian pattern detection
+##' Large Sample Regular Likelihood ratio test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using likelihood ratio test
 ##' @title LRTest
@@ -28,7 +28,7 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' LRTest_finiteN(tt, yy)
+##' LRTest(tt, yy)
 
 #model: y=A*sin(2*pi*x+B)+C
 #y: a 1*n vector of data y
@@ -41,7 +41,7 @@
 #df0: df under H0
 #df1: df under H1
 
-LRTest_finiteN <- function(tt,yy, period = 24){
+LRTest_reg <- function(tt,yy, period = 24){
   fitCurveOut <- fitSinCurve(tt,yy,period=period)
   n <- length(yy)
 
@@ -56,14 +56,9 @@ LRTest_finiteN <- function(tt,yy, period = 24){
   l1 <- -n/2*log(2*pi*sigmaA2)-1/(2*sigmaA2)*sum((yy-amp*sin(2*pi/period*(tt+phase))-offset)^2)
   
   dfdiff <- (n-1)-(n-3)
-	LR_stat <- -2*(l0-l1)
-  #pvalue <- pchisq(LR_stat,dfdiff,lower.tail = F)
-  
-	r <- 2
-	k <- 3
-	Fstat <- (exp(LR_stat/n) - 1) * (n-k) / r
-  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
-	
+	LR_test <- -2*(l0-l1)
+  pvalue <- pchisq(LR_test,dfdiff,lower.tail = F)
+  	
   res <- list(
 	  amp = amp,
 	  phase = phase,
@@ -71,9 +66,8 @@ LRTest_finiteN <- function(tt,yy, period = 24){
 	  sigma02=sigma02, sigmaA2=sigmaA2, 
 	  l0=l0, 
 	  l1=l1, 
-	  r = r,
-	  k = k,		 
-	  Fstat=Fstat, 
+	  df = dfdiff, 
+	  stat=-2*(l0-l1), 
 	  pvalue=pvalue)
   return(res)
 }
