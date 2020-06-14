@@ -2,7 +2,7 @@
 % Please edit documentation in R/opt_commonOffset.R
 \name{opt_commonOffset}
 \alias{opt_commonOffset}
-\title{fit the data based on joint sin curve assuming common amplitute}
+\title{fit the data based on joint sin curve assuming common offset}
 \usage{
 opt_commonOffset(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
@@ -26,7 +26,7 @@ A vector of 7 with the following order: amp_1, phase_1, offset_c, theta_1, amp_2
 Optimization for common offset exist
 }
 \details{
-Fit a joint sin curve for two conditions assuming common amplitute
+Fit a joint sin curve for two conditions assuming common offset
 }
 \examples{
 set.seed(32608)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/opt_commonPhase.R
 \name{opt_commonPhase}
 \alias{opt_commonPhase}
-\title{fit the data based on joint sin curve assuming common amplitute}
+\title{fit the data based on joint sin curve assuming common phase}
 \usage{
 opt_commonPhase(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
@@ -23,10 +23,10 @@ opt_commonPhase(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 A vector of 7 with the following order: amp_1, phase_c, offset_1, theta_1, amp_2, offset_2, theta_2
 }
 \description{
-Optimization for common offset exist
+Optimization for common phase exist
 }
 \details{
-Fit a joint sin curve for two conditions assuming common amplitute
+Fit a joint sin curve for two conditions assuming common phase
 }
 \examples{
 set.seed(32608)

@@ -1,7 +1,7 @@
 ##' Optimization for common offset exist
 ##'
-##' Fit a joint sin curve for two conditions assuming common amplitute
-##' @title fit the data based on joint sin curve assuming common amplitute
+##' Fit a joint sin curve for two conditions assuming common offset
+##' @title fit the data based on joint sin curve assuming common offset
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2
