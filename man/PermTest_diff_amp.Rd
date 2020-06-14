@@ -26,10 +26,10 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{pvalue}{the p-value from the Permutation test}
 }
 \description{
-Permutation test for differential amplitute
+Permutation test for differential amplitude
 }
 \details{
-Test differential amplitute of circadian curve fitting using Permutation test
+Test differential amplitude of circadian curve fitting using Permutation test
 }
 \examples{
 K=100

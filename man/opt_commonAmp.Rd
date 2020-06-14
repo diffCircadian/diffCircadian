@@ -2,7 +2,7 @@
 % Please edit documentation in R/opt_commonAmp.R
 \name{opt_commonAmp}
 \alias{opt_commonAmp}
-\title{fit the data based on joint sin curve assuming common amplitute}
+\title{fit the data based on joint sin curve assuming common amplitude}
 \usage{
 opt_commonAmp(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
@@ -23,10 +23,10 @@ opt_commonAmp(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 A vector of 7 with the following order: amp_c, phase_1, offset_1, theta_1, phase_2, offset_2, theta_2
 }
 \description{
-Optimization for common amplitute exist
+Optimization for common amplitude exist
 }
 \details{
-Fit a joint sin curve for two conditions assuming common amplitute
+Fit a joint sin curve for two conditions assuming common amplitude
 }
 \examples{
 set.seed(32608)

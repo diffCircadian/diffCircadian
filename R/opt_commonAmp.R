@@ -1,7 +1,7 @@
-##' Optimization for common amplitute exist
+##' Optimization for common amplitude exist
 ##'
-##' Fit a joint sin curve for two conditions assuming common amplitute
-##' @title fit the data based on joint sin curve assuming common amplitute
+##' Fit a joint sin curve for two conditions assuming common amplitude
+##' @title fit the data based on joint sin curve assuming common amplitude
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2

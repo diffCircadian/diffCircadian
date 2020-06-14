@@ -1,6 +1,6 @@
-##' Permutation test for differential amplitute
+##' Permutation test for differential amplitude
 ##'
-##' Test differential amplitute of circadian curve fitting using Permutation test
+##' Test differential amplitude of circadian curve fitting using Permutation test
 ##' @title PermTest_diff_amp
 ##' @import foreach
 ##' @import doParallel

@@ -1,7 +1,7 @@
-##' Likelihood ratio test for differential amplitude.
+##' Finite sample Likelihood ratio test for differential amplitude.
 ##'
 ##' Test differential amplitude of circadian curve fitting using likelihood ratio test
-##' @title LRTest_diff_amp
+##' @title LRTest_diff_amp_FN
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2
@@ -33,39 +33,39 @@
 ##' Phase2 <- 5
 ##' Offset2 <- 2
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
-##' LRTest_diff_amp(tt1, yy1, tt2, yy2)
+##' LRTest_diff_amp_FN(tt1, yy1, tt2, yy2)
 
 
-LRTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
-	n1 <- length(tt1)
-	stopifnot(n1 == length(yy1))
-	n2 <- length(tt2)
-	stopifnot(length(tt2) == length(yy2))
-
-	w <- 2*pi/period
-	## fit Ha, individual curves
+LRTest_diff_amp_FN <- function(tt1, yy1, tt2, yy2, period = 24){
+  n1 <- length(tt1)
+  stopifnot(n1 == length(yy1))
+  n2 <- length(tt2)
+  stopifnot(length(tt2) == length(yy2))
+  
+  w <- 2*pi/period
+  ## fit Ha, individual curves
   par1 <- fitSinCurve(tt1,yy1)
-	sum_diffy_1_sq <- par1$rss
-	theta1 <- n1/sum_diffy_1_sq
-
+  sum_diffy_1_sq <- par1$rss
+  theta1 <- n1/sum_diffy_1_sq
+  
   par2 <- fitSinCurve(tt2,yy2)
-	sum_diffy_2_sq <- par2$rss
-	theta2 <- n2/sum_diffy_2_sq
-		
-	l1_Ha <- 1/2 * n1 * log(theta1) - 1/2 * n1
-	l2_Ha <- 1/2 * n2 * log(theta2) - 1/2 * n2
-	
-	la <- unlist(l1_Ha + l2_Ha)
-	  
+  sum_diffy_2_sq <- par2$rss
+  theta2 <- n2/sum_diffy_2_sq
+  
+  l1_Ha <- 1/2 * n1 * log(theta1) - 1/2 * n1
+  l2_Ha <- 1/2 * n2 * log(theta2) - 1/2 * n2
+  
+  la <- unlist(l1_Ha + l2_Ha)
+  
   beta0 <- c((par1$amp + par2$amp)/2, 
-                par1$phase, par1$offset, theta1, 
-                par2$phase, par2$offset, theta2
-              )
-	
-
+             par1$phase, par1$offset, theta1, 
+             par2$phase, par2$offset, theta2
+  )
+  
+  
   this_opt_commonAmp <- opt_commonAmp(tt1, yy1, tt2, yy2, period=period, parStart=beta0)
   
-	## fit H0, individual curves
+  ## fit H0, individual curves
   ## extract parameters	  
   amp_c <- this_opt_commonAmp[1]
   phase_1 <- this_opt_commonAmp[2]
@@ -74,7 +74,7 @@ LRTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
   phase_2 <- this_opt_commonAmp[5] 
   offset_2 <- this_opt_commonAmp[6]
   theta_2 <- this_opt_commonAmp[7] 
-
+  
   asin_1 <- sin(w * (tt1 + phase_1))
   asin_2 <- sin(w * (tt2 + phase_2))
   
@@ -91,16 +91,23 @@ LRTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24){
   l2b <- - 1/2 * sum(diffy_2^2) * theta_2
   
   l0 <- unlist(l1a + l1b + l2a + l2b)
-     
+  
   dfdiff <- 1
-  pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
+  
+  #pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
+  LR_stat <- -2*(l0-la)
+  r <- 1
+  k <- 8
+  n <- n1+n2
+  Fstat <- (exp(LR_stat/n) - 1) * (n-k) / r
+  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
   
   res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=amp_c, 
-	  l0=l0, 
-	  la=la, 
-	  df = dfdiff, 
-	  stat=-2*(l0-la), 
-	  pvalue=pvalue)
+              l0=l0, 
+              la=la, 
+              df = dfdiff, 
+              stat=-2*(l0-la), 
+              pvalue=pvalue)
   return(res)
 }
 
