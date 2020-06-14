@@ -28,7 +28,7 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' LRTest(tt, yy)
+##' LRTest_reg(tt, yy)
 
 #model: y=A*sin(2*pi*x+B)+C
 #y: a 1*n vector of data y

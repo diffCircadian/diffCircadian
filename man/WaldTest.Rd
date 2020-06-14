@@ -2,7 +2,7 @@
 % Please edit documentation in R/WaldTest.R
 \name{WaldTest}
 \alias{WaldTest}
-\title{WaldTest}
+\title{Finite sample WaldTest}
 \usage{
 WaldTest(tt, yy, period = 24)
 }
@@ -25,10 +25,10 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{pvalue}{the p-value from the Wald test}
 }
 \description{
-Wald test for circadian pattern detection
+Finite sample Wald test for circadian pattern detection
 }
 \details{
-Test the signficance of circadian curve fitting using Wald test
+Test the signficance of circadian curve fitting using finite sample Wald test
 }
 \examples{
 set.seed(32608)
@@ -38,7 +38,7 @@ Amp <- 2
 Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-WaldTest_finiteN(tt, yy)
+WaldTest(tt, yy)
 }
 \author{
 Caleb

@@ -42,7 +42,7 @@ Amp <- 2
 Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-LRTest(tt, yy)
+LRTest_reg(tt, yy)
 }
 \author{
 Caleb

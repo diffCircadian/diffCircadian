@@ -1,7 +1,7 @@
-##' Wald test for circadian pattern detection
+##' Finite sample Wald test for circadian pattern detection
 ##'
-##' Test the signficance of circadian curve fitting using Wald test
-##' @title WaldTest
+##' Test the signficance of circadian curve fitting using finite sample Wald test
+##' @title Finite sample WaldTest
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
@@ -24,7 +24,7 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' WaldTest_finiteN(tt, yy)
+##' WaldTest(tt, yy)
 
 WaldTest <- function(tt, yy, period = 24){
   afit <- fitSinCurve(tt, yy)

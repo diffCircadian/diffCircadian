@@ -2,7 +2,7 @@
 % Please edit documentation in R/LRTest.R
 \name{LRTest}
 \alias{LRTest}
-\title{LRTest}
+\title{Finite sample LRTest}
 \usage{
 LRTest(tt, yy, period = 24)
 }
@@ -29,10 +29,10 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{pvalue}{the p-value from the LR test}
 }
 \description{
-Likelihood ratio test for circadian pattern detection
+Finite sample Likelihood ratio test for circadian pattern detection
 }
 \details{
-Test the signficance of circadian curve fitting using likelihood ratio test
+Test the signficance of circadian curve fitting using finite sample likelihood ratio test
 }
 \examples{
 set.seed(32608)
@@ -42,7 +42,7 @@ Amp <- 2
 Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-LRTest_finiteN(tt, yy)
+LRTest(tt, yy)
 }
 \author{
 Caleb

@@ -1,7 +1,7 @@
-##' Likelihood ratio test for circadian pattern detection
+##' Finite sample Likelihood ratio test for circadian pattern detection
 ##'
-##' Test the signficance of circadian curve fitting using likelihood ratio test
-##' @title LRTest
+##' Test the signficance of circadian curve fitting using finite sample likelihood ratio test
+##' @title Finite sample LRTest
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
@@ -28,7 +28,7 @@
 ##' Phase <- 6
 ##' Offset <- 3
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
-##' LRTest_finiteN(tt, yy)
+##' LRTest(tt, yy)
 
 #model: y=A*sin(2*pi*x+B)+C
 #y: a 1*n vector of data y
