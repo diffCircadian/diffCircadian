@@ -9,10 +9,9 @@ library(doParallel)
 
 WD <- "/ufrc/zhuo/zhuo/research/Students/Haocheng/circadianAnalysis/result/simulation/raw"
 
-B <- 100
+B <- 10
 KK <- 1000
 ns <- c(10,20,50,100,200)
-ns <- c(10,20,50)
 numCores <- 32
 
 n <- ns[1]
