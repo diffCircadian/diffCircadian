@@ -1,7 +1,7 @@
 ##' Finite sample/ large sample Likelihood ratio test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using finite sample likelihood ratio test
-##' @title Finite sample LRTest
+##' @title LR Test
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.

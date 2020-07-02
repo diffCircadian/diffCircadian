@@ -2,7 +2,7 @@
 % Please edit documentation in R/WaldTest_FN_LS.R
 \name{WaldTest}
 \alias{WaldTest}
-\title{WaldTest}
+\title{Wald Test}
 \usage{
 WaldTest(tt, yy, period = 24, type = "FN")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/LRTest_FN_LS.R
 \name{LRTest}
 \alias{LRTest}
-\title{Finite sample LRTest}
+\title{LR Test}
 \usage{
 LRTest(tt, yy, period = 24, type = "FN")
 }

@@ -1,7 +1,7 @@
 ##' Finite sample/ Large sample Wald test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using finite sample Wald test
-##' @title WaldTest
+##' @title Wald Test
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
