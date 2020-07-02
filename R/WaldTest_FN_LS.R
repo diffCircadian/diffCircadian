@@ -1,10 +1,11 @@
-##' Finite sample Wald test for circadian pattern detection
+##' Finite sample/ Large sample Wald test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using finite sample Wald test
-##' @title Finite sample WaldTest
+##' @title WaldTest
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
+##' @param type Type of Test, finite sample "FN" or large sample "LS", default is "FN". 
 ##' @return A list of A, B, offset, df, stat, and pvalue
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
@@ -26,7 +27,7 @@
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
 ##' WaldTest(tt, yy)
 
-WaldTest <- function(tt, yy, period = 24){
+WaldTest <- function(tt, yy, period = 24, type="FN"){
   afit <- fitSinCurve(tt, yy)
   n <- length(tt)
   
@@ -71,12 +72,17 @@ WaldTest <- function(tt, yy, period = 24){
   
   df <- 2		
   stat <- as.numeric(Waldstat)
-  pvalue <- pchisq(stat,2,lower.tail = F)
+  if(type=="LS"){
+    pvalue <- pchisq(stat,2,lower.tail = F)
+  }
+  
+	else if(type=="FN"){
+	  r <- 2
+	  k <- 3
+	  Fstat <- stat * (n-k)/n/r
+	  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
+	}
 	
-	r <- 2
-	k <- 3
-	Fstat <- stat * (n-k)/n/r
-  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
 	
   
 	if(F){

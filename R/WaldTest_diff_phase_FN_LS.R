@@ -7,7 +7,7 @@
 ##' @param tt2 time vector of condition 2
 ##' @param yy2 expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
-##' @param type Type of Wald test to use, "FN" or "LS". Default is large sample.
+##' @param type Type of Wald test to use, "FN" or "LS". Default is finite sample.
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
@@ -35,7 +35,7 @@
 ##' WaldTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2)
 
 
-WaldTest_diff_phase_FN_LS <- function(tt1, yy1, tt2, yy2, period = 24,type="LS"){
+WaldTest_diff_phase_FN_LS <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   n1 <- length(tt1)
   stopifnot(n1 == length(yy1))
   n2 <- length(tt2)

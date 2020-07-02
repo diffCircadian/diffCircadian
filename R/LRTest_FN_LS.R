@@ -1,10 +1,11 @@
-##' Finite sample Likelihood ratio test for circadian pattern detection
+##' Finite sample/ large sample Likelihood ratio test for circadian pattern detection
 ##'
 ##' Test the signficance of circadian curve fitting using finite sample likelihood ratio test
 ##' @title Finite sample LRTest
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.
+##' @param type Type of Test, finite sample "FN" or large sample "LS", default is "FN".
 ##' @return A list of amp, phase, offset, sigma02, sigmaA2, l0, l1, df, stat, and pvalue. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
@@ -41,7 +42,7 @@
 #df0: df under H0
 #df1: df under H1
 
-LRTest <- function(tt,yy, period = 24){
+LRTest <- function(tt,yy, period = 24,type="FN"){
   fitCurveOut <- fitSinCurve(tt,yy,period=period)
   n <- length(yy)
 
@@ -57,14 +58,18 @@ LRTest <- function(tt,yy, period = 24){
   
   dfdiff <- (n-1)-(n-3)
 	LR_stat <- -2*(l0-l1)
-  #pvalue <- pchisq(LR_stat,dfdiff,lower.tail = F)
-  
-	r <- 2
-	k <- 3
-	Fstat <- (exp(LR_stat/n) - 1) * (n-k) / r
-  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
 	
-  res <- list(
+	if(type=="FN"){
+	  pvalue <- pchisq(LR_stat,dfdiff,lower.tail = F)
+	}
+  else if(type=="LS"){
+    r <- 2
+    k <- 3
+    Fstat <- (exp(LR_stat/n) - 1) * (n-k) / r
+    pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
+  }
+
+    res <- list(
 	  amp = amp,
 	  phase = phase,
 	  offset = offset, 

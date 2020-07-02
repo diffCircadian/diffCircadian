@@ -4,7 +4,7 @@
 \alias{LRTest_diff_phase_FN_LS}
 \title{LRTest_diff_phase_FN_LS}
 \usage{
-LRTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "LS")
+LRTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }
 \arguments{
 \item{tt1}{time vector of condition 1}
@@ -17,7 +17,7 @@ LRTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "LS")
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{type}{Type of likelihood ratio test to use, "FN" or "LS". Default is large sample.}
+\item{type}{Type of likelihood ratio test to use, "FN" or "LS". Default is finite sample.}
 }
 \value{
 A list, see details below. 

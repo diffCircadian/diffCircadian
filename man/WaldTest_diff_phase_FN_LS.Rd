@@ -4,7 +4,7 @@
 \alias{WaldTest_diff_phase_FN_LS}
 \title{WaldTest_diff_phase_FN_LS}
 \usage{
-WaldTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "LS")
+WaldTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }
 \arguments{
 \item{tt1}{time vector of condition 1}
@@ -17,7 +17,7 @@ WaldTest_diff_phase_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "LS")
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{type}{Type of Wald test to use, "FN" or "LS". Default is large sample.}
+\item{type}{Type of Wald test to use, "FN" or "LS". Default is finite sample.}
 }
 \value{
 A list, see details below. 
