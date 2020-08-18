@@ -83,21 +83,9 @@ WaldTest <- function(tt, yy, period = 24, type="FN"){
 	  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
 	}
 	
-	
-  
-	if(F){
-		## for internal test purpose
-	  res <- list(
-		  A=A,B=B,offset=offset,invSigmaA2=invSigmaA2,
-		  det_A_A=det_A_A, det_A_B=det_A_B, det_A_offset=det_A_offset, det_A_sigma2=det_A_sigma2,
-		  det_B_B=det_B_B, det_B_offset=det_B_offset, det_B_sigma2=det_B_sigma2, 
-		  det_offset_offset=det_offset_offset, det_offset_sigma2=det_offset_sigma2, 
-		  det_sigma2_sigma2=det_sigma2_sigma2,
-		  df=df, stat=stat, pvalue=pvalue)
-	}
   res <- list(
 	  A=A,B=B,offset=offset,
-	  r=r, k=k, Fstat=Fstat, pvalue=pvalue
+	 Fstat=Fstat, pvalue=pvalue
 		)
 
   return(res)

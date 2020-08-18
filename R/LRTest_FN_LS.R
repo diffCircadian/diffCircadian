@@ -76,8 +76,6 @@ LRTest <- function(tt,yy, period = 24,type="FN"){
 	  sigma02=sigma02, sigmaA2=sigmaA2, 
 	  l0=l0, 
 	  l1=l1, 
-	  r = r,
-	  k = k,		 
 	  Fstat=Fstat, 
 	  pvalue=pvalue)
   return(res)
