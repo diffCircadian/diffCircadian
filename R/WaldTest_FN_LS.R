@@ -85,7 +85,8 @@ WaldTest <- function(tt, yy, period = 24, type="FN"){
 	
   res <- list(
 	  A=A,B=B,offset=offset,
-	 Fstat=Fstat, pvalue=pvalue
+	 #Fstat=Fstat, 
+	 pvalue=pvalue
 		)
 
   return(res)
