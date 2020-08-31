@@ -14,5 +14,5 @@ Imports: minpack.lm, optimx, doParallel, parallel, foreach
 Encoding: UTF-8
 BugReports: https://github.com/Caleb-Huo/diffCircadian/issues
 Packaged: 2020-04-04 01:12:24 EST; Caleb
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 NeedsCompilation: no
