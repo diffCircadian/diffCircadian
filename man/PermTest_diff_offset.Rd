@@ -2,7 +2,7 @@
 % Please edit documentation in R/PermTest_diff_offset.R
 \name{PermTest_diff_offset}
 \alias{PermTest_diff_offset}
-\title{PermTest_diff_offset}
+\title{Permutation test for detecting differential offsets.}
 \usage{
 PermTest_diff_offset(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }

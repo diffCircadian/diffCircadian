@@ -2,7 +2,7 @@
 % Please edit documentation in R/PermTest_diff_phase.R
 \name{PermTest_diff_phase}
 \alias{PermTest_diff_phase}
-\title{PermTest_diff_phase}
+\title{Permutation test for detecting differential phases.}
 \usage{
 PermTest_diff_phase(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }

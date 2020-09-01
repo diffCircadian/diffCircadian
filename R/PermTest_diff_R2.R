@@ -1,7 +1,7 @@
 ##' Permutation test for differential R2
 ##'
 ##' Test differential R2 of circadian curve fitting using Permutation test
-##' @title PermTest_diff_R2
+##' @title Permutation test for detecting differential sigma squares. 
 ##' @import foreach
 ##' @import doParallel
 ##' @import parallel
@@ -35,10 +35,10 @@
 ##' yy1[k,] <- Amp1 * sin(2*pi/24 * (tt1 + Phase1)) + Offset1 + rnorm(n,0,1)
 ##' yy2[k,] <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,3)
 ##' }
-##' PermTest_diff_R2(tt1, yy1, tt2, yy2, B=1000)
+##' PermTest_diff_sigma2(tt1, yy1, tt2, yy2, B=1000)
 
 
-PermTest_diff_R2 <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
+PermTest_diff_sigma2 <- function(tt1,yy1,tt2,yy2,B=1000,period=24){
   numCores <- detectCores()
   registerDoParallel(numCores)
   

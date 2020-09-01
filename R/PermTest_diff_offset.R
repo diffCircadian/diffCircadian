@@ -1,7 +1,7 @@
 ##' Permutation test for differential offset
 ##'
 ##' Test differential offset of circadian curve fitting using Permutation test
-##' @title PermTest_diff_offset
+##' @title Permutation test for detecting differential offsets.
 ##' @import foreach
 ##' @import doParallel
 ##' @import parallel

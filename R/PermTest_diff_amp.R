@@ -1,7 +1,7 @@
 ##' Permutation test for differential amplitude
 ##'
 ##' Test differential amplitude of circadian curve fitting using Permutation test
-##' @title PermTest_diff_amp
+##' @title Permutation test for detecting differential amplitudes.
 ##' @import foreach
 ##' @import doParallel
 ##' @import parallel

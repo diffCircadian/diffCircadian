@@ -1,7 +1,7 @@
 ##' Permutation test for differential phase
 ##'
 ##' Test differential phase of circadian curve fitting using Permutation test
-##' @title PermTest_diff_phase
+##' @title Permutation test for detecting differential phases.
 ##' @import foreach
 ##' @import doParallel
 ##' @import parallel

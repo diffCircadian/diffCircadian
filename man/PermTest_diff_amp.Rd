@@ -2,7 +2,7 @@
 % Please edit documentation in R/PermTest_diff_amp.R
 \name{PermTest_diff_amp}
 \alias{PermTest_diff_amp}
-\title{PermTest_diff_amp}
+\title{Permutation test for detecting differential amplitudes.}
 \usage{
 PermTest_diff_amp(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }
