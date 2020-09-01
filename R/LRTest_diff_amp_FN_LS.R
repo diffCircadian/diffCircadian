@@ -34,10 +34,10 @@
 ##' Phase2 <- 5
 ##' Offset2 <- 2
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
-##' LRTest_diff_amp_FN_LS(tt1, yy1, tt2, yy2)
+##' LRTest_diff_amp(tt1, yy1, tt2, yy2)
 
 
-LRTest_diff_amp_FN_LS<- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
+LRTest_diff_amp<- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   n1 <- length(tt1)
   stopifnot(n1 == length(yy1))
   n2 <- length(tt2)
