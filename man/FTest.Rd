@@ -2,7 +2,7 @@
 % Please edit documentation in R/FTest.R
 \name{FTest}
 \alias{FTest}
-\title{F test}
+\title{F test for detecting circadian pattern.}
 \usage{
 FTest(tt, yy, period = 24)
 }

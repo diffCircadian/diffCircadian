@@ -1,7 +1,7 @@
 ##' Finite sample/Large sample Wald test for differential offset.
 ##'
 ##' Test differential offset of circadian curve fitting using Wald test
-##' @title WaldTest_diff_offset_FN_LS
+##' @title Wald test for detecting differential offsets. 
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2

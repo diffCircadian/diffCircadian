@@ -1,7 +1,7 @@
 ##' Finite sample/Large sample Likelihood ratio test for differential phase.
 ##'
 ##' Test differential phase of circadian curve fitting using likelihood ratio test
-##' @title LRTest_diff_phase_FN_LS
+##' @title Likelihood ratio test for detecting differential phases.
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2

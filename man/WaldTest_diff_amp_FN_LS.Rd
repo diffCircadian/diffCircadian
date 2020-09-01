@@ -2,7 +2,7 @@
 % Please edit documentation in R/WaldTest_diff_amp_FN_LS.R
 \name{WaldTest_diff_amp_FN_LS}
 \alias{WaldTest_diff_amp_FN_LS}
-\title{WaldTest_diff_amp_FN_LS}
+\title{Wald test for detecting differential amplitudes.}
 \usage{
 WaldTest_diff_amp_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }

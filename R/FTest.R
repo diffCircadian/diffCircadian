@@ -1,7 +1,7 @@
 ##' F test sin function
 ##'
 ##' Test the signficance of circadian curve fitting using F test
-##' @title F test
+##' @title F test for detecting circadian pattern.
 ##' @param tt time vector
 ##' @param yy expression vector
 ##' @param period Period of the since curve. Default is 24.

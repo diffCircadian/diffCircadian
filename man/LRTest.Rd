@@ -2,7 +2,7 @@
 % Please edit documentation in R/LRTest_FN_LS.R
 \name{LRTest}
 \alias{LRTest}
-\title{LR Test}
+\title{LR Test for detecting circadian pattern.}
 \usage{
 LRTest(tt, yy, period = 24, type = "FN")
 }
@@ -34,7 +34,7 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 Finite sample/ large sample Likelihood ratio test for circadian pattern detection
 }
 \details{
-Test the signficance of circadian curve fitting using finite sample likelihood ratio test
+Test the significance of circadian curve fitting using finite sample likelihood ratio test
 }
 \examples{
 set.seed(32608)

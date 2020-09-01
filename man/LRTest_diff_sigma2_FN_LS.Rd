@@ -2,7 +2,7 @@
 % Please edit documentation in R/LRTest_diff_sigma2_FN_LS.R
 \name{LRTest_diff_sigma2_FN_LS}
 \alias{LRTest_diff_sigma2_FN_LS}
-\title{LRTest_diff_sigma2_FN_LS}
+\title{Likelihood ratio test for detecting differential sigma squares.}
 \usage{
 LRTest_diff_sigma2_FN_LS(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }

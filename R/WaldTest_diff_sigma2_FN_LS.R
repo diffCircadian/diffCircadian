@@ -1,7 +1,7 @@
 ##' Finite sample/Large sample Wald test for differential sigma2
 ##'
 ##' Test differential sigma2 of circadian curve fitting using Wald test
-##' @title WaldTest_diff_sigma2_FN_LS
+##' @title Wald test for detecting differential sigma squares. 
 ##' @param tt1 time vector of condition 1
 ##' @param yy1 expression vector of condition 1
 ##' @param tt2 time vector of condition 2

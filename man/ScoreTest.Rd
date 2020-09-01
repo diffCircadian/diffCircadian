@@ -2,7 +2,7 @@
 % Please edit documentation in R/ScoreTest.R
 \name{ScoreTest}
 \alias{ScoreTest}
-\title{ScoreTest}
+\title{Score test for detecting circadian pattern.}
 \usage{
 ScoreTest(tt, yy, period = 24)
 }
