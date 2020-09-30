@@ -40,8 +40,9 @@ FTest <- function(tt,yy, period = 24){
   df1 <- 2
   df2 <- n-3
   fvalue <- fss/df1/(rss/df2)
-  
+  R2 <- 1-rss/tss
   pvalue <- pf(fvalue,df1,df2,lower.tail = F)
-  return(list(amp=amp, phase=phase, offset=offset, rss=rss, tss=tss, df1 = df1, df2= df2, stat=fvalue,pvalue=pvalue))
+  
+  return(list(amp=amp, phase=phase, offset=offset, rss=rss, tss=tss,R2=R2 ,df1 = df1, df2= df2, stat=fvalue,pvalue=pvalue))
 }
 

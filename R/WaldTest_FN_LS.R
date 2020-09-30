@@ -11,10 +11,13 @@
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 ##' \item{A}{A based on formula 2}
 ##' \item{B}{B based on formula 2}
+##' \item{amp}{Amplitude based on formula 1}
+##' \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
 ##' \item{offset}{offset based on formula 1 or on formula 2}
 ##' \item{df}{degree of freedom for the Wald test}
 ##' \item{stat}{the Wald statistics}
 ##' \item{pvalue}{the p-value from the Wald test}
+##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
 ##' @export
 ##' @examples
@@ -30,6 +33,10 @@
 WaldTest <- function(tt, yy, period = 24, type="FN"){
   afit <- fitSinCurve(tt, yy)
   n <- length(tt)
+  rss <- afit$rss
+  tss <- afit$tss
+  amp <- afit$amp
+  phase <- afit$phase
   
   ## HA: 
   A <- afit$A 
@@ -79,14 +86,15 @@ WaldTest <- function(tt, yy, period = 24, type="FN"){
 	else if(type=="FN"){
 	  r <- 2
 	  k <- 3
-	  Fstat <- stat * (n-k)/n/r
-	  pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
+	  stat <- stat * (n-k)/n/r
+	  pvalue <- pf(stat,df1 = r, df2 = n-k, lower.tail = F)
 	}
 	
+  R2 <- 1-rss/tss
   res <- list(
-	  A=A,B=B,offset=offset,
-	 #Fstat=Fstat, 
-	 pvalue=pvalue
+	  A=A,B=B,amp=amp,phase=phase,offset=offset,
+	 stat=stat, 
+	 pvalue=pvalue,R2=R2
 		)
 
   return(res)

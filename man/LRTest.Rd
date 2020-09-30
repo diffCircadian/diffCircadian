@@ -29,6 +29,7 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{df}{degree of freedom for the LR test}
 \item{stat}{the LR statistics}
 \item{pvalue}{the p-value from the LR test}
+\item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 }
 \description{
 Finite sample/ large sample Likelihood ratio test for circadian pattern detection

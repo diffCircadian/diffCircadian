@@ -19,6 +19,7 @@
 ##' \item{df}{degree of freedom for the LR test}
 ##' \item{stat}{the LR statistics}
 ##' \item{pvalue}{the p-value from the LR test}
+##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
 ##' @export
 ##' @examples
@@ -45,6 +46,8 @@
 LRTest <- function(tt,yy, period = 24,type="FN"){
   fitCurveOut <- fitSinCurve(tt,yy,period=period)
   n <- length(yy)
+  rss <- fitCurveOut$rss
+  tss <- fitCurveOut$tss
 
   amp <- fitCurveOut$amp
   phase <- fitCurveOut$phase
@@ -65,10 +68,10 @@ LRTest <- function(tt,yy, period = 24,type="FN"){
   else if(type=="LS"){
     r <- 2
     k <- 3
-    Fstat <- (exp(LR_stat/n) - 1) * (n-k) / r
-    pvalue <- pf(Fstat,df1 = r, df2 = n-k, lower.tail = F)
+    LR_stat <- (exp(LR_stat/n) - 1) * (n-k) / r
+    pvalue <- pf(LR_stat,df1 = r, df2 = n-k, lower.tail = F)
   }
-
+	  R2 <- 1-rss/tss
     res <- list(
 	  amp = amp,
 	  phase = phase,
@@ -76,7 +79,7 @@ LRTest <- function(tt,yy, period = 24,type="FN"){
 	  sigma02=sigma02, sigmaA2=sigmaA2, 
 	  l0=l0, 
 	  l1=l1, 
-	  #Fstat=Fstat, 
-	  pvalue=pvalue)
+	  stat=LRstat, 
+	  pvalue=pvalue,R2=R2)
   return(res)
 }

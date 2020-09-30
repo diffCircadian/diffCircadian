@@ -21,10 +21,13 @@ Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 \item{A}{A based on formula 2}
 \item{B}{B based on formula 2}
+\item{amp}{Amplitude based on formula 1}
+\item{phase}{phase based on formula 1, phase is restricted within (0, period)}
 \item{offset}{offset based on formula 1 or on formula 2}
 \item{df}{degree of freedom for the Wald test}
 \item{stat}{the Wald statistics}
 \item{pvalue}{the p-value from the Wald test}
+\item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 }
 \description{
 Finite sample/ Large sample Wald test for circadian pattern detection
