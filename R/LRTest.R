@@ -62,10 +62,10 @@ LRTest <- function(tt,yy, period = 24,type="FN"){
   dfdiff <- (n-1)-(n-3)
 	LR_stat <- -2*(l0-l1)
 	
-	if(type=="FN"){
+	if(type=="LS"){
 	  pvalue <- pchisq(LR_stat,dfdiff,lower.tail = F)
 	}
-  else if(type=="LS"){
+  else if(type=="FN"){
     r <- 2
     k <- 3
     LR_stat <- (exp(LR_stat/n) - 1) * (n-k) / r
