@@ -26,6 +26,7 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{rss}{residual sum of square, SSE/n is the MLE of the variance sigma2}
 \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 \item{pvalue}{p-value of the permutation test}
+\item{R2b}{Sequence of R squares for each permutaion}
 }
 \description{
 Permutation test sin function

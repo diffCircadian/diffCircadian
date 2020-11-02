@@ -16,6 +16,7 @@
 ##' \item{rss}{residual sum of square, SSE/n is the MLE of the variance sigma2}
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' \item{pvalue}{p-value of the permutation test}
+##' \item{R2b}{Sequence of R squares for each permutaion}
 ##' @author Haocheng Ding
 ##' @export
 ##' @examples
@@ -45,6 +46,6 @@ permTest <- function(tt,yy,B=1000,period=24){
     rssi <- fitSinCurve(tti,yy,period)$rss
     R2b[i] <- 1-rssi/tss
   }
-  return(list(amp=amp,phase=phase,offset=offset,R2=R2,rss=rss,tss=tss,pvalue=sum(R2b>=R2)/B))
+  return(list(amp=amp,phase=phase,offset=offset,R2=R2,rss=rss,tss=tss,pvalue=sum(R2b>=R2)/B),R2b=R2b)
 }
 #
