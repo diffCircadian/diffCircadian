@@ -46,6 +46,6 @@ permTest <- function(tt,yy,B=1000,period=24){
     rssi <- fitSinCurve(tti,yy,period)$rss
     R2b[i] <- 1-rssi/tss
   }
-  return(list(amp=amp,phase=phase,offset=offset,R2=R2,rss=rss,tss=tss,pvalue=sum(R2b>=R2)/B),R2b=R2b)
+  return(list(amp=amp,phase=phase,offset=offset,R2=R2,rss=rss,tss=tss,pvalue=sum(R2b>=R2)/B,R2b=R2b))
 }
 #
