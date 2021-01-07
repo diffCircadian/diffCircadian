@@ -2,14 +2,14 @@
 % Please edit documentation in R/FTest.R
 \name{FTest}
 \alias{FTest}
-\title{F test for detecting circadian pattern.}
+\title{F test for detecting circadian pattern}
 \usage{
 FTest(tt, yy, period = 24)
 }
 \arguments{
-\item{tt}{time vector}
+\item{tt}{Time vector}
 
-\item{yy}{expression vector}
+\item{yy}{Expression vector}
 
 \item{period}{Period of the since curve. Default is 24.}
 }
@@ -25,10 +25,10 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 }
 \description{
-F test sin function
+F test for sin function.
 }
 \details{
-Test the signficance of circadian curve fitting using F test
+Test the significance of circadian curve fitting using F test.
 }
 \examples{
 set.seed(32608)

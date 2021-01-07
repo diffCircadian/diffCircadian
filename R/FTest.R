@@ -1,9 +1,9 @@
-##' F test sin function
+##' F test for sin function.
 ##'
-##' Test the signficance of circadian curve fitting using F test
-##' @title F test for detecting circadian pattern.
-##' @param tt time vector
-##' @param yy expression vector
+##' Test the significance of circadian curve fitting using F test.
+##' @title F test for detecting circadian pattern
+##' @param tt Time vector
+##' @param yy Expression vector
 ##' @param period Period of the since curve. Default is 24.
 ##' @return A list of amp, phase, offset, peak, SST, SSE, R2. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
