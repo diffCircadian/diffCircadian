@@ -2,23 +2,23 @@
 ##'
 ##' Test differential amplitude of circadian curve fitting using likelihood ratio test
 ##' @title Likelihood ratio test for detecting differential amplitudes. 
-##' @param tt1 time vector of condition 1
-##' @param yy1 expression vector of condition 1
-##' @param tt2 time vector of condition 2
-##' @param yy2 expression vector of condition 2
+##' @param tt1 Time vector of condition 1
+##' @param yy1 Expression vector of condition 1
+##' @param tt2 Time vector of condition 2
+##' @param yy2 Expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
 ##' @param type Type of likelihood ratio test to use, "FN" or "LS". Default is finite sample. 
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp_1}{amplitude estimate of the 1st data}
-##' \item{amp_2}{amplitude estimate of the 2nd data}
-##' \item{amp_c}{amplitude estimate pooling all data together}
-##' \item{l0}{log likelihood under the null (same variance between the two groups)}
-##' \item{l1}{log likelihood under the alternative (different variance between the two groups)}
-##' \item{df}{degree of freedom for the LR test}
-##' \item{stat}{the LR statistics}
-##' \item{pvalue}{the p-value from the LR test}
+##' \item{amp_1}{Amplitude estimate of the 1st data}
+##' \item{amp_2}{Amplitude estimate of the 2nd data}
+##' \item{amp_c}{Amplitude estimate pooling all data together}
+##' \item{l0}{Log likelihood under the null (same variance between the two groups)}
+##' \item{l1}{Log likelihood under the alternative (different variance between the two groups)}
+##' \item{df}{Degree of freedom for the LR test}
+##' \item{stat}{LR statistics}
+##' \item{pvalue}{P-value from the LR test}
 ##' @author Caleb
 ##' @export
 ##' @examples

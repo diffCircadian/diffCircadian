@@ -1,9 +1,9 @@
 ##' Finite sample/ Large sample Wald test for circadian pattern detection
 ##'
-##' Test the signficance of circadian curve fitting using finite sample Wald test
+##' Test the significance of circadian curve fitting using finite sample Wald test
 ##' @title Wald test for detecting circadian pattern.
-##' @param tt time vector
-##' @param yy expression vector
+##' @param tt Time vector
+##' @param yy Expression vector
 ##' @param period Period of the since curve. Default is 24.
 ##' @param type Type of Test, finite sample "FN" or large sample "LS", default is "FN". 
 ##' @return A list of A, B, offset, df, stat, and pvalue
@@ -12,11 +12,11 @@
 ##' \item{A}{A based on formula 2}
 ##' \item{B}{B based on formula 2}
 ##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
-##' \item{offset}{offset based on formula 1 or on formula 2}
-##' \item{df}{degree of freedom for the Wald test}
-##' \item{stat}{the Wald statistics}
-##' \item{pvalue}{the p-value from the Wald test}
+##' \item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
+##' \item{offset}{Basal level based on formula 1 or on formula 2}
+##' \item{df}{Degree of freedom for the Wald test}
+##' \item{stat}{Wald statistics}
+##' \item{pvalue}{P-value from the Wald test}
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
 ##' @export

@@ -1,13 +1,13 @@
 ##' Optimization for common amplitude exist
 ##'
 ##' Fit a joint sin curve for two conditions assuming common amplitude
-##' @title fit the data based on joint sin curve assuming common amplitude
-##' @param tt1 time vector of condition 1
-##' @param yy1 expression vector of condition 1
-##' @param tt2 time vector of condition 2
-##' @param yy2 expression vector of condition 2
+##' @title Fit the data based on joint sin curve assuming common amplitude
+##' @param tt1 Time vector of condition 1
+##' @param yy1 Expression vector of condition 1
+##' @param tt2 Time vector of condition 2
+##' @param yy2 Expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
-##' @param parStart initial value for optimzation purpose. This has the same order as the output vector.
+##' @param parStart Initial value for optimzation purpose. This has the same order as the output vector.
 ##' @return A vector of 7 with the following order: amp_c, phase_1, offset_1, theta_1, phase_2, offset_2, theta_2
 ##' @author Caleb
 ##' @import optimx

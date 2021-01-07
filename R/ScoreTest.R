@@ -1,9 +1,9 @@
 ##' Score test for circadian pattern detection
 ##'
-##' Test the signficance of circadian curve fitting using Score test
-##' @title Score test for detecting circadian pattern.
-##' @param tt time vector
-##' @param yy expression vector
+##' Test the significance of circadian curve fitting using Score test
+##' @title Score test for detecting circadian pattern
+##' @param tt Time vector
+##' @param yy Expression vector
 ##' @param period Period of the since curve. Default is 24.
 ##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}

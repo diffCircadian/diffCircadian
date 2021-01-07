@@ -1,20 +1,20 @@
-##' Permutation test for differential R2
+##' Permutation test for differential sigma square
 ##'
-##' Test differential R2 of circadian curve fitting using Permutation test
-##' @title Permutation test for detecting differential sigma squares. 
+##' Test differential sigma square of circadian curve fitting using permutation test
+##' @title Permutation test for detecting differential sigma square
 ##' @import foreach
 ##' @import doParallel
 ##' @import parallel
-##' @param tt1 time vector for miltiple genes of condition 1
-##' @param yy1 expression matrix for miltiple genes of condition 1
-##' @param tt2 time vector for miltiple genes of condition 2
-##' @param yy2 expression matrix for miltiple genes of condition 2
-##' @param B number of permutation for each gene.
+##' @param tt1 Time vector for miltiple genes of condition 1
+##' @param yy1 Expression matrix for miltiple genes of condition 1
+##' @param tt2 Time vector for miltiple genes of condition 2
+##' @param yy2 Expression matrix for miltiple genes of condition 2
+##' @param B Number of permutation for each gene.
 ##' @param period Period of the since curve. Default is 24.
-##' @return pvalues, see details below. 
+##' @return P-values, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{pvalue}{the p-value from the Permutation test}
+##' \item{pvalue}{P-value from the Permutation test}
 ##' @author Haocheng Ding
 ##' @export
 ##' @examples

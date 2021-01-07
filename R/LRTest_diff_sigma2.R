@@ -1,24 +1,24 @@
-##' Finite sample/Large sample Likelihood ratio test for differential sigma2
+##' Finite sample/Large sample Likelihood ratio test for differential sigma square.
 ##'
 ##' Test differential sigma2 of circadian curve fitting using likelihood ratio test
-##' @title Likelihood ratio test for detecting differential sigma squares.
-##' @param tt1 time vector of condition 1
-##' @param yy1 expression vector of condition 1
-##' @param tt2 time vector of condition 2
-##' @param yy2 expression vector of condition 2
+##' @title Likelihood ratio test for detecting differential sigma square.
+##' @param tt1 Time vector of condition 1
+##' @param yy1 Expression vector of condition 1
+##' @param tt2 Time vector of condition 2
+##' @param yy2 Expression vector of condition 2
 ##' @param period Period of the since curve. Default is 24.
 ##' @param type Type of likelihood ratio test to use, "FN" or "LS". Default is finite sample.
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{sigma2_1}{variance estimate of the 1st data}
-##' \item{sigma2_2}{variance estimate of the 2nd data}
-##' \item{sigma2_C}{variance estimate pooling all data together}
-##' \item{l0}{log likelihood under the null (same variance between the two groups)}
-##' \item{l1}{log likelihood under the alternative (different variance between the two groups)}
-##' \item{df}{degree of freedom for the LR test}
-##' \item{stat}{the LR statistics}
-##' \item{pvalue}{the p-value from the LR test}
+##' \item{sigma2_1}{Variance estimate of the 1st data}
+##' \item{sigma2_2}{Variance estimate of the 2nd data}
+##' \item{sigma2_C}{Variance estimate pooling all data together}
+##' \item{l0}{Log likelihood under the null (same variance between the two groups)}
+##' \item{l1}{Log likelihood under the alternative (different variance between the two groups)}
+##' \item{df}{Degree of freedom for the LR test}
+##' \item{stat}{LR statistics}
+##' \item{pvalue}{P-value from the LR test}
 ##' @author Caleb
 ##' @export
 ##' @examples
