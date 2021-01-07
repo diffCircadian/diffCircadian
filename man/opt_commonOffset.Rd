@@ -2,22 +2,22 @@
 % Please edit documentation in R/opt_commonOffset.R
 \name{opt_commonOffset}
 \alias{opt_commonOffset}
-\title{fit the data based on joint sin curve assuming common offset}
+\title{Fit the data based on joint sin curve assuming common basal level}
 \usage{
 opt_commonOffset(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
 \arguments{
-\item{tt1}{time vector of condition 1}
+\item{tt1}{Time vector of condition 1}
 
-\item{yy1}{expression vector of condition 1}
+\item{yy1}{Expression vector of condition 1}
 
-\item{tt2}{time vector of condition 2}
+\item{tt2}{Time vector of condition 2}
 
-\item{yy2}{expression vector of condition 2}
+\item{yy2}{Expression vector of condition 2}
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{parStart}{initial value for optimization purpose. This has the same order as the output vector.}
+\item{parStart}{Initial value for optimization purpose. This has the same order as the output vector.}
 }
 \value{
 A vector of 7 with the following order: amp_1, phase_1, offset_c, theta_1, amp_2, phase_2,  theta_2
@@ -26,7 +26,7 @@ A vector of 7 with the following order: amp_1, phase_1, offset_c, theta_1, amp_2
 Optimization for common offset exist
 }
 \details{
-Fit a joint sin curve for two conditions assuming common offset
+Fit a joint sin curve for two conditions assuming common basal level.
 }
 \examples{
 set.seed(32608)

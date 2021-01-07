@@ -2,33 +2,33 @@
 % Please edit documentation in R/opt_commonSigma.R
 \name{opt_commonSigma}
 \alias{opt_commonSigma}
-\title{fit the data based on joint sin curve assuming common sigmas}
+\title{Fit the data based on joint sin curve assuming common sigma square}
 \usage{
 opt_commonSigma(tt1, yy1, tt2, yy2, period = 24, parStart = NULL)
 }
 \arguments{
-\item{tt1}{time vector of condition 1}
+\item{tt1}{Time vector of condition 1}
 
-\item{yy1}{expression vector of condition 1}
+\item{yy1}{Expression vector of condition 1}
 
-\item{tt2}{time vector of condition 2}
+\item{tt2}{Time vector of condition 2}
 
-\item{yy2}{expression vector of condition 2}
+\item{yy2}{Expression vector of condition 2}
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{parStart}{initial value for optimzation purpose. This is a 2 element vector. Only sigma2_1 and sigma2_2 are needed.}
+\item{parStart}{Initial value for optimzation purpose. This is a 2 element vector. Only sigma2_1 and sigma2_2 are needed.}
 }
 \value{
 A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{sigma2_1}{variance estimate of the 1st data}
-\item{sigma2_2}{variance estimate of the 2nd data}
-\item{sigma2_C}{variance estimate pooling all data together}
+\item{sigma2_1}{Variance estimate of the 1st data}
+\item{sigma2_2}{Variance estimate of the 2nd data}
+\item{sigma2_C}{Variance estimate pooling all data together}
 }
 \description{
-Optimization for common sigmas exist
+Optimization for common sigma square exist
 }
 \details{
 Fit a joint sin curve for two conditions assuming common sigmas

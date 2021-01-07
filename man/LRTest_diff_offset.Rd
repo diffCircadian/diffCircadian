@@ -2,18 +2,18 @@
 % Please edit documentation in R/LRTest_diff_offset.R
 \name{LRTest_diff_offset}
 \alias{LRTest_diff_offset}
-\title{Likelihood ratio test for detecting differential offsets.}
+\title{Likelihood ratio test for detecting differential basal level.}
 \usage{
 LRTest_diff_offset(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }
 \arguments{
-\item{tt1}{time vector of condition 1}
+\item{tt1}{Time vector of condition 1}
 
-\item{yy1}{expression vector of condition 1}
+\item{yy1}{Expression vector of condition 1}
 
-\item{tt2}{time vector of condition 2}
+\item{tt2}{Time vector of condition 2}
 
-\item{yy2}{expression vector of condition 2}
+\item{yy2}{Expression vector of condition 2}
 
 \item{period}{Period of the since curve. Default is 24.}
 
@@ -23,17 +23,17 @@ LRTest_diff_offset(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 A list, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{offset_1}{offset estimate of the 1st data}
-\item{offset_2}{offset estimate of the 2nd data}
-\item{offset_c}{offset estimate pooling all data together}
-\item{l0}{log likelihood under the null (same variance between the two groups)}
-\item{l1}{log likelihood under the alternative (different variance between the two groups)}
-\item{df}{degree of freedom for the LR test}
-\item{stat}{the LR statistics}
-\item{pvalue}{the p-value from the LR test}
+\item{offset_1}{Basal level estimate of the 1st data}
+\item{offset_2}{Basal level estimate of the 2nd data}
+\item{offset_c}{Basal level estimate pooling all data together}
+\item{l0}{Log likelihood under the null (same variance between the two groups)}
+\item{l1}{Log likelihood under the alternative (different variance between the two groups)}
+\item{df}{Degree of freedom for the LR test}
+\item{stat}{LR statistics}
+\item{pvalue}{P-value from the LR test}
 }
 \description{
-Finite sample/Large sample Likelihood ratio test for differential offset.
+Finite sample/Large sample Likelihood ratio test for differential basal level.
 }
 \details{
 Test differential offset of circadian curve fitting using likelihood ratio test

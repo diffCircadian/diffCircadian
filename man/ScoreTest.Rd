@@ -2,14 +2,14 @@
 % Please edit documentation in R/ScoreTest.R
 \name{ScoreTest}
 \alias{ScoreTest}
-\title{Score test for detecting circadian pattern.}
+\title{Score test for detecting circadian pattern}
 \usage{
 ScoreTest(tt, yy, period = 24)
 }
 \arguments{
-\item{tt}{time vector}
+\item{tt}{Time vector}
 
-\item{yy}{expression vector}
+\item{yy}{Expression vector}
 
 \item{period}{Period of the since curve. Default is 24.}
 }
@@ -30,7 +30,7 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 Score test for circadian pattern detection
 }
 \details{
-Test the signficance of circadian curve fitting using Score test
+Test the significance of circadian curve fitting using Score test
 }
 \examples{
 set.seed(32608)

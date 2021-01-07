@@ -2,7 +2,7 @@
 % Please edit documentation in R/fitSinCurve.R
 \name{fitSinCurve}
 \alias{fitSinCurve}
-\title{fit the data based on sin curve}
+\title{Fit the data based on sin curve}
 \usage{
 fitSinCurve(
   tt,
@@ -26,7 +26,7 @@ Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 \item{amp}{Amplitude based on formula 1}
 \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
-\item{offset}{offset based on formula 1 or on formula 2}
+\item{offset}{Basal level(vertical shift) based on formula 1 or on formula 2}
 \item{A}{A based on formula 2}
 \item{B}{B based on formula 2}
 \item{tss}{Total sum of square}

@@ -2,18 +2,18 @@
 % Please edit documentation in R/WaldTest_diff_phase.R
 \name{WaldTest_diff_phase}
 \alias{WaldTest_diff_phase}
-\title{Wald test for detecting differential phases.}
+\title{Wald test for detecting differential phase}
 \usage{
 WaldTest_diff_phase(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }
 \arguments{
-\item{tt1}{time vector of condition 1}
+\item{tt1}{Time vector of condition 1}
 
-\item{yy1}{expression vector of condition 1}
+\item{yy1}{Expression vector of condition 1}
 
-\item{tt2}{time vector of condition 2}
+\item{tt2}{Time vector of condition 2}
 
-\item{yy2}{expression vector of condition 2}
+\item{yy2}{Expression vector of condition 2}
 
 \item{period}{Period of the since curve. Default is 24.}
 
@@ -23,12 +23,12 @@ WaldTest_diff_phase(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 A list, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{phase_1}{phase estimate of the 1st data, phase is restricted in (0, period)}
-\item{phase_2}{phase estimate of the 2nd data, phase is restricted in (0, period)}
-\item{phase_c}{phase estimate pooling all data together, phase is restricted in (0, period)}
-\item{df}{degree of freedom for the Wald test}
-\item{stat}{the Wald statistics}
-\item{pvalue}{the p-value from the Wald test}
+\item{phase_1}{Phase estimate of the 1st data, phase is restricted in (0, period)}
+\item{phase_2}{Phase estimate of the 2nd data, phase is restricted in (0, period)}
+\item{phase_c}{Phase estimate pooling all data together, phase is restricted in (0, period)}
+\item{df}{Degree of freedom for the Wald test}
+\item{stat}{Wald statistics}
+\item{pvalue}{P-value from the Wald test}
 }
 \description{
 Finite sample/Large sample Wald test for differential phase.

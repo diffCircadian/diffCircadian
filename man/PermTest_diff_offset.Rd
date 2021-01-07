@@ -2,34 +2,34 @@
 % Please edit documentation in R/PermTest_diff_offset.R
 \name{PermTest_diff_offset}
 \alias{PermTest_diff_offset}
-\title{Permutation test for detecting differential offsets.}
+\title{Permutation test for detecting differential basal level}
 \usage{
 PermTest_diff_offset(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }
 \arguments{
-\item{tt1}{time vector for miltiple genes of condition 1}
+\item{tt1}{Time vector for miltiple genes of condition 1}
 
-\item{yy1}{expression matrix for miltiple genes of condition 1}
+\item{yy1}{Expression matrix for miltiple genes of condition 1}
 
-\item{tt2}{time vector for miltiple genes of condition 2}
+\item{tt2}{Time vector for miltiple genes of condition 2}
 
-\item{yy2}{expression matrix for miltiple genes of condition 2}
+\item{yy2}{Expression matrix for miltiple genes of condition 2}
 
-\item{B}{number of permutation for each gene.}
+\item{B}{Number of permutation for each gene.}
 
 \item{period}{Period of the since curve. Default is 24.}
 }
 \value{
-pvalues, see details below. 
+P-values, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{pvalue}{the p-value from the Permutation test}
+\item{pvalue}{P-value from the Permutation test}
 }
 \description{
-Permutation test for differential offset
+Permutation test for differential basal level (vertical shift)
 }
 \details{
-Test differential offset of circadian curve fitting using Permutation test
+Test differential basal level of circadian curve fitting using permutation test
 }
 \examples{
 K=100

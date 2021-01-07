@@ -2,18 +2,18 @@
 % Please edit documentation in R/WaldTest_diff_offset.R
 \name{WaldTest_diff_offset}
 \alias{WaldTest_diff_offset}
-\title{Wald test for detecting differential offsets.}
+\title{Wald test for detecting differential offset}
 \usage{
 WaldTest_diff_offset(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 }
 \arguments{
-\item{tt1}{time vector of condition 1}
+\item{tt1}{Time vector of condition 1}
 
-\item{yy1}{expression vector of condition 1}
+\item{yy1}{Expression vector of condition 1}
 
-\item{tt2}{time vector of condition 2}
+\item{tt2}{Time vector of condition 2}
 
-\item{yy2}{expression vector of condition 2}
+\item{yy2}{Expression vector of condition 2}
 
 \item{period}{Period of the since curve. Default is 24.}
 
@@ -23,18 +23,18 @@ WaldTest_diff_offset(tt1, yy1, tt2, yy2, period = 24, type = "FN")
 A list, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{offset_1}{offset estimate of the 1st data}
-\item{offset_2}{offset estimate of the 2nd data}
-\item{offset_c}{offset estimate pooling all data together}
-\item{df}{degree of freedom for the Wald test}
-\item{stat}{the Wald statistics}
-\item{pvalue}{the p-value from the Wald test}
+\item{offset_1}{Basal level estimate of the 1st data}
+\item{offset_2}{Basal level estimate of the 2nd data}
+\item{offset_c}{Basal level estimate pooling all data together}
+\item{df}{Degree of freedom for the Wald test}
+\item{stat}{Wald statistics}
+\item{pvalue}{P-value from the Wald test}
 }
 \description{
-Finite sample/Large sample Wald test for differential offset.
+Finite sample/Large sample Wald test for differential basal level (vertical shift).
 }
 \details{
-Test differential offset of circadian curve fitting using Wald test
+Test differential basal level of circadian curve fitting using Wald test
 }
 \examples{
 set.seed(32608)

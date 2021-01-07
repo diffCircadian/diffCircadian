@@ -2,34 +2,34 @@
 % Please edit documentation in R/PermTest_diff_phase.R
 \name{PermTest_diff_phase}
 \alias{PermTest_diff_phase}
-\title{Permutation test for detecting differential phases.}
+\title{Permutation test for detecting differential phase}
 \usage{
 PermTest_diff_phase(tt1, yy1, tt2, yy2, B = 1000, period = 24)
 }
 \arguments{
-\item{tt1}{time vector for miltiple genes of condition 1}
+\item{tt1}{Time vector for miltiple genes of condition 1}
 
-\item{yy1}{expression matrix for miltiple genes of condition 1}
+\item{yy1}{Expression matrix for miltiple genes of condition 1}
 
-\item{tt2}{time vector for miltiple genes of condition 2}
+\item{tt2}{Time vector for miltiple genes of condition 2}
 
-\item{yy2}{expression matrix for miltiple genes of condition 2}
+\item{yy2}{Expression matrix for miltiple genes of condition 2}
 
-\item{B}{number of permutation for each gene.}
+\item{B}{Number of permutation for each gene.}
 
 \item{period}{Period of the since curve. Default is 24.}
 }
 \value{
-pvalues, see details below. 
+P-values, see details below. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-\item{pvalue}{the p-value from the Permutation test}
+\item{pvalue}{P-value from the Permutation test}
 }
 \description{
 Permutation test for differential phase
 }
 \details{
-Test differential phase of circadian curve fitting using Permutation test
+Test differential phase of circadian curve fitting using permutation test
 }
 \examples{
 K=100

@@ -7,9 +7,9 @@
 WaldTest(tt, yy, period = 24, type = "FN")
 }
 \arguments{
-\item{tt}{time vector}
+\item{tt}{Time vector}
 
-\item{yy}{expression vector}
+\item{yy}{Expression vector}
 
 \item{period}{Period of the since curve. Default is 24.}
 
@@ -22,18 +22,18 @@ Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period *
 \item{A}{A based on formula 2}
 \item{B}{B based on formula 2}
 \item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1, phase is restricted within (0, period)}
-\item{offset}{offset based on formula 1 or on formula 2}
-\item{df}{degree of freedom for the Wald test}
-\item{stat}{the Wald statistics}
-\item{pvalue}{the p-value from the Wald test}
+\item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
+\item{offset}{Basal level based on formula 1 or on formula 2}
+\item{df}{Degree of freedom for the Wald test}
+\item{stat}{Wald statistics}
+\item{pvalue}{P-value from the Wald test}
 \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 }
 \description{
 Finite sample/ Large sample Wald test for circadian pattern detection
 }
 \details{
-Test the signficance of circadian curve fitting using finite sample Wald test
+Test the significance of circadian curve fitting using finite sample Wald test
 }
 \examples{
 set.seed(32608)

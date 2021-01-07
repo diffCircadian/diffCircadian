@@ -7,11 +7,11 @@
 permTest(tt, yy, B = 1000, period = 24)
 }
 \arguments{
-\item{tt}{time vector}
+\item{tt}{Time vector}
 
-\item{yy}{expression vector}
+\item{yy}{Expression vector}
 
-\item{B}{number of permutations.Default is 1000.}
+\item{B}{Number of permutations.Default is 1000.}
 
 \item{period}{Period of the since curve. Default is 24.}
 }
@@ -20,19 +20,19 @@ A list of amp, phase, offset, peak, SST, SSE, R2.
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
 Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 \item{amp}{Amplitude based on formula 1}
-\item{phase}{phase based on formula 1, phase is restricted within (0, period)}
-\item{offset}{offset based on formula 1 or on formula 2}
+\item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
+\item{offset}{Basal level based on formula 1 or on formula 2}
 \item{tss}{Total sum of square}
-\item{rss}{residual sum of square, SSE/n is the MLE of the variance sigma2}
+\item{rss}{Residual sum of square, rss/n is the MLE of the variance sigma2}
 \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
-\item{pvalue}{p-value of the permutation test}
+\item{pvalue}{P-value of the permutation test}
 \item{R2b}{Sequence of R squares for each permutaion}
 }
 \description{
-Permutation test sin function
+Permutation test for sin curve
 }
 \details{
-Test the signficance of circadian curve fitting using Permutation test
+Test the significance of circadian curve fitting using permutation test.
 }
 \examples{
 set.seed(32608)
