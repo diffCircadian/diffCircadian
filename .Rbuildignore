@@ -9,3 +9,5 @@ R/.DS-Store
 .DS_Store
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^doc$
+^Meta$
