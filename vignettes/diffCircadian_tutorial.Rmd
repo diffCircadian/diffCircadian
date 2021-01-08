@@ -54,3 +54,8 @@ Haocheng Ding (haochengding@ufl.edu)
 ## Description about the example data
 
 ## Read in the example data
+
+
+```{r}
+sessionInfo()
+```
