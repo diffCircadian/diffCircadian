@@ -1,0 +1,56 @@
+---
+ title: "diffCircadian tutorial"
+ auther: "Zhiguang Huo, Haocheng Ding (Department of Biostatistics, University of Florida)"
+ date: "`r Sys.Date()`"
+ output: 
+   html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+ vignette: >
+  %\VignetteIndexEntry{diffCircadian}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(stringsAsFactors = FALSE)
+```
+
+# Introduction
+
+## Background
+Circadian rhythmicity in transcriptomic profiles has been implied in many physiological processes, and disruption of circadian patterns has been founded to associate with several diseases. Likelihood-based methods (diffCircadian) are powerful in detecting circadian rhythmicity within one experimental condition and differential circadian patterns comparing two experimental conditions. 
+
+## Statistical method
+
+## About this tutorial
+This is a tutorial for the usage of "diffCircadian" package. A real data example of aging on circadian patterns of gene expression in the human prefrontal cortex is used. The major contents of this tutorial includes: 
+- How to prepare input for diffCircadian.
+- Detection of circadian and differential circadian patterns.
+- Visualizing circadian patterns' curves.
+
+# About the package
+
+## How to install the package
+
+To install this package, start R (version "3.6" or higher) and enter: 
+
+```{r, eval=FALSE}
+library(devtools)
+install_github("Caleb-Huo/AWFisher") 
+```
+
+## How to cite the package
+
+## Maintainer
+Haocheng Ding (haochengding@ufl.edu)
+
+## Description about the example data
+
+## Read in the example data

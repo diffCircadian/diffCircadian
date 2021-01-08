@@ -16,3 +16,6 @@ BugReports: https://github.com/Caleb-Huo/diffCircadian/issues
 Packaged: 2020-04-04 01:12:24 EST; Caleb
 RoxygenNote: 7.1.1
 NeedsCompilation: no
+Suggests: 
+    knitr,
+    rmarkdown

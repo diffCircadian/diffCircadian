@@ -47,3 +47,4 @@ vignettes/*.pdf
 =======
 inst/.DS_Store
 >>>>>>> d6669aa173d4c4dbdb5b63dd00547e7344f1428e
+inst/doc
