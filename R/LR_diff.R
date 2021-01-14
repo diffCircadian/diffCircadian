@@ -78,7 +78,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,test="LR",FN=TRUE,type="all"){
   
   
   # Wald 
-  if (test=="Wald"){
+  else if (test=="Wald"){
     # Wald + all
     if(type=="all"){
       WaldTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
