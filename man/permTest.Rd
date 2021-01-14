@@ -18,7 +18,7 @@ permTest(tt, yy, B = 1000, period = 24)
 \value{
 A list of amp, phase, offset, peak, SST, SSE, R2. 
 Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
-Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
+Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*\pi/period * tt) + offset}
 \item{amp}{Amplitude based on formula 1}
 \item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
 \item{offset}{Basal level based on formula 1 or on formula 2}

@@ -54,6 +54,18 @@ Haocheng Ding (haochengding@ufl.edu)
 ## Description about the example data
 
 ## Read in the example data
+```{r}
+library(diffCircadian) # include diffCircadian package
+
+library(GEOquery)
+library(tidyverse)
+# load data from GEO
+aname_GSE <- "GSE71620"
+aGSE <- getGEO(aname_GSE,GSEMatrix=TRUE) 
+eData <- exprs(aGSE[[1]])
+pData <- pData(aGSE[[1]])
+fData <- fData(aGSE[[1]])
+```
 
 
 ```{r}
