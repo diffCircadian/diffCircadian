@@ -104,5 +104,6 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     }
     else("Please check your input! type = 'all','amp','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
   }
+  else("Please check your input! type = 'all','amp','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
   
 }
