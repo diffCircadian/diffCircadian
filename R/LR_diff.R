@@ -52,10 +52,10 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,test="LR",FN=TRUE,type="all"){
   if (test=="LR"){
     # LR + all
     if(type=="all"){
-      LRTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      LRTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      LRTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
+      list(LRTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      LRTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      LRTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN))
     }
     # LR + amp
     else if(type=="amp"){
@@ -81,10 +81,10 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,test="LR",FN=TRUE,type="all"){
   else if (test=="Wald"){
     # Wald + all
     if(type=="all"){
-      WaldTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      WaldTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      WaldTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
-      WaldTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
+      list(WaldTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      WaldTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      WaldTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
+      WaldTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN))
     }
     # Wald + amp
     else if(type=="amp"){
