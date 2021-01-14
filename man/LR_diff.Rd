@@ -4,7 +4,16 @@
 \alias{LR_diff}
 \title{Likelihood-based Tests for Detecting Differential Circadian Pattern}
 \usage{
-LR_diff(tt1, yy1, tt2, yy2, period = 24, test = "LR", FN = TRUE, type = "all")
+LR_diff(
+  tt1,
+  yy1,
+  tt2,
+  yy2,
+  period = 24,
+  method = "LR",
+  FN = TRUE,
+  type = "all"
+)
 }
 \arguments{
 \item{tt1}{Time vector of condition 1.}
@@ -17,7 +26,7 @@ LR_diff(tt1, yy1, tt2, yy2, period = 24, test = "LR", FN = TRUE, type = "all")
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{test}{Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is Wald.}
+\item{method}{Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is Wald.}
 
 \item{FN}{"TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE".}
 

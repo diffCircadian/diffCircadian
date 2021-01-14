@@ -7,7 +7,7 @@
 ##' @param tt2 Time vector of condition 2.
 ##' @param yy2 Expression vector of condition 2.
 ##' @param period Period of the since curve. Default is 24.
-##' @param test Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is Wald.
+##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is Wald.
 ##' @param FN "TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE". 
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".   
 ##' @return A list, see details below. 
@@ -47,9 +47,9 @@
 ##' yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 ##' LR_diff(tt1, yy1, tt2, yy2)
 
-LR_diff <- function(tt1,yy1,tt2,yy2,period=24,test="LR",FN=TRUE,type="all"){
+LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
   # LR 
-  if (test=="LR"){
+  if (method=="LR"){
     # LR + all
     if(type=="all"){
       list(LRTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
@@ -78,7 +78,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,test="LR",FN=TRUE,type="all"){
   
   
   # Wald 
-  else if (test=="Wald"){
+  else if (method=="Wald"){
     # Wald + all
     if(type=="all"){
       list(WaldTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN),
