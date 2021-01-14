@@ -20,7 +20,7 @@
 ##' \item{stat}{LR statistics}
 ##' \item{pvalue}{P-value from the LR test}
 ##' @author Caleb
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50
@@ -37,7 +37,7 @@
 ##' LRTest_diff_phase(tt1, yy1, tt2, yy2)
 
 
-LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
+LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   n1 <- length(tt1)
   stopifnot(n1 == length(yy1))
   n2 <- length(tt2)
@@ -100,10 +100,10 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   
   dfdiff <- 1
   
-  if(type=="LS"){
+  if(FN==FALSE){
     pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
   }
-  else if(type=="FN"){
+  else if(FN==TRUE){
     LR_stat <- -2*(l0-la)
     r <- 1
     k <- 6
@@ -116,7 +116,7 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   res <- list(phase_1=par1$phase, phase_2=par2$phase, phase_c=phase_c, 
               l0=l0, 
               la=la, 
-              df = dfdiff, 
+              #df = dfdiff, 
               stat=-2*(l0-la), 
               pvalue=pvalue)
   return(res)
