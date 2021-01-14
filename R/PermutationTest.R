@@ -18,7 +18,7 @@
 ##' \item{pvalue}{P-value of the permutation test}
 ##' \item{R2b}{Sequence of R squares for each permutaion}
 ##' @author Haocheng Ding
-
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 10

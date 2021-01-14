@@ -15,7 +15,7 @@
 ##' \item{rss}{Residual sum of square, SSE/n is the MLE of the variance sigma2}
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
-
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

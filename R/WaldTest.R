@@ -19,7 +19,7 @@
 ##' \item{pvalue}{P-value from the Wald test}
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
-
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50
