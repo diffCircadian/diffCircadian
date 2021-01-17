@@ -28,6 +28,175 @@ options(stringsAsFactors = FALSE)
 Circadian rhythmicity in transcriptomic profiles has been implied in many physiological processes, and disruption of circadian patterns has been founded to associate with several diseases. Likelihood-based methods (diffCircadian) are powerful in detecting circadian rhythmicity within one experimental condition and differential circadian patterns comparing two experimental conditions. 
 
 ## Statistical method
+Denote $y$ as the expression value for a gene; 
+$t$ as the circadian time; $C$ as the basal level (vertical shift of the sinusoidal wave baseline from 0); 
+$A$ as the amplitude. 
+$\omega$ is the frequency of the sinusoidal wave, where $\omega = \frac{2\pi}{Period}$. 
+Without loss of generality, we set $period = 24$ hours to mimic the diurnal period. 
+$\phi$ is the phase of the sinusoidal wave curve. Due to the periodicity of a sinusoidal wave, $\phi$ is not identifiable in the sense that $\phi = \phi + 24$. Therefore, we will restrict $\phi \in [-6, 18)$. $\phi$ is difficult to read from a sinusoidal wave, but a closely related quantify is the peak time $t_P$. The connection between $\phi$ and $t_P$ is that $\phi + t_P = 6 \pm 24N$, where $N$ is an arbitrary natural number.
+
+
+### Circadian Rhythmicity Detection
+We assume:
+
+\begin{equation}
+\label{eq:sin1}
+y_i=A\sin(\omega(t_i+\phi))+C+\varepsilon_i, \qquad (1) 
+\end{equation}
+
+\noindent where $\varepsilon_i$ is the error term for subject $i$; 
+we assume $\varepsilon_i$'s are identically and independently distributed (i.e., $iid$) and $\varepsilon_i \sim  \textit{N}(0, \sigma^2)$, 
+where $\sigma$ is the noise level. 
+To benchmark the goodness of sinusoidal wave fitting, 
+we define the coefficient of determination $R^2=1-\cfrac{RSS}{TSS}$, 
+where $RSS = \sum^n_{i=1} (y_i-\hat{y_i})^2$, 
+$TSS = \sum^n_{i=1} (y_i-\bar{y})^2$,
+$\hat{y_i} = \hat{A} \sin(\omega(t_i+ \hat{\phi})) + \hat{C}$,
+$\bar{y} = \sum_i y_i / n$,
+with $\hat{A}$, $\hat{\phi}$, and  $\hat{C}$ being the fitted value for $A$, $\phi$, and $C$ in equation (1), respectively.
+$R^2$ ranges from 0 to 1, with 1 indicating perfect sinusoidal wave fitting, 
+and 0 indicating no fitting at all.
+Based on these assumptions, 
+we derive procedures for testing circadian rhythmicity. 
+For the ease of discussion, we re-write equation (1) as 
+
+\begin{equation}
+\label{eq:sin2}
+y_i=E\sin(\omega t_i) + F\cos(\omega t_i) +C+\varepsilon_i, \qquad (2) 
+\end{equation}
+where $E = A \cos (\omega \phi)$, and $F = A \sin (\omega \phi)$.
+Denote $\pmb{\beta}  = (E,F,C,\sigma^2)^\boldsymbol{\top}$,
+the null hypothesis is $H_0: \pmb{\beta} = \pmb{\beta}_0 = (0, 0, \hat{C}_0,\hat{\sigma}^2_0)^\boldsymbol{\top}$,
+where $\pmb{\beta}_0$ is the least square estimate of equation (2) under $H_0$. 
+The null hypothesis indicates there does not exist a circadian rhythmicity.
+On the other hand,
+the alternative hypothesis is $H_A: \pmb{\beta} = \pmb{\beta}_A = (\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)^\boldsymbol{\top}$,
+where $\pmb{\beta}_A$ is the least square estimate of equation (2) under $H_A$. 
+The alternative hypothesis indicates there exists a circadian rhythmicity.
+
+#### Likelihood Ratio Test 
+
+Based on equation (2), the likelihood function of all $n$ samples is: 
+
+\begin{equation*}
+    L(E,F,C,\sigma^2) = \prod^n_{i=1} L_i(E,F,C,\sigma^2|y_i,t_i)= \prod^n_{i=1} \cfrac{1}{\sqrt{2\pi\sigma^2}}
+    \exp\left( -\cfrac{ (y_i-E\sin(\omega t_i) - F\cos(\omega t_i)-C)^2}{2\sigma^2} \right)
+\end{equation*}
+
+\noindent The log-likelihood function is: 
+\begin{equation*}
+    l(E,F,C,\sigma^2) = \log L(E,F,C,\sigma^2) = 
+    -\cfrac{n}{2} \log (2\pi\sigma^2)-\sum^{n}_{i=1}\cfrac{(y_i-E\sin(\omega t_i) - F\cos(\omega t_i) - C)^2}{2\sigma^2}
+\end{equation*}
+
+\noindent Under $H_0$, 
+$\pmb{\beta} = \pmb{\beta}_0 = (0, 0, \hat{C}_0,\hat{\sigma}^2_0)^\boldsymbol{\top}$
+and $l_0 = l(0, 0, \hat{C}_0,\hat{\sigma}^2_0)$;
+under $H_A$, $\pmb{\beta} = \pmb{\beta}_A = (\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)^\boldsymbol{\top}$ and $l_A = l(\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)$.
+The likelihood ratio test statistic is: $T^{LR} = -2(l_0-l_A)$. Since the degree of freedom is 2, under $H_0$, $T^{LR} \sim \chi^2_2$.
+
+#### Wald Test
+The Wald test statistic can be derived as
+$T^{Wald} = (\pmb{\beta}_A-\pmb{\beta}_0)^\boldsymbol{\top} I(\pmb{\beta}_A)(\pmb{\beta}_A-\pmb{\beta}_0)$, where $I(\pmb{\beta}_A)$ is Fisher information matrix evaluated at $\pmb{\beta}_A$. Under $H_0$, $T^{Wald} \sim \chi^2_2$.
+
+#### Finite Sample Wald/LR Tests
+The finite sample Wald statistics ($T^{Wald}_{FN}$) and 
+the finite sample likelihood ratio statistics ($T^{LR}_{FN}$) can be derived as the following:
+
+\begin{equation}
+   T^{Wald}_{FN} = \cfrac{n-k + 1}{nr} T^{Wald}
+   \label{eq:Wald_FN}
+\end{equation}
+
+\begin{equation}
+    T^{LR}_{FN} = \frac{n - k + 1}{r} \left(\exp(T^{LR}/n) - 1 \right) 
+   \label{eq:LR_FN}
+\end{equation}
+
+\noindent Where $k = 4$ is total number of parameters and $r=2$ is number of parameters of interest. 
+Under the null hypothesis, 
+$T^{Wald}_{FN} \sim F(df_1, df_2)$, and $T^{LR}_{FN} \sim F(df_1, df_2)$,
+where $df_1 = r$ and $df_2 = n - k + 1$.
+
+
+#### F Test
+\begin{equation*}
+T^{F}=\cfrac{(TSS-RSS)/df_1}{RSS/df_2}\sim F(df_1,df_2), 
+\end{equation*}
+
+\noindent
+where residual sum of squares $(RSS)=\sum^{n}_{i=1}(y_i-\hat{y_i})^2$, total sum of squares $(TSS)=\sum^{n}_{i=1}(y_i-\bar{y})^2$, $df_1=2$ and $df_2=n-3$. Under the null hypothesis, 
+$T^{F} \sim F(df_1, df_2)$.
+
+
+### Differential Circadian Detection
+
+Denote $y_{1i}$ as the gene expression value of subject $i (1\le i \le n_1)$ in experimental condition 1, 
+where $n_1$ is the total number of subjects; $t_{1i}$ is the circadian time for subject $i$.
+$y_{2j}$ is the gene expression value of subject $j (1\le j \le n_2)$ in experimental condition 2, 
+where $n_2$ is the total number of subjects; $t_{2j}$ is the circadian time for subject $j$.
+Note that $y_{1i}$ and $y_{2j}$ are from the same gene, but under different experimental conditions.
+We assume the following models:
+\begin{equation}
+  \label{eq:diffCircadian}
+  \begin{aligned}
+    y_{1i} &= A_1\sin(\omega(t_{1i}+\phi_1))+C_1+\varepsilon_{1i} \\
+    y_{2j} &= A_2\sin(\omega(t_{2j}+\phi_2))+C_2+\varepsilon_{2j}
+  \end{aligned}
+\end{equation}
+\noindent $\varepsilon_{1i} \sim \textit{N}(0,\sigma_1^2)$ is the error term for subject $i$ ($1\le i \le n_1$) for experimental condition 1 and 
+$\varepsilon_{2j} \sim \textit{N}(0,\sigma_2^2)$ is the error term for subject $j$ ($1\le j \le n_2$) for experimental condition 2. 
+These error terms are assumed to be $iid$.
+$A_1$, $\phi_1$, $C_1$, and $\sigma_1^2$ are the amplitude, phase, basal level, and noise level for the experimental condition 1, and
+$A_2$, $\phi_2$, $C_2$, and $\sigma_2^2$ are for experimental condition 2. 
+
+#### Hypothesis Testing Framework 
+Below we state the null hypothesis and the alternative hypothesis for testing these four categories of differential circadian patterns.
+
+
+(1) Differential amplitude: $H_0: A_1 = A_2 = A_c$ \textit{v.s.} $H_A: A_1 \neq A_2$. 
+
+(2) Differential phase: $H_0: \phi_1 = \phi_2 = \phi_c$ \textit{v.s.} $H_A: \phi_1 \neq \phi_2$.
+
+(3) Differential basal level: $H_0: C_1 = C_2 = C_c$ \textit{v.s.} $H_A: C_1 \neq C_2$.
+
+(4) Differential rhythmicity: $H_0: \sigma^2_1 = \sigma^2_2 = \sigma^2_c$ \textit{v.s.} $H_A: \sigma^2_1 \neq \sigma^2_2$.
+
+#### Likelihood Ratio Test
+
+The log-likelihood function for $n_1 + n_2$ samples in both experimental conditions is:
+\begin{equation}
+\begin{split}
+    & ll (A_1, \phi_1, C_1, \sigma_1^2, A_2, \phi_2, C_2, \sigma_2^2) \\
+    & =  \sum_{i=1}^{n_1} l_i (A_1, \phi_1, C_1, \sigma_1^2) + 
+    \sum_{j=1}^{n_2} l_j (A_2, \phi_2, C_2, \sigma_2^2) \\
+    & =  \left(-\cfrac{n_1}{2} \log \sigma_1^2-\sum^{n_1}_{i=1}\cfrac{(y_i-A_1\sin(\omega(t_i+\phi_1))-C_1)^2}{2\sigma_1^2}\right) \\
+    & + \left(-\cfrac{n_2}{2} \log \sigma_2^2-\sum^{n_2}_{j=1}\cfrac{(y_j-A_2\sin(\omega(t_j+\phi_2))-C_2)^2}{2\sigma_2^2}\right)
+\end{split} 
+\end{equation}
+The test statistic is: $D^{LR} = -2(ll_0-ll_A)$,  
+where $ll_0$ is the log likelihood under $H_0$; and $ll_A$ is the log likelihood under $H_A$.
+Here the null can be one of the following:
+(a) $H_0^{(a)}$: $A_1 = A_2$ for differential amplitude; 
+(b) $H_0^{(p)}$: $\phi_1 = \phi_2$ for differential phase; 
+(c) $H_0^{(b)}$: $C_1 = C_2$ for differential basal level; 
+(d) $H_0^{(r)}$: $\sigma^2_1 = \sigma^2_2$ for differential rhythmicity.
+For all these null hypotheses, the degree of freedom is 1, and under $H_0$, $D^{LR} \sim \chi^2_1$.
+For example when testing different amplitude, 
+under $H_0^{(a)}$, $\hat{A_1}=\hat{A_2}=\hat{A_c}$, $ll_0 = ll(\hat{A_c}, \hat{\phi_1}, \hat{C_1},\hat{\sigma_1},\hat{A_c}, \hat{\phi_2},\hat{C_2},\hat{\sigma_2}|y)$; 
+and under $H_A^{(a)}$, $\hat{A_1} \neq \hat{A_2}$, $ll_A = ll(\hat{A_1},\hat{\phi_1}, \hat{C_1},\hat{\sigma_1},\hat{A_2},\hat{\phi_2},\hat{C_2},\hat{\sigma_2}|y)$. 
+
+#### Wald Test
+Denote $\pmb{p} = (A_1, \phi_1, C_1, \sigma_1^2, A_2, \phi_2, C_2, \sigma_2^2)^\boldsymbol{\top}$.
+$\pmb{p}_0$ is $\pmb{p}$ under $H_0$, 
+where $H_0$ is one of the null hypotheses in section $\boldsymbol{1.2.2.1}$;
+$\pmb{p}_1$ is $\pmb{p}$ under $H_A$, where there is no restriction on $\pmb{p}$.
+Then the Wald test statistic is
+$D^{Wald} = (\pmb{p}_1-\pmb{p}_0)^\boldsymbol{\top} I(\pmb{p}_1)(\pmb{p}_1-\pmb{p}_0)$.
+Under $H_0$, $D^{Wald} \sim \chi^2_1$,
+where 
+$I(\pmb{p}_1)$ is Fisher information matrix evaluated at $\pmb{p}_1$.  
+
 
 ## About this tutorial
 This is a tutorial for the usage of "diffCircadian" package. A real data example of aging on circadian patterns of gene expression in the human prefrontal cortex is used. The major contents of this tutorial includes: 
@@ -43,7 +212,7 @@ To install this package, start R (version "3.6" or higher) and enter:
 
 ```{r, eval=FALSE}
 library(devtools)
-install_github("Caleb-Huo/AWFisher") 
+install_github("diffCircadian/diffCircadian") 
 ```
 
 ## How to cite the package
@@ -61,10 +230,10 @@ library(GEOquery)
 library(tidyverse)
 # load data from GEO
 aname_GSE <- "GSE71620"
-aGSE <- getGEO(aname_GSE,GSEMatrix=TRUE) 
-eData <- exprs(aGSE[[1]])
-pData <- pData(aGSE[[1]])
-fData <- fData(aGSE[[1]])
+#aGSE <- getGEO(aname_GSE,GSEMatrix=TRUE) 
+#eData <- exprs(aGSE[[1]])
+#pData <- pData(aGSE[[1]])
+#fData <- fData(aGSE[[1]])
 ```
 
 

@@ -10,7 +10,7 @@
 ##' @param period Period of the since curve. Default is 24.
 ##' @return The Fisher information matrix, this is a 8*8 matrix, with the same order as the input beta parameter.
 ##' @author Caleb
-##' @noRd
+##' @export
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

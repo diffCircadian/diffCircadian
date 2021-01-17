@@ -20,7 +20,7 @@
 ##' \item{stat}{LR statistics}
 ##' \item{pvalue}{P-value from the LR test}
 ##' @author Caleb
-##' @noRd
+##' @export
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50
@@ -37,7 +37,7 @@
 ##' LRTest_diff_offset(tt1, yy1, tt2, yy2)
 
 
-LRTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
+LRTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   n1 <- length(tt1)
   stopifnot(n1 == length(yy1))
   n2 <- length(tt2)
@@ -100,10 +100,10 @@ LRTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   
   dfdiff <- 1
   
-  if(FN==FALSE){
+  if(type=="LS"){
     pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
   }
-  else if(FN==TRUE){
+  else if(type=="FN"){
     LR_stat <- -2*(l0-la)
     r <- 1
     k <- 6
@@ -117,7 +117,7 @@ LRTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   res <- list(offset_1=par1$offset, offset_2=par2$offset, offset_c=offset_c, 
               l0=l0, 
               la=la, 
-              #df = dfdiff, 
+              df = dfdiff, 
               stat=-2*(l0-la), 
               pvalue=pvalue)
   return(res)
