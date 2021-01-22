@@ -43,7 +43,7 @@
 #df0: df under H0
 #df1: df under H1
 
-LRTest <- function(tt,yy, period = 24,type="FN"){
+LRTest <- function(tt,yy, period = 24,type=TRUE){
   fitCurveOut <- fitSinCurve(tt,yy,period=period)
   n <- length(yy)
   rss <- fitCurveOut$rss
@@ -62,10 +62,10 @@ LRTest <- function(tt,yy, period = 24,type="FN"){
   dfdiff <- (n-1)-(n-3)
 	LR_stat <- -2*(l0-l1)
 	
-	if(type=="LS"){
+	if(type==FALSE){
 	  pvalue <- pchisq(LR_stat,dfdiff,lower.tail = F)
 	}
-  else if(type=="FN"){
+  else if(type==TRUE){
     r <- 2
     k <- 3
     LR_stat <- (exp(LR_stat/n) - 1) * (n-k) / r

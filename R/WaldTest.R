@@ -30,7 +30,7 @@
 ##' yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
 ##' WaldTest(tt, yy)
 
-WaldTest <- function(tt, yy, period = 24, type="FN"){
+WaldTest <- function(tt, yy, period = 24, type=TRUE){
   afit <- fitSinCurve(tt, yy)
   n <- length(tt)
   rss <- afit$rss
@@ -79,11 +79,11 @@ WaldTest <- function(tt, yy, period = 24, type="FN"){
   
   df <- 2		
   stat <- as.numeric(Waldstat)
-  if(type=="LS"){
+  if(type==FALSE){
     pvalue <- pchisq(stat,2,lower.tail = F)
   }
   
-	else if(type=="FN"){
+	else if(type==TRUE){
 	  r <- 2
 	  k <- 3
 	  stat <- stat * (n-k)/n/r
