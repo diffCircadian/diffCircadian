@@ -19,7 +19,7 @@
 ##' \item{pvalue}{P-value from the Wald test}
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50
@@ -92,7 +92,7 @@ WaldTest <- function(tt, yy, period = 24, type="FN"){
 	
   R2 <- 1-rss/tss
   res <- list(
-	  A=A,B=B,amp=amp,phase=phase,offset=offset,
+	  amp=amp,phase=phase,offset=offset,
 	 stat=stat, 
 	 pvalue=pvalue,R2=R2
 		)

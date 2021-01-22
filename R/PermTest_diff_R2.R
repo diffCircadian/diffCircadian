@@ -16,7 +16,7 @@
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 ##' \item{pvalue}{P-value from the Permutation test}
 ##' @author Haocheng Ding
-##' @export
+##' @noRd
 ##' @examples
 ##' K=100
 ##' n=10

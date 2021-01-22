@@ -11,7 +11,7 @@
 ##' @return A vector of 7 with the following order: amp_c, phase_1, offset_1, theta_1, phase_2, offset_2, theta_2
 ##' @author Caleb
 ##' @import optimx
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

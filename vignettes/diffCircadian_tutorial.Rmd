@@ -221,9 +221,12 @@ install_github("diffCircadian/diffCircadian")
 Haocheng Ding (haochengding@ufl.edu)
 
 ## Description about the example data
+Brain aging data were collected from University of Pittsburgh's Brain Tissue Donation Program. The final samples included 146 individuals whose time of death (TOD) could be precisely determined. The mean age at death was 50.7 years; 78% of the individuals were male, and the mean postmortem interval was 17.3 hours. The TODs were further adjusted as the Zeitgeber time (ZT), which considered factors including time zone, latitude, longitude, and altitude.
+The ZT was used as the circadian time, which was comparable across all individuals. 33,297 gene probes were available in this microarray data, which was publicly available in GEO (GSE71620). After filtering 50% gene probes with lower mean expression level, 16,648 gene probes were kept. 
+
 
 ## Read in the example data
-```{r}
+```{r eval=F}
 library(diffCircadian) # include diffCircadian package
 
 library(GEOquery)
@@ -234,6 +237,64 @@ aname_GSE <- "GSE71620"
 #eData <- exprs(aGSE[[1]])
 #pData <- pData(aGSE[[1]])
 #fData <- fData(aGSE[[1]])
+```
+
+```{r}
+setwd("~/Downloads")
+dat.expr <- read.csv("Data_Expr_BA11.csv")
+dat.pheno <- read.csv("Data_Pheno_BA11.csv")
+```
+
+```{r}
+Symbol <- as.character(dat.expr[,1])
+dat.expr <- dat.expr[,-1]
+ind47 <- 1:146
+rowmean <- rowMeans(dat.expr[,ind47])
+ind_keep <- which(rowmean > median(rowmean))
+dat.expr <- dat.expr[ind_keep,]  #  16648   292
+Symbol <- Symbol[ind_keep]
+ind47.young <- which(as.numeric(dat.pheno[ind47,"age.ch1"]) < 40)
+ind47.old <- which(as.numeric(dat.pheno[ind47,"age.ch1"]) >= 60)
+
+n <- nrow(dat.expr)
+
+# young group
+young_group_result <- NULL
+for(i in 1:n){
+  print(i)
+  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.young]
+  yy11 <- as.numeric(dat.expr[i,ind47.young])
+  young_group_result <- rbind(young_group_result,c(Symbol[i],LRTest(tt11,yy11)$pvalue,index=i))
+}
+top_sig_young <- apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[1]][1:6]
+index_top_sig_young <- as.numeric(apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[3]][1:6])
+#pvalue_top_sig_young <- as.numeric(apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[2]][1:6])
+for (i in 1:6) {
+  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.young]
+  yy11 <- as.numeric(dat.expr[index_top_sig_young[i],ind47.young])
+  LRres <- LRTest(tt11,yy11)
+  amp <- LRres$amp
+  phase <- LRres$phase
+  offset <- LRres$offset
+  pvalue <- LRres$pvalue
+  plot(tt11,yy11,pch=19,main=pvalue)
+  f <- function(x){amp*sin(pi/12*(x+phase))+offset}
+  curve(f,add=T)
+}
+
+
+# old group
+old_group_result <- NULL
+for(i in 1:n){
+  print(i)
+  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.old]
+  yy11 <- as.numeric(dat.expr[i,ind47.old])
+  old_group_result <- rbind(old_group_result,c(Symbol[i],LRTest(tt11,yy11)$pvalue))
+}
+top_sig_old <- apply(old_group_result[old_group_result[,2]<0.05,],2,sort)[[1]][1:6]
+
+
+
 ```
 
 

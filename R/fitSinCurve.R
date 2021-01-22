@@ -19,7 +19,7 @@
 ##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
 ##' @author Caleb
 ##' @import minpack.lm
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

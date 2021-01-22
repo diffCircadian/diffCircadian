@@ -8,7 +8,7 @@
 ##' @param period Period of the since curve. Default is 24.
 ##' @return A list of amp, phase, offset, peak, SST, SSE, R2. 
 ##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
-##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
+##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*\pi/period * tt) + offset}
 ##' \item{amp}{Amplitude based on formula 1}
 ##' \item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
 ##' \item{offset}{Basal level based on formula 1 or on formula 2}
@@ -18,7 +18,7 @@
 ##' \item{pvalue}{P-value of the permutation test}
 ##' \item{R2b}{Sequence of R squares for each permutaion}
 ##' @author Haocheng Ding
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 10

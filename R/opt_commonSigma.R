@@ -15,7 +15,7 @@
 ##' \item{sigma2_2}{Variance estimate of the 2nd data}
 ##' \item{sigma2_C}{Variance estimate pooling all data together}
 ##' @author Caleb
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

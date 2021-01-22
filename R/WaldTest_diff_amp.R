@@ -18,7 +18,7 @@
 ##' \item{stat}{Wald statistics}
 ##' \item{pvalue}{P-value from the Wald test}
 ##' @author Caleb
-##' @export
+##' @noRd
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50
@@ -35,7 +35,7 @@
 ##' WaldTest_diff_amp(tt1, yy1, tt2, yy2)
 
 
-WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
+WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   n1 <- length(tt1)
   stopifnot(n1 == length(yy1))
   n2 <- length(tt2)
@@ -87,10 +87,10 @@ WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   
   dfdiff <- 1
   
-  if(type=="LS"){
+  if(FN==FALSE){
     pvalue <- pchisq(stat,dfdiff,lower.tail = F)
   }
-  else if(type=="FN"){
+  else if(FN==TRUE){
     r <- 1
     k <- 6
     n <- n1+n2
@@ -100,7 +100,7 @@ WaldTest_diff_amp <- function(tt1, yy1, tt2, yy2, period = 24,type="FN"){
   
   
   res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=this_opt_commonAmp[1], 
-              df = dfdiff, 
+              #df = dfdiff, 
               stat = stat, 
               pvalue = pvalue)
   return(res)
