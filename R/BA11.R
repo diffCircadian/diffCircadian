@@ -1,4 +1,4 @@
-#' @description  Human postmortem brain data (Brodmann's area 11 in the prefrontal cortex)
+#' Human postmortem brain data (Brodmann's area 11 in the prefrontal cortex)
 #' 
 #' @title Brodmann’s Areas (BA) 11 Brain Aging Data
 #'
