@@ -1,25 +1,25 @@
 ##' Fit sin function
 ##'
-##' Fit a sin curve where tt is the time, and yy is the expressoin value.
-##' @title Fit the data based on sin curve
-##' @param tt time vector
-##' @param yy expression vector
-##' @param period Period of the since curve. Default is 24.
-##' @param parStart initial value for optimzation purpose
+##' Fit a sine curve where tt is time, and yy is expression value.
+##' @title Fit Data Based on Sine Curve
+##' @param tt Time vector.
+##' @param yy Expression vector.
+##' @param period Period of the sine curve. Default is 24.
+##' @param parStart Initial value for optimization purpose.
 ##' @return A list of amp, phase, offset, peak, A, B, SST, SSE, R2. 
-##' Formula 1: \eqn{yy = amp \times sin(2\pi/period \times (phase + tt)) + offset}
-##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
-##' \item{amp}{Amplitude based on formula 1}
-##' \item{phase}{phase based on formula 1, phase is restricted within (0, period)}
-##' \item{offset}{Basal level(vertical shift) based on formula 1 or on formula 2}
-##' \item{A}{A based on formula 2}
-##' \item{B}{B based on formula 2}
-##' \item{tss}{Total sum of square}
-##' \item{rss}{residual sum of square, SSE/n is the MLE of the variance sigma2}
-##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss}
+##' Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset}
+##' Formula 2: \eqn{yy = A * sin(2\pi/period \times tt) + B * cos(2*\pi/period * tt) + offset}
+##' \item{amp}{Amplitude based on formula 1.}
+##' \item{phase}{Phase based on formula 1, phase is restricted within (0, period).}
+##' \item{offset}{Basal level (vertical shift) based on formula 1 or on formula 2.}
+##' \item{A}{A based on formula 2.}
+##' \item{B}{B based on formula 2.}
+##' \item{tss}{Total sum of square.}
+##' \item{rss}{Residual sum of square, SSE/n is the MLE of the variance sigma square.}
+##' \item{R2}{Pseudo R2 defined as (tss - rss)/tss.}
 ##' @author Caleb
 ##' @import minpack.lm
-##' @noRd
+##' @export
 ##' @examples
 ##' set.seed(32608)
 ##' n <- 50

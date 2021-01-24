@@ -226,74 +226,93 @@ The ZT was used as the circadian time, which was comparable across all individua
 
 
 ## Read in the example data
-```{r eval=F}
+```{r}
 library(diffCircadian) # include diffCircadian package
-
-library(GEOquery)
-library(tidyverse)
-# load data from GEO
-aname_GSE <- "GSE71620"
-#aGSE <- getGEO(aname_GSE,GSEMatrix=TRUE) 
-#eData <- exprs(aGSE[[1]])
-#pData <- pData(aGSE[[1]])
-#fData <- fData(aGSE[[1]])
+# load the data
+data(BA11)
+data(BA11old)
+data(BA11young)
 ```
 
+
+# Circadian Rhythmicity Detection
+
+## Test all genes in BA11 data
 ```{r}
-setwd("~/Downloads")
-dat.expr <- read.csv("Data_Expr_BA11.csv")
-dat.pheno <- read.csv("Data_Pheno_BA11.csv")
-```
+sig_index <- NULL # index of gene with p-value < 0.05
+pvalue <- NULL
+tod <- as.numeric(BA11[1,-1]) # Time of Death (TOD)
+yy <- BA11[-1,]
+yy <- yy[,-1] # get expression value matrix
 
-```{r}
-Symbol <- as.character(dat.expr[,1])
-dat.expr <- dat.expr[,-1]
-ind47 <- 1:146
-rowmean <- rowMeans(dat.expr[,ind47])
-ind_keep <- which(rowmean > median(rowmean))
-dat.expr <- dat.expr[ind_keep,]  #  16648   292
-Symbol <- Symbol[ind_keep]
-ind47.young <- which(as.numeric(dat.pheno[ind47,"age.ch1"]) < 40)
-ind47.old <- which(as.numeric(dat.pheno[ind47,"age.ch1"]) >= 60)
-
-n <- nrow(dat.expr)
-
-# young group
-young_group_result <- NULL
-for(i in 1:n){
-  print(i)
-  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.young]
-  yy11 <- as.numeric(dat.expr[i,ind47.young])
-  young_group_result <- rbind(young_group_result,c(Symbol[i],LRTest(tt11,yy11)$pvalue,index=i))
+for (i in 1:nrow(yy)){
+  p <- LR_rhythmicity(tod,as.numeric(yy[i,]),FN=F)$pvalue
+  pvalue <- c(pvalue,p)
 }
-top_sig_young <- apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[1]][1:6]
-index_top_sig_young <- as.numeric(apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[3]][1:6])
-#pvalue_top_sig_young <- as.numeric(apply(young_group_result[young_group_result[,2]<0.05,],2,sort)[[2]][1:6])
-for (i in 1:6) {
-  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.young]
-  yy11 <- as.numeric(dat.expr[index_top_sig_young[i],ind47.young])
-  LRres <- LRTest(tt11,yy11)
-  amp <- LRres$amp
-  phase <- LRres$phase
-  offset <- LRres$offset
-  pvalue <- LRres$pvalue
-  plot(tt11,yy11,pch=19,main=pvalue)
+```
+
+## Plot top significant genes with circadian rhythmicity
+```{r echo=F}
+library(dplyr)
+BA11_plot <- cbind(BA11[-1,],pvalue)
+BA11_plot <- BA11_plot %>% arrange(pvalue)
+BA11_plot_top6 <- BA11_plot[1:6,]
+for (i in 1:nrow(BA11_plot_top6)){
+  
+  LR <- LR_rhythmicity(tod,as.numeric(BA11_plot_top6[i,2:293])) 
+  amp <- LR$amp
+  phase <- LR$phase
+  offset <- LR$offset
+  plot(tod,as.numeric(BA11_plot_top6[i,2:293]),pch=20,ylab="Expression Value",xlab = "Time of Death (TOD)",main = paste(BA11_plot_top6[i,1], "p-value = ",signif(BA11_plot_top6[i,294],3)),xlim=c(-10,20))
   f <- function(x){amp*sin(pi/12*(x+phase))+offset}
-  curve(f,add=T)
+  curve(f,add=T,col="red",lwd=3)
+}
+                            
+```
+
+# Differential Circadian Pattern Detection
+
+## Select genes with significant circadian pattern in both old and young groups
+
+```{r}
+TOD_old <- as.numeric(BA11old[1,-1])
+TOD_young <- as.numeric(BA11young[1,-1])
+index <- NULL
+for (k in 2:nrow(BA11)){
+  p_young <- LR_rhythmicity(TOD_young,as.numeric(BA11young[k,-1]))$pvalue
+  p_old <- LR_rhythmicity(TOD_old,as.numeric(BA11old[k,-1]))$pvalue
+  if(p_young < 0.05 & p_old < 0.05){
+    index <- c(index,k)
+  }
+}
+```
+
+## Differential Amplitude
+
+```{r}
+for (i in 2:nrow(BA11)){
+  p_amp <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="amp")$pvalue
+  if(p_amp < 0.05){
+    index_amp <- i # index of first gene detected with differential amplitude.
+    break
+  }
 }
 
-
-# old group
-old_group_result <- NULL
-for(i in 1:n){
-  print(i)
-  tt11 <- as.numeric(dat.pheno$"tod.ch1")[ind47.old]
-  yy11 <- as.numeric(dat.expr[i,ind47.old])
-  old_group_result <- rbind(old_group_result,c(Symbol[i],LRTest(tt11,yy11)$pvalue))
-}
-top_sig_old <- apply(old_group_result[old_group_result[,2]<0.05,],2,sort)[[1]][1:6]
+LR_diff_amp <- LR_diff(TOD_young,as.numeric(BA11young[index_amp,-1]),TOD_old,as.numeric(BA11old[index_amp,-1]),type="amp") # perform LR differential amplitude test 
 
 
+# plot result
+plot(TOD_young,as.numeric(BA11young[index_amp,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group")
+amp_y <- LR_diff_amp$amp_1
+phase_y <- LR_diff_amp$phase_1
+offset_y <- LR_diff_amp$offset_1
+
+amp_o <- LR_diff_amp$amp_2
+phase_o <- LR_diff_amp$phase_2
+offset_o <- LR_diff_amp$offset_2
+
+f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
+curve(f_y,add=T,col="red",lwd=3)
 
 ```
 

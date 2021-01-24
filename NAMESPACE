@@ -2,6 +2,7 @@
 
 export(LR_diff)
 export(LR_rhythmicity)
+export(fitSinCurve)
 import(doParallel)
 import(foreach)
 import(minpack.lm)

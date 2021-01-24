@@ -7,7 +7,7 @@
 ##' @param tt2 Time vector of condition 2.
 ##' @param yy2 Expression vector of condition 2.
 ##' @param period Period of the since curve. Default is 24.
-##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is Wald.
+##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is LR.
 ##' @param FN "TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE". 
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".   
 ##' @return A list, see details below. 
@@ -58,7 +58,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
       LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN))
     }
     # LR + amp
-    else if(type=="amp"){
+    else if(type=="amplitude"){
       LRTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
     else if(type=="phase"){
@@ -70,7 +70,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     else if(type=="rhythmicity"){
       LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else("Please check your input! type = 'all','amp','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
+    else("Please check your input! type = 'all','amplitude','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
   }
   
   
@@ -87,7 +87,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
       WaldTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN))
     }
     # Wald + amp
-    else if(type=="amp"){
+    else if(type=="amplitude"){
       WaldTest_diff_amp(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
     # Wald + phase
@@ -102,8 +102,8 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     else if(type=="rhythmicity"){
       WaldTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else("Please check your input! type = 'all','amp','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
+    else("Please check your input! type = 'all','amplitude','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
   }
-  else("Please check your input! type = 'all','amp','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
+  else("Please check your input! type = 'all','amplitude','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
   
 }
