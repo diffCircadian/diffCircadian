@@ -16,8 +16,7 @@ install_github("diffCircadian/diffCircadian")
 
 ## Full tutorial
 
-* To be updated
-
+http://htmlpreview.github.io/?https://github.com/diffCircadian/diffCircadian/blob/master/vignettes/diffCircadian_tutorial.html
 ## Short tutorial for circadian pattern detection
 
 ```{R}
