@@ -30,17 +30,18 @@ Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
 
-WaldTest(tt, yy) ## Wald test
-LRTest(tt, yy) ## LR test
-FTest(tt, yy)  ## F test
+wald <- LR_rhythmicity(tt, yy, method="Wald") ## Wald test
+wald
+LR <- LR_rhythmicity(tt, yy) ## LR test
+LR
 
 ## curve fitting visualization
-aLRtest <- LRTest(tt, yy) 
-tt0 <- seq(0,24,0.1) 
-yy0 <- aLRtest$amp * sin(2*pi/24 * (tt0 + aLRtest$phase)) + aLRtest$offset
 
-plot(tt,yy)
-lines(tt0,yy0)
+tt0 <- seq(0,24,0.1) 
+yy0 <- wald$amp * sin(2*pi/24 * (tt0 + wald$phase)) + wald$offset
+plot(tt,yy,pch=20)
+lines(tt0,yy0,col="red",lwd=2)
+
 ```
 
 ## Short tutorial for differential circadian analysis
@@ -64,30 +65,30 @@ yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 
 ```{R}
 ## Differential pattern fitting
-LRTest_diff_sigma2(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="rhythmicity")
 
 ## Differential amplitute
-LRTest_diff_amp(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="amplitude")
 
 ## Differential phase 
-LRTest_diff_phase(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="phase")
 
-## Differential offset 
-LRTest_diff_offset(tt1, yy1, tt2, yy2)
+## Differential offset (basal level)
+LR_diff(tt1, yy1, tt2, yy2, type="offset")
 ```
 
 ## Wald test
 
 ```{R}
 ## Differential pattern fitting
-WaldTest_diff_sigma2(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="rhythmicity", method="Wald")
 
 ## Differential amplitute
-WaldTest_diff_amp(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="amplitude", method="Wald")
 
 ## Differential phase 
-WaldTest_diff_phase(tt1, yy1, tt2, yy2)
+LR_diff(tt1, yy1, tt2, yy2, type="phase", method="Wald")
 
-## Differential offset 
-WaldTest_diff_offset(tt1, yy1, tt2, yy2)
+## Differential offset (basal level)
+LR_diff(tt1, yy1, tt2, yy2, type="offset", method="Wald")
 ```
