@@ -252,11 +252,12 @@ for (i in 1:nrow(yy)){
 ```
 
 ## Plot top significant genes with circadian rhythmicity
-```{r echo=F}
+```{r}
 library(dplyr)
 BA11_plot <- cbind(BA11[-1,],pvalue)
 BA11_plot <- BA11_plot %>% arrange(pvalue)
 BA11_plot_top6 <- BA11_plot[1:6,]
+par(mfrow = c(2, 2))
 for (i in 1:nrow(BA11_plot_top6)){
   
   LR <- LR_rhythmicity(tod,as.numeric(BA11_plot_top6[i,2:293])) 
@@ -272,49 +273,184 @@ for (i in 1:nrow(BA11_plot_top6)){
 
 # Differential Circadian Pattern Detection
 
-## Select genes with significant circadian pattern in both old and young groups
+## Differential Amplitude
 
 ```{r}
 TOD_old <- as.numeric(BA11old[1,-1])
 TOD_young <- as.numeric(BA11young[1,-1])
-index <- NULL
-for (k in 2:nrow(BA11)){
-  p_young <- LR_rhythmicity(TOD_young,as.numeric(BA11young[k,-1]))$pvalue
-  p_old <- LR_rhythmicity(TOD_old,as.numeric(BA11old[k,-1]))$pvalue
-  if(p_young < 0.05 & p_old < 0.05){
-    index <- c(index,k)
-  }
-}
-```
-
-## Differential Amplitude
-
-```{r}
 for (i in 2:nrow(BA11)){
-  p_amp <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="amp")$pvalue
+  p_amp <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="amplitude")$pvalue
   if(p_amp < 0.05){
     index_amp <- i # index of first gene detected with differential amplitude.
     break
   }
 }
 
-LR_diff_amp <- LR_diff(TOD_young,as.numeric(BA11young[index_amp,-1]),TOD_old,as.numeric(BA11old[index_amp,-1]),type="amp") # perform LR differential amplitude test 
+LR_diff(TOD_young,as.numeric(BA11young[index_amp,-1]),TOD_old,as.numeric(BA11old[index_amp,-1]),type="amplitude") # perform LR differential amplitude test 
+```
 
-
+```{r}
 # plot result
+par(mfrow = c(2, 2))
+## diff amp young
 plot(TOD_young,as.numeric(BA11young[index_amp,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group")
-amp_y <- LR_diff_amp$amp_1
-phase_y <- LR_diff_amp$phase_1
-offset_y <- LR_diff_amp$offset_1
 
-amp_o <- LR_diff_amp$amp_2
-phase_o <- LR_diff_amp$phase_2
-offset_o <- LR_diff_amp$offset_2
+diff_amp_young <- fitSinCurve(TOD_young,as.numeric(BA11young[index_amp,-1]))
+amp_y <- diff_amp_young$amp
+phase_y <- diff_amp_young$phase
+offset_y <- diff_amp_young$offset
 
 f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
 curve(f_y,add=T,col="red",lwd=3)
 
+## diff amp old
+plot(TOD_old,as.numeric(BA11old[index_amp,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group")
+
+diff_amp_old <- fitSinCurve(TOD_old,as.numeric(BA11old[index_amp,-1]))
+amp_o <- diff_amp_old$amp
+phase_o <- diff_amp_old$phase
+offset_o <- diff_amp_old$offset
+
+f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
+curve(f_o,add=T,col="blue",lwd=3)
+
 ```
+
+
+
+## Differential Phase
+
+```{r}
+TOD_old <- as.numeric(BA11old[1,-1])
+TOD_young <- as.numeric(BA11young[1,-1])
+for (i in 2:nrow(BA11)){
+  p_phase <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="phase")$pvalue
+  if(p_phase < 0.05){
+    index_phase <- i # index of first gene detected with differential amplitude.
+    break
+  }
+}
+
+LR_diff(TOD_young,as.numeric(BA11young[index_phase,-1]),TOD_old,as.numeric(BA11old[index_phase,-1]),type="phase") # perform LR differential phase test 
+```
+
+```{r}
+# plot result
+par(mfrow = c(2, 2))
+## diff phase young
+plot(TOD_young,as.numeric(BA11young[index_phase,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group")
+
+diff_phase_young <- fitSinCurve(TOD_young,as.numeric(BA11young[index_phase,-1]))
+amp_y <- diff_phase_young$amp
+phase_y <- diff_phase_young$phase
+offset_y <- diff_phase_young$offset
+
+f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
+curve(f_y,add=T,col="red",lwd=3)
+
+## diff phase old
+plot(TOD_old,as.numeric(BA11old[index_phase,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group")
+
+diff_phase_old <- fitSinCurve(TOD_old,as.numeric(BA11old[index_phase,-1]))
+amp_o <- diff_phase_old$amp
+phase_o <- diff_phase_old$phase
+offset_o <- diff_phase_old$offset
+
+f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
+curve(f_o,add=T,col="blue",lwd=3)
+
+```
+
+
+## Differential Basal
+
+```{r}
+TOD_old <- as.numeric(BA11old[1,-1])
+TOD_young <- as.numeric(BA11young[1,-1])
+for (i in 2:nrow(BA11)){
+  p_offset <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="offset")$pvalue
+  if(p_offset < 0.05){
+    index_offset <- i # index of first gene detected with differential amplitude.
+    break
+  }
+}
+
+LR_diff(TOD_young,as.numeric(BA11young[index_offset,-1]),TOD_old,as.numeric(BA11old[index_offset,-1]),type="offset") # perform LR differential basal test 
+```
+
+```{r}
+# plot result
+par(mfrow = c(2, 2))
+## diff basal young
+plot(TOD_young,as.numeric(BA11young[index_offset,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group",ylim=c(1.5,5))
+
+diff_offset_young <- fitSinCurve(TOD_young,as.numeric(BA11young[index_offset,-1]))
+amp_y <- diff_offset_young$amp
+phase_y <- diff_offset_young$phase
+offset_y <- diff_offset_young$offset
+
+f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
+curve(f_y,add=T,col="red",lwd=3)
+
+## diff basal old
+plot(TOD_old,as.numeric(BA11old[index_offset,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group",ylim=c(1.5,5))
+
+diff_offset_old <- fitSinCurve(TOD_old,as.numeric(BA11old[index_offset,-1]))
+amp_o <- diff_offset_old$amp
+phase_o <- diff_offset_old$phase
+offset_o <- diff_offset_old$offset
+
+f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
+curve(f_o,add=T,col="blue",lwd=3)
+
+```
+
+
+## Differential Fit
+
+```{r}
+TOD_old <- as.numeric(BA11old[1,-1])
+TOD_young <- as.numeric(BA11young[1,-1])
+for (i in 2:nrow(BA11)){
+  p_sigma <- LR_diff(TOD_young,as.numeric(BA11young[i,-1]),TOD_old,as.numeric(BA11old[i,-1]),type="rhythmicity")$pvalue
+  if(p_sigma < 0.05){
+    index_sigma <- i # index of first gene detected with differential rhythmicity.
+    break
+  }
+}
+
+LR_diff(TOD_young,as.numeric(BA11young[index_sigma,-1]),TOD_old,as.numeric(BA11old[index_sigma,-1]),type="rhythmicity") # perform LR differential rhythmicity test 
+```
+
+```{r}
+# plot result
+par(mfrow = c(2, 2))
+## diff rhythmicity young
+plot(TOD_young,as.numeric(BA11young[index_sigma,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group",ylim = c(1.2,3.5))
+
+diff_sigma_young <- fitSinCurve(TOD_young,as.numeric(BA11young[index_sigma,-1]))
+amp_y <- diff_sigma_young$amp
+phase_y <- diff_sigma_young$phase
+offset_y <- diff_sigma_young$offset
+
+f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
+curve(f_y,add=T,col="red",lwd=3)
+
+## diff rhythmicity old
+plot(TOD_old,as.numeric(BA11old[index_sigma,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group",ylim = c(1.2,3.5))
+
+diff_sigma_old <- fitSinCurve(TOD_old,as.numeric(BA11old[index_sigma,-1]))
+amp_o <- diff_sigma_old$amp
+phase_o <- diff_sigma_old$phase
+offset_o <- diff_sigma_old$offset
+
+f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
+curve(f_o,add=T,col="blue",lwd=3)
+
+```
+
+
+
 
 
 ```{r}
