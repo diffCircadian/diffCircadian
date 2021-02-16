@@ -30,15 +30,13 @@ Phase <- 6
 Offset <- 3
 yy <- Amp * sin(2*pi/24 * (tt + Phase)) + Offset + rnorm(n,0,1)
 
-wald <- LR_rhythmicity(tt, yy, method="Wald") ## Wald test
-wald
 LR <- LR_rhythmicity(tt, yy) ## LR test
 LR
 
 ## curve fitting visualization
 
 tt0 <- seq(0,24,0.1) 
-yy0 <- wald$amp * sin(2*pi/24 * (tt0 + wald$phase)) + wald$offset
+yy0 <- LR$amp * sin(2*pi/24 * (tt0 + LR$phase)) + LR$offset
 plot(tt,yy,pch=20)
 lines(tt0,yy0,col="red",lwd=2)
 
@@ -77,18 +75,3 @@ LR_diff(tt1, yy1, tt2, yy2, type="phase")
 LR_diff(tt1, yy1, tt2, yy2, type="offset")
 ```
 
-## Wald test
-
-```{R}
-## Differential pattern fitting
-LR_diff(tt1, yy1, tt2, yy2, type="rhythmicity", method="Wald")
-
-## Differential amplitute
-LR_diff(tt1, yy1, tt2, yy2, type="amplitude", method="Wald")
-
-## Differential phase 
-LR_diff(tt1, yy1, tt2, yy2, type="phase", method="Wald")
-
-## Differential offset (basal level)
-LR_diff(tt1, yy1, tt2, yy2, type="offset", method="Wald")
-```
