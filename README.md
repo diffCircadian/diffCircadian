@@ -59,7 +59,6 @@ Offset2 <- 2
 yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 ```
 
-## Likelihood ratio test
 
 ```{R}
 ## Differential pattern fitting
