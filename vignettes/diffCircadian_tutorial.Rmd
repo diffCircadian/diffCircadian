@@ -318,7 +318,7 @@ BA11_young23 <- BA11_young[genes_both,]
 
 ### Differential amplitude
 
-Perform differential amplitude
+**Perform differential amplitude**
 ```{r}
 result_diff_amp <- data.frame(genes = genes_both,
 		amp_young = NA,
@@ -342,13 +342,13 @@ for(gg in 1:nrow(result_diff_amp)){
 result_diff_amp_sorted <- result_diff_amp[order(result_diff_amp$pvalue), ]
 ```
 
-Save the result
+**Save the result**
 
 ```{r, eval = FALSE}
 write.csv(result_diff_amp_sorted, file = "result_diff_amp_sorted.csv", row.names = FALSE)
 ```
 
-Visualize the most significant gene
+**Visualize the most significant gene**
 
 ```{r}
 topGene_diffamp <- result_diff_amp_sorted$genes[1]
@@ -377,7 +377,7 @@ lines(tt_base, byy_old_fit, col = 4, lwd =3)
 
 ### Differential phase
 
-Perform differential phase analysis
+**Perform differential phase analysis**
 ```{r}
 result_diff_phase <- data.frame(genes = genes_both,
 		phase_young = NA,
@@ -401,13 +401,13 @@ for(gg in 1:nrow(result_diff_phase)){
 result_diff_phase_sorted <- result_diff_phase[order(result_diff_phase$pvalue), ]
 ```
 
-Save the result
+**Save the result**
 
 ```{r, eval = FALSE}
 write.csv(result_diff_phase_sorted, file = "result_diff_phase_sorted.csv", row.names = FALSE)
 ```
 
-Visualize the most significant gene
+**Visualize the most significant gene**
 
 ```{r}
 topGene_diffphase <- result_diff_phase_sorted$genes[1]
@@ -436,7 +436,7 @@ lines(tt_base, byy_old_fit, col = 4, lwd =3)
 
 ### Differential basal level
 
-Perform differential basal level analysis
+**Perform differential basal level analysis**
 ```{r}
 result_diff_basal <- data.frame(genes = genes_both,
 		basal_young = NA,
@@ -460,13 +460,13 @@ for(gg in 1:nrow(result_diff_basal)){
 result_diff_basal_sorted <- result_diff_basal[order(result_diff_basal$pvalue), ]
 ```
 
-Save the result
+**Save the result**
 
 ```{r, eval = FALSE}
 write.csv(result_diff_basal_sorted, file = "result_diff_basal_sorted.csv", row.names = FALSE)
 ```
 
-Visualize the most significant gene
+**Visualize the most significant gene**
 
 ```{r}
 topGene_diffbasal <- result_diff_basal_sorted$genes[1]
@@ -510,7 +510,7 @@ BA11_young581 <- BA11_young[genes_either,]
 
 ### Differential fit
 
-Perform differential fit analysis
+**Perform differential fit analysis**
 ```{r}
 result_diff_fit <- data.frame(genes = genes_either,
 		sigma2_young = NA,
@@ -534,13 +534,13 @@ for(gg in 1:nrow(result_diff_fit)){
 result_diff_fit_sorted <- result_diff_fit[order(result_diff_fit$pvalue), ]
 ```
 
-Save the result
+**Save the result**
 
 ```{r, eval = FALSE}
 write.csv(result_diff_fit_sorted, file = "result_diff_fit_sorted.csv", row.names = FALSE)
 ```
 
-Visualize the most significant gene
+**Visualize the most significant gene**
 
 ```{r}
 topGene_difffit <- result_diff_fit_sorted$genes[3]

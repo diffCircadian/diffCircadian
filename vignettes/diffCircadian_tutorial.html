@@ -644,7 +644,7 @@ BA11_young23 &lt;- BA11_young[genes_both,]</code></pre>
 </div>
 <div id="differential-amplitude" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Differential amplitude</h3>
-<p>Perform differential amplitude</p>
+<p><strong>Perform differential amplitude</strong></p>
 <pre class="r"><code>result_diff_amp &lt;- data.frame(genes = genes_both,
         amp_young = NA,
         amp_old = NA, 
@@ -665,9 +665,9 @@ for(gg in 1:nrow(result_diff_amp)){
 }
 
 result_diff_amp_sorted &lt;- result_diff_amp[order(result_diff_amp$pvalue), ]</code></pre>
-<p>Save the result</p>
+<p><strong>Save the result</strong></p>
 <pre class="r"><code>write.csv(result_diff_amp_sorted, file = &quot;result_diff_amp_sorted.csv&quot;, row.names = FALSE)</code></pre>
-<p>Visualize the most significant gene</p>
+<p><strong>Visualize the most significant gene</strong></p>
 <pre class="r"><code>topGene_diffamp &lt;- result_diff_amp_sorted$genes[1]
 byy_young &lt;- BA11_young23[topGene_diffamp, ]
 aLR_young &lt;- LR_rhythmicity(tt_young, byy_young)
@@ -693,7 +693,7 @@ lines(tt_base, byy_old_fit, col = 4, lwd =3)</code></pre>
 </div>
 <div id="differential-phase" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Differential phase</h3>
-<p>Perform differential phase analysis</p>
+<p><strong>Perform differential phase analysis</strong></p>
 <pre class="r"><code>result_diff_phase &lt;- data.frame(genes = genes_both,
         phase_young = NA,
         phase_old = NA, 
@@ -714,9 +714,9 @@ for(gg in 1:nrow(result_diff_phase)){
 }
 
 result_diff_phase_sorted &lt;- result_diff_phase[order(result_diff_phase$pvalue), ]</code></pre>
-<p>Save the result</p>
+<p><strong>Save the result</strong></p>
 <pre class="r"><code>write.csv(result_diff_phase_sorted, file = &quot;result_diff_phase_sorted.csv&quot;, row.names = FALSE)</code></pre>
-<p>Visualize the most significant gene</p>
+<p><strong>Visualize the most significant gene</strong></p>
 <pre class="r"><code>topGene_diffphase &lt;- result_diff_phase_sorted$genes[1]
 byy_young &lt;- BA11_young23[topGene_diffphase, ]
 aLR_young &lt;- LR_rhythmicity(tt_young, byy_young)
@@ -742,7 +742,7 @@ lines(tt_base, byy_old_fit, col = 4, lwd =3)</code></pre>
 </div>
 <div id="differential-basal-level" class="section level3">
 <h3><span class="header-section-number">4.2.4</span> Differential basal level</h3>
-<p>Perform differential basal level analysis</p>
+<p><strong>Perform differential basal level analysis</strong></p>
 <pre class="r"><code>result_diff_basal &lt;- data.frame(genes = genes_both,
         basal_young = NA,
         basal_old = NA, 
@@ -763,9 +763,9 @@ for(gg in 1:nrow(result_diff_basal)){
 }
 
 result_diff_basal_sorted &lt;- result_diff_basal[order(result_diff_basal$pvalue), ]</code></pre>
-<p>Save the result</p>
+<p><strong>Save the result</strong></p>
 <pre class="r"><code>write.csv(result_diff_basal_sorted, file = &quot;result_diff_basal_sorted.csv&quot;, row.names = FALSE)</code></pre>
-<p>Visualize the most significant gene</p>
+<p><strong>Visualize the most significant gene</strong></p>
 <pre class="r"><code>topGene_diffbasal &lt;- result_diff_basal_sorted$genes[1]
 byy_young &lt;- BA11_young23[topGene_diffbasal, ]
 aLR_young &lt;- LR_rhythmicity(tt_young, byy_young)
@@ -804,7 +804,7 @@ BA11_young581 &lt;- BA11_young[genes_either,]</code></pre>
 </div>
 <div id="differential-fit-1" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Differential fit</h3>
-<p>Perform differential fit analysis</p>
+<p><strong>Perform differential fit analysis</strong></p>
 <pre class="r"><code>result_diff_fit &lt;- data.frame(genes = genes_either,
         sigma2_young = NA,
         sigma2_old = NA, 
@@ -825,9 +825,9 @@ for(gg in 1:nrow(result_diff_fit)){
 }
 
 result_diff_fit_sorted &lt;- result_diff_fit[order(result_diff_fit$pvalue), ]</code></pre>
-<p>Save the result</p>
+<p><strong>Save the result</strong></p>
 <pre class="r"><code>write.csv(result_diff_fit_sorted, file = &quot;result_diff_fit_sorted.csv&quot;, row.names = FALSE)</code></pre>
-<p>Visualize the most significant gene</p>
+<p><strong>Visualize the most significant gene</strong></p>
 <pre class="r"><code>topGene_difffit &lt;- result_diff_fit_sorted$genes[3]
 byy_young &lt;- BA11_young581[topGene_difffit, ]
 aLR_young &lt;- LR_rhythmicity(tt_young, byy_young)
