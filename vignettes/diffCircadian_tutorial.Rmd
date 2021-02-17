@@ -27,109 +27,66 @@ options(stringsAsFactors = FALSE)
 ## Background
 Circadian rhythmicity in transcriptomic profiles has been implied in many physiological processes, and disruption of circadian patterns has been founded to associate with several diseases. Likelihood-based methods (diffCircadian) are powerful in detecting circadian rhythmicity within one experimental condition and differential circadian patterns comparing two experimental conditions. 
 
-## Statistical method
-Denote $y$ as the expression value for a gene; 
-$t$ as the circadian time; $C$ as the basal level (vertical shift of the sinusoidal wave baseline from 0); 
-$A$ as the amplitude. 
-$\omega$ is the frequency of the sinusoidal wave, where $\omega = \frac{2\pi}{Period}$. 
+
+![](sin_curve_explaination_plot.png)
+
+
+## Terminologies
+
+Denote:
+
+* $y$ as the expression value for a gene. 
+
+* $t$ as the circadian time. 
+
+* $C$ as the basal level (vertical shift of the sinusoidal wave baseline from 0). 
+
+* $A$ as the amplitude. 
+
+* $\omega$ is the frequency of the sinusoidal wave, where $\omega = \frac{2\pi}{Period}$. 
+
+
 Without loss of generality, we set $period = 24$ hours to mimic the diurnal period. 
-$\phi$ is the phase of the sinusoidal wave curve. Due to the periodicity of a sinusoidal wave, $\phi$ is not identifiable in the sense that $\phi = \phi + 24$. Therefore, we will restrict $\phi \in [-6, 18)$. $\phi$ is difficult to read from a sinusoidal wave, but a closely related quantify is the peak time $t_P$. The connection between $\phi$ and $t_P$ is that $\phi + t_P = 6 \pm 24N$, where $N$ is an arbitrary natural number.
+$\phi$ is the phase of the sinusoidal wave curve. Due to the periodicity of a sinusoidal wave, 
+($\phi_1$, $\phi_2$) are not identifiable when $\phi_1=\phi_2+24$.
+Therefore, we will restrict $\phi \in [-6, 18)$. $\phi$ is difficult to read from a sinusoidal wave, but a closely related quantify is the peak time $t_P$. The connection between $\phi$ and $t_P$ is that $\phi + t_P = 6 \pm 24N$, where $N$ is an arbitrary natural number.
 
 
-### Circadian Rhythmicity Detection
+
+## Circadian Rhythmicity Detection
 We assume:
-
+  
 \begin{equation}
 \label{eq:sin1}
-y_i=A\sin(\omega(t_i+\phi))+C+\varepsilon_i, \qquad (1) 
+ y_i=A\sin(\omega(t_i+\phi))+C+\varepsilon_i, \qquad (1) 
 \end{equation}
-
+ 
 \noindent where $\varepsilon_i$ is the error term for subject $i$; 
 we assume $\varepsilon_i$'s are identically and independently distributed (i.e., $iid$) and $\varepsilon_i \sim  \textit{N}(0, \sigma^2)$, 
 where $\sigma$ is the noise level. 
 To benchmark the goodness of sinusoidal wave fitting, 
-we define the coefficient of determination $R^2=1-\cfrac{RSS}{TSS}$, 
+ we define the coefficient of determination $R^2=1-\cfrac{RSS}{TSS}$, 
 where $RSS = \sum^n_{i=1} (y_i-\hat{y_i})^2$, 
 $TSS = \sum^n_{i=1} (y_i-\bar{y})^2$,
-$\hat{y_i} = \hat{A} \sin(\omega(t_i+ \hat{\phi})) + \hat{C}$,
-$\bar{y} = \sum_i y_i / n$,
-with $\hat{A}$, $\hat{\phi}$, and  $\hat{C}$ being the fitted value for $A$, $\phi$, and $C$ in equation (1), respectively.
-$R^2$ ranges from 0 to 1, with 1 indicating perfect sinusoidal wave fitting, 
-and 0 indicating no fitting at all.
-Based on these assumptions, 
-we derive procedures for testing circadian rhythmicity. 
-For the ease of discussion, we re-write equation (1) as 
-
-\begin{equation}
-\label{eq:sin2}
-y_i=E\sin(\omega t_i) + F\cos(\omega t_i) +C+\varepsilon_i, \qquad (2) 
-\end{equation}
-where $E = A \cos (\omega \phi)$, and $F = A \sin (\omega \phi)$.
-Denote $\pmb{\beta}  = (E,F,C,\sigma^2)^\boldsymbol{\top}$,
-the null hypothesis is $H_0: \pmb{\beta} = \pmb{\beta}_0 = (0, 0, \hat{C}_0,\hat{\sigma}^2_0)^\boldsymbol{\top}$,
-where $\pmb{\beta}_0$ is the least square estimate of equation (2) under $H_0$. 
-The null hypothesis indicates there does not exist a circadian rhythmicity.
-On the other hand,
-the alternative hypothesis is $H_A: \pmb{\beta} = \pmb{\beta}_A = (\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)^\boldsymbol{\top}$,
-where $\pmb{\beta}_A$ is the least square estimate of equation (2) under $H_A$. 
-The alternative hypothesis indicates there exists a circadian rhythmicity.
-
-#### Likelihood Ratio Test 
-
-Based on equation (2), the likelihood function of all $n$ samples is: 
-
-\begin{equation*}
-    L(E,F,C,\sigma^2) = \prod^n_{i=1} L_i(E,F,C,\sigma^2|y_i,t_i)= \prod^n_{i=1} \cfrac{1}{\sqrt{2\pi\sigma^2}}
-    \exp\left( -\cfrac{ (y_i-E\sin(\omega t_i) - F\cos(\omega t_i)-C)^2}{2\sigma^2} \right)
-\end{equation*}
-
-\noindent The log-likelihood function is: 
-\begin{equation*}
-    l(E,F,C,\sigma^2) = \log L(E,F,C,\sigma^2) = 
-    -\cfrac{n}{2} \log (2\pi\sigma^2)-\sum^{n}_{i=1}\cfrac{(y_i-E\sin(\omega t_i) - F\cos(\omega t_i) - C)^2}{2\sigma^2}
-\end{equation*}
-
-\noindent Under $H_0$, 
-$\pmb{\beta} = \pmb{\beta}_0 = (0, 0, \hat{C}_0,\hat{\sigma}^2_0)^\boldsymbol{\top}$
-and $l_0 = l(0, 0, \hat{C}_0,\hat{\sigma}^2_0)$;
-under $H_A$, $\pmb{\beta} = \pmb{\beta}_A = (\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)^\boldsymbol{\top}$ and $l_A = l(\hat{E}_A, \hat{F}_A, \hat{C}_A,\hat{\sigma}^2_A)$.
-The likelihood ratio test statistic is: $T^{LR} = -2(l_0-l_A)$. Since the degree of freedom is 2, under $H_0$, $T^{LR} \sim \chi^2_2$.
-
-#### Wald Test
-The Wald test statistic can be derived as
-$T^{Wald} = (\pmb{\beta}_A-\pmb{\beta}_0)^\boldsymbol{\top} I(\pmb{\beta}_A)(\pmb{\beta}_A-\pmb{\beta}_0)$, where $I(\pmb{\beta}_A)$ is Fisher information matrix evaluated at $\pmb{\beta}_A$. Under $H_0$, $T^{Wald} \sim \chi^2_2$.
-
-#### Finite Sample Wald/LR Tests
-The finite sample Wald statistics ($T^{Wald}_{FN}$) and 
-the finite sample likelihood ratio statistics ($T^{LR}_{FN}$) can be derived as the following:
-
-\begin{equation}
-   T^{Wald}_{FN} = \cfrac{n-k + 1}{nr} T^{Wald}
-   \label{eq:Wald_FN}
-\end{equation}
-
-\begin{equation}
-    T^{LR}_{FN} = \frac{n - k + 1}{r} \left(\exp(T^{LR}/n) - 1 \right) 
-   \label{eq:LR_FN}
-\end{equation}
-
-\noindent Where $k = 4$ is total number of parameters and $r=2$ is number of parameters of interest. 
-Under the null hypothesis, 
-$T^{Wald}_{FN} \sim F(df_1, df_2)$, and $T^{LR}_{FN} \sim F(df_1, df_2)$,
-where $df_1 = r$ and $df_2 = n - k + 1$.
+ $\hat{y_i} = \hat{A} \sin(\omega(t_i+ \hat{\phi})) + \hat{C}$,
+ $\bar{y} = \sum_i y_i / n$,
+ with $\hat{A}$, $\hat{\phi}$, and  $\hat{C}$ being the fitted value for $A$, $\phi$, and $C$ in equation (1), respectively.
+ $R^2$ ranges from 0 to 1, with 1 indicating perfect sinusoidal wave fitting, 
+ and 0 indicating no fitting at all.
+ Based on these assumptions, 
+ we derive procedures for testing circadian rhythmicity. 
+ For the ease of discussion, we re-write equation (1) as 
+ 
+ \begin{equation}
+ \label{eq:sin2}
+ y_i=E\sin(\omega t_i) + F\cos(\omega t_i) +C+\varepsilon_i, \qquad (2) 
+ \end{equation}
+ where $E = A \cos (\omega \phi)$, and $F = A \sin (\omega \phi)$.
+ The hypothesis setting for testing the existence circadian rhythmicity is $H_0: E = F = 0$ \textit{v.s.} $H_A: E \neq 0$ or $F\neq 0$. We recommend to use finite sample likelihood ratio test to test this hypothesis, which is implemented in `LR_rhythmicity` function.
 
 
-#### F Test
-\begin{equation*}
-T^{F}=\cfrac{(TSS-RSS)/df_1}{RSS/df_2}\sim F(df_1,df_2), 
-\end{equation*}
 
-\noindent
-where residual sum of squares $(RSS)=\sum^{n}_{i=1}(y_i-\hat{y_i})^2$, total sum of squares $(TSS)=\sum^{n}_{i=1}(y_i-\bar{y})^2$, $df_1=2$ and $df_2=n-3$. Under the null hypothesis, 
-$T^{F} \sim F(df_1, df_2)$.
-
-
-### Differential Circadian Detection
+## Differential Circadian Detection
 
 Denote $y_{1i}$ as the gene expression value of subject $i (1\le i \le n_1)$ in experimental condition 1, 
 where $n_1$ is the total number of subjects; $t_{1i}$ is the circadian time for subject $i$.
@@ -150,7 +107,20 @@ These error terms are assumed to be $iid$.
 $A_1$, $\phi_1$, $C_1$, and $\sigma_1^2$ are the amplitude, phase, basal level, and noise level for the experimental condition 1, and
 $A_2$, $\phi_2$, $C_2$, and $\sigma_2^2$ are for experimental condition 2. 
 
-#### Hypothesis Testing Framework 
+Based on these formulations, we will examine the following 4 types of differential circadian patterns.
+
+![](diff_circadian_types.png)
+
+* Figure (a) shows amplitude change, where the amplitude = 1 in the first condition, and the amplitude = 2 in the second condition.
+
+* Figure (b), shows phase change, where the phase = 1 in the first condition, and the phase = 11 in the second condition.
+
+* Figure (c), shows basal change, where the basal = 1 in the first condition, and the basal = 2 in the second condition.
+
+* Figure (d), shows change in circadian rhythmicity, where the amplitude = 1, phase = 1, basal = 1 in the first condition, and amplitude = 0, phase = 0, basal = 1 in the second condition. 
+
+
+
 Below we state the null hypothesis and the alternative hypothesis for testing these four categories of differential circadian patterns.
 
 
@@ -162,46 +132,16 @@ Below we state the null hypothesis and the alternative hypothesis for testing th
 
 (4) Differential rhythmicity: $H_0: \sigma^2_1 = \sigma^2_2 = \sigma^2_c$ \textit{v.s.} $H_A: \sigma^2_1 \neq \sigma^2_2$.
 
-#### Likelihood Ratio Test
-
-The log-likelihood function for $n_1 + n_2$ samples in both experimental conditions is:
-\begin{equation}
-\begin{split}
-    & ll (A_1, \phi_1, C_1, \sigma_1^2, A_2, \phi_2, C_2, \sigma_2^2) \\
-    & =  \sum_{i=1}^{n_1} l_i (A_1, \phi_1, C_1, \sigma_1^2) + 
-    \sum_{j=1}^{n_2} l_j (A_2, \phi_2, C_2, \sigma_2^2) \\
-    & =  \left(-\cfrac{n_1}{2} \log \sigma_1^2-\sum^{n_1}_{i=1}\cfrac{(y_i-A_1\sin(\omega(t_i+\phi_1))-C_1)^2}{2\sigma_1^2}\right) \\
-    & + \left(-\cfrac{n_2}{2} \log \sigma_2^2-\sum^{n_2}_{j=1}\cfrac{(y_j-A_2\sin(\omega(t_j+\phi_2))-C_2)^2}{2\sigma_2^2}\right)
-\end{split} 
-\end{equation}
-The test statistic is: $D^{LR} = -2(ll_0-ll_A)$,  
-where $ll_0$ is the log likelihood under $H_0$; and $ll_A$ is the log likelihood under $H_A$.
-Here the null can be one of the following:
-(a) $H_0^{(a)}$: $A_1 = A_2$ for differential amplitude; 
-(b) $H_0^{(p)}$: $\phi_1 = \phi_2$ for differential phase; 
-(c) $H_0^{(b)}$: $C_1 = C_2$ for differential basal level; 
-(d) $H_0^{(r)}$: $\sigma^2_1 = \sigma^2_2$ for differential rhythmicity.
-For all these null hypotheses, the degree of freedom is 1, and under $H_0$, $D^{LR} \sim \chi^2_1$.
-For example when testing different amplitude, 
-under $H_0^{(a)}$, $\hat{A_1}=\hat{A_2}=\hat{A_c}$, $ll_0 = ll(\hat{A_c}, \hat{\phi_1}, \hat{C_1},\hat{\sigma_1},\hat{A_c}, \hat{\phi_2},\hat{C_2},\hat{\sigma_2}|y)$; 
-and under $H_A^{(a)}$, $\hat{A_1} \neq \hat{A_2}$, $ll_A = ll(\hat{A_1},\hat{\phi_1}, \hat{C_1},\hat{\sigma_1},\hat{A_2},\hat{\phi_2},\hat{C_2},\hat{\sigma_2}|y)$. 
-
-#### Wald Test
-Denote $\pmb{p} = (A_1, \phi_1, C_1, \sigma_1^2, A_2, \phi_2, C_2, \sigma_2^2)^\boldsymbol{\top}$.
-$\pmb{p}_0$ is $\pmb{p}$ under $H_0$, 
-where $H_0$ is one of the null hypotheses in section $\boldsymbol{1.2.2.1}$;
-$\pmb{p}_1$ is $\pmb{p}$ under $H_A$, where there is no restriction on $\pmb{p}$.
-Then the Wald test statistic is
-$D^{Wald} = (\pmb{p}_1-\pmb{p}_0)^\boldsymbol{\top} I(\pmb{p}_1)(\pmb{p}_1-\pmb{p}_0)$.
-Under $H_0$, $D^{Wald} \sim \chi^2_1$,
-where 
-$I(\pmb{p}_1)$ is Fisher information matrix evaluated at $\pmb{p}_1$.  
+We recommend to use finite sample likelihood ratio test to test this hypothesis, which is implemented in `LR_diff` function.
 
 
 ## About this tutorial
-This is a tutorial for the usage of "diffCircadian" package. A real data example of aging on circadian patterns of gene expression in the human prefrontal cortex is used. The major contents of this tutorial includes: 
+This is a tutorial for the usage of "diffCircadian" package. A real data example of aging on circadian patterns of gene expression in the human prefrontal cortex is used. The major contents of this tutorial include: 
+
 - How to prepare input for diffCircadian.
+
 - Detection of circadian and differential circadian patterns.
+
 - Visualizing circadian patterns' curves.
 
 # About the package
@@ -209,294 +149,425 @@ This is a tutorial for the usage of "diffCircadian" package. A real data example
 ## How to install the package
 
 To install this package, start R (version "3.6" or higher) and enter: 
-
-```{r, eval=FALSE}
+  
+  ```{r, eval=FALSE}
 library(devtools)
 install_github("diffCircadian/diffCircadian") 
 ```
 
 ## How to cite the package
+To be updated.
 
 ## Maintainer
 Haocheng Ding (haochengding@ufl.edu)
 
 ## Description about the example data
 Brain aging data were collected from University of Pittsburgh's Brain Tissue Donation Program. The final samples included 146 individuals whose time of death (TOD) could be precisely determined. The mean age at death was 50.7 years; 78% of the individuals were male, and the mean postmortem interval was 17.3 hours. The TODs were further adjusted as the Zeitgeber time (ZT), which considered factors including time zone, latitude, longitude, and altitude.
-The ZT was used as the circadian time, which was comparable across all individuals. 33,297 gene probes were available in this microarray data, which was publicly available in GEO (GSE71620). After filtering 50% gene probes with lower mean expression level, 16,648 gene probes were kept. 
+The ZT was used as the circadian time, which was comparable across all individuals. 33,297 gene probes were available in this microarray data, which was publicly available in GEO (GSE71620). After (i) filtering out 50% gene probes with lower mean expression level, (ii) further filtering out 50% gene probes with lower variation on expression level, (3) remove probes with duplicated gene symbols, 5,217 gene probes were kept. 
 
 
 ## Read in the example data
 ```{r}
 library(diffCircadian) # include diffCircadian package
 # load the data
-data(BA11)
-data(BA11old)
-data(BA11young)
+data("BA11")
+data("pheno")
+
+stopifnot(colnames(BA11) == pheno$ID) ## to verify whether the sample ID in the gene expression and the phenotype data are the same
 ```
 
 
 # Circadian Rhythmicity Detection
 
-## Test all genes in BA11 data
-```{r}
-sig_index <- NULL # index of gene with p-value < 0.05
-pvalue <- NULL
-tod <- as.numeric(BA11[1,-1]) # Time of Death (TOD)
-yy <- BA11[-1,]
-yy1 <- yy[,-1] # get expression value matrix
+## Performing Circadian Rhythmicity Detection for all genes in BA11 data
 
-for (i in 1:nrow(yy1)){
-  p <- LR_rhythmicity(tod,as.numeric(yy1[i,]))$pvalue
-  pvalue <- c(pvalue,p)
+```{r}
+tt <- pheno$tod
+thisResult <- data.frame(genes = rownames(BA11), 
+	amp =NA, phase = NA, peakTime = NA, basal = NA, pvalue = NA, R2 = NA
+)
+
+
+gg <- 1
+for(gg in 1:nrow(thisResult)){
+	if(gg %% 1000 == 0){
+		cat('processed', gg, 'genes\n')
+	}
+	yy <- BA11[gg, ]
+	aLR <- LR_rhythmicity(tt, yy)
+	
+	thisResult$amp[gg] <- aLR$amp
+	thisResult$phase[gg] <- aLR$phase
+	thisResult$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult$basal[gg] <- aLR$offset
+	thisResult$pvalue[gg] <- aLR$pvalue
+	thisResult$R2[gg] <- aLR$R2
 }
+
+result_rhythmicity <- thisResult[order(thisResult$pvalue),]
 ```
+
+## Save the Circadian Rhythmicity result as csv files.
+```{r, eval = FALSE}
+write.csv(result_rhythmicity, file = "result_rhythmicity.csv", row.names = FALSE)
+```
+
 
 ## Plot top significant genes with circadian rhythmicity
 ```{r}
-library(dplyr)
-BA11_plot <- cbind(BA11[-1,],pvalue)
-BA11_plot <- BA11_plot %>% arrange(pvalue)
-BA11_plot_top6 <- BA11_plot[1:6,]
-par(mfrow = c(2, 2))
-for (i in 1:nrow(BA11_plot_top6)){
-  
-  LR <- LR_rhythmicity(tod,as.numeric(BA11_plot_top6[i,2:293])) 
-  amp <- LR$amp
-  phase <- LR$phase
-  offset <- LR$offset
-  plot(tod,as.numeric(BA11_plot_top6[i,2:293]),pch=20,ylab="Expression Value",xlab = "Time of Death (TOD)",main = paste(BA11_plot_top6[i,1], "p-value = ",signif(BA11_plot_top6[i,294],3)),xlim=c(-10,20))
-  f <- function(x){amp*sin(pi/12*(x+phase))+offset}
-  curve(f,add=T,col="red",lwd=3)
+
+## for visualization purpose
+sinCurve <- function(x, A, phase, basal){
+	A24 <- 24
+	A * sin(2*pi/A24 * (x + phase)) + basal
 }
-                            
+
+tt_base <- seq(-6,18,0.1)
+
+topN <- 4
+par(mfrow = c(2, 2))
+for(i in 1:topN){
+	this_LR <- result_rhythmicity[i,]
+	yy_obs <- BA11[this_LR$genes, ]
+	yy_fit <- sinCurve(tt_base, this_LR$amp, this_LR$phase, this_LR$basal)
+	
+	atitle <- paste0(this_LR$genes, ", p = ", signif(this_LR$pvalue,3))	
+	plot(tt, yy_obs ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = atitle)
+	lines(tt_base, yy_fit, col = 2, lwd =3)
+}
 ```
 
 # Differential Circadian Pattern Detection
 
-## Select genes have circadian rhythmicity in both old and young groups
+## Data preparation for differential circadian analysis
+We first create two datasets based on two age groups: young ($\le 40$ years) group and old ($\ge 60$ years) group.
+We will then perform differential circadian analysis comparing young and old groups.
 
 ```{r}
-#### selection in old group ####
-sig_index_old <- NULL # index of gene with p-value < 0.05
-pvalue_old <- NULL
-tod_old <- as.numeric(BA11old[1,-1]) # Time of Death (TOD)
-yy_old <- BA11old[,-1]
+pheno_old <- pheno[pheno$age >= 60, ]
+BA11_old <- BA11[,pheno_old$ID]
+tt_old <- pheno_old$tod
 
-for (i in 2:nrow(yy_old)){
-  p <- LR_rhythmicity(tod_old,as.numeric(yy_old[i,]))$pvalue
-  if(p<0.05){
-    sig_index_old <- c(sig_index_old,i)
-  }
-  pvalue_old <- c(pvalue_old,p)
-}
-################################
+pheno_young <- pheno[pheno$age <= 40, ]
+BA11_young <- BA11[,pheno_young$ID]
+tt_young <- pheno_young$tod
 ```
 
-```{r}
-#### selection in young group ####
-sig_index_young <- NULL # index of gene with p-value < 0.05
-pvalue_young <- NULL
-tod_young <- as.numeric(BA11young[1,-1]) # Time of Death (TOD)
-yy_young <- BA11young[,-1]
-
-for (i in 2:nrow(yy_young)){
-  p <- LR_rhythmicity(tod_young,as.numeric(yy_young[i,]))$pvalue
-  if(p<0.05){
-    sig_index_young <- c(sig_index_young,i)
-  }
-  pvalue_young <- c(pvalue_young,p)
-}
-#################################
-```
+We also performed circadian Lrhythmicity detection in young and old groups, respectively, to facilitate further differential circadian analysis.
 
 ```{r}
-sig_index <- intersect(sig_index_old,sig_index_young) # index of gene significant both in young and old groups. 
-BA11old_sig <- BA11old[sig_index,]
-BA11young_sig <- BA11young[sig_index,]
-```
+## circadian analysis in the old group
+thisResult_old <- data.frame(genes = rownames(BA11_old), 
+	amp =NA, phase = NA, peakTime = NA, basal = NA, pvalue = NA
+)
 
-
-
-## Differential Amplitude
-
-```{r}
-TOD_old <- as.numeric(BA11old[1,-1])
-TOD_young <- as.numeric(BA11young[1,-1])
-for (i in 2:nrow(BA11old_sig)){
-  p_amp <- LR_diff(TOD_young,as.numeric(BA11young_sig[i,-1]),TOD_old,as.numeric(BA11old_sig[i,-1]),type="amplitude")$pvalue
-  if(p_amp < 0.05){
-    index_amp <- i # index of first gene detected with differential amplitude.
-    break
-  }
+gg <- 1
+for(gg in 1:nrow(thisResult_old)){
+	if(gg %% 1000 == 0){
+		cat('processed', gg, 'genes\n')
+	}
+	yy_old <- BA11_old[gg, ]
+	aLR <- LR_rhythmicity(tt_old, yy_old)
+	
+	thisResult_old$amp[gg] <- aLR$amp
+	thisResult_old$phase[gg] <- aLR$phase
+	thisResult_old$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult_old$basal[gg] <- aLR$offset
+	thisResult_old$pvalue[gg] <- aLR$pvalue
 }
 
-LR_diff(TOD_young,as.numeric(BA11young_sig[index_amp,-1]),TOD_old,as.numeric(BA11old_sig[index_amp,-1]),type="amplitude") # perform LR differential amplitude test 
-```
 
-```{r}
-# plot result
-par(mfrow = c(2, 2))
-## diff amp young
-plot(TOD_young,as.numeric(BA11young_sig[index_amp,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group",ylim = c(5.5,7.5))
+## circadian analysis in the young group
+thisResult_young <- data.frame(genes = rownames(BA11_young), 
+	amp =NA, phase = NA, peakTime = NA, basal = NA, pvalue = NA
+)
 
-diff_amp_young <- fitSinCurve(TOD_young,as.numeric(BA11young_sig[index_amp,-1]))
-amp_y <- diff_amp_young$amp
-phase_y <- diff_amp_young$phase
-offset_y <- diff_amp_young$offset
-
-f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
-curve(f_y,add=T,col="red",lwd=3)
-
-## diff amp old
-plot(TOD_old,as.numeric(BA11old_sig[index_amp,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group",ylim = c(5.5,7.2))
-
-diff_amp_old <- fitSinCurve(TOD_old,as.numeric(BA11old_sig[index_amp,-1]))
-amp_o <- diff_amp_old$amp
-phase_o <- diff_amp_old$phase
-offset_o <- diff_amp_old$offset
-
-f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
-curve(f_o,add=T,col="blue",lwd=3)
-
-```
-
-
-
-## Differential Phase
-
-```{r}
-TOD_old <- as.numeric(BA11old[1,-1])
-TOD_young <- as.numeric(BA11young[1,-1])
-for (i in 2:nrow(BA11)){
-  p_phase <- LR_diff(TOD_young,as.numeric(BA11young_sig[i,-1]),TOD_old,as.numeric(BA11old_sig[i,-1]),type="phase")$pvalue
-  if(p_phase < 0.05){
-    index_phase <- i # index of first gene detected with differential phase.
-    break
-  }
+gg <- 1
+for(gg in 1:nrow(thisResult_young)){
+	if(gg %% 1000 == 0){
+		cat('processed', gg, 'genes\n')
+	}
+	yy_young <- BA11_young[gg, ]
+	aLR <- LR_rhythmicity(tt_young, yy_young)
+	
+	thisResult_young$amp[gg] <- aLR$amp
+	thisResult_young$phase[gg] <- aLR$phase
+	thisResult_young$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult_young$basal[gg] <- aLR$offset
+	thisResult_young$pvalue[gg] <- aLR$pvalue
 }
 
-LR_diff(TOD_young,as.numeric(BA11young_sig[index_phase,-1]),TOD_old,as.numeric(BA11old_sig[index_phase,-1]),type="phase") # perform LR differential phase test 
-```
-
-```{r}
-# plot result
-par(mfrow = c(2, 2))
-## diff phase young
-plot(TOD_young,as.numeric(BA11young_sig[index_phase,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group")
-
-diff_phase_young <- fitSinCurve(TOD_young,as.numeric(BA11young_sig[index_phase,-1]))
-amp_y <- diff_phase_young$amp
-phase_y <- diff_phase_young$phase
-offset_y <- diff_phase_young$offset
-
-f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
-curve(f_y,add=T,col="red",lwd=3)
-
-## diff phase old
-plot(TOD_old,as.numeric(BA11old_sig[index_phase,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group")
-
-diff_phase_old <- fitSinCurve(TOD_old,as.numeric(BA11old_sig[index_phase,-1]))
-amp_o <- diff_phase_old$amp
-phase_o <- diff_phase_old$phase
-offset_o <- diff_phase_old$offset
-
-f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
-curve(f_o,add=T,col="blue",lwd=3)
-
 ```
 
 
-## Differential Basal
+## Differential amplitude, differential phase, and differential basal level
+
+### Candidate gene selection
+The prerequisite for differential amplitude, differential phase, and  differential  basal  level  is  that  there  should  exist circadian  rhythmicity  in  both  young and old groups under comparisons.
+Therefore, we suggested users to set $p \le 0.05$ from our previous likelihood-based test to ensure the existence of the circadian rhythmicity in both conditions.
 
 ```{r}
-TOD_old <- as.numeric(BA11old[1,-1])
-TOD_young <- as.numeric(BA11young[1,-1])
-for (i in 2:nrow(BA11)){
-  p_offset <- LR_diff(TOD_young,as.numeric(BA11young_sig[i,-1]),TOD_old,as.numeric(BA11old_sig[i,-1]),type="offset")$pvalue
-  if(p_offset < 0.05){
-    index_offset <- i # index of first gene detected with differential basal level.
-    break
-  }
+## genes that have circadian rhythmicity in both young and old groups
+logic_both <- thisResult_old$pvalue<0.05 & thisResult_young$pvalue<0.05
+genes_both <- thisResult_old$genes[logic_both]
+
+BA11_old23 <- BA11_old[genes_both,]
+BA11_young23 <- BA11_young[genes_both,]
+```
+
+
+### Differential amplitude
+
+Perform differential amplitude
+```{r}
+result_diff_amp <- data.frame(genes = genes_both,
+		amp_young = NA,
+		amp_old = NA, 
+		amp_diff = NA, 
+		pvalue = NA
+		)
+
+for(gg in 1:nrow(result_diff_amp)){
+  ayy_young <- BA11_young23[gg, ]
+  ayy_old <- BA11_old23[gg, ]
+
+  adiff_amp <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="amplitude") # 
+
+  result_diff_amp$amp_young[gg] <- adiff_amp$amp_1
+  result_diff_amp$amp_old[gg] <- adiff_amp$amp_2
+  result_diff_amp$amp_diff[gg] <- adiff_amp$amp_2 - adiff_amp$amp_1
+  result_diff_amp$pvalue[gg] <- adiff_amp$pvalue
 }
 
-LR_diff(TOD_young,as.numeric(BA11young_sig[index_offset,-1]),TOD_old,as.numeric(BA11old_sig[index_offset,-1]),type="offset") # perform LR differential basal test 
+result_diff_amp_sorted <- result_diff_amp[order(result_diff_amp$pvalue), ]
 ```
 
+Save the result
+
+```{r, eval = FALSE}
+write.csv(result_diff_amp_sorted, file = "result_diff_amp_sorted.csv", row.names = FALSE)
+```
+
+Visualize the most significant gene
+
 ```{r}
-# plot result
-par(mfrow = c(2, 2))
-## diff basal young
-plot(TOD_young,as.numeric(BA11young_sig[index_offset,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group",ylim = c(4.5,6.5))
+topGene_diffamp <- result_diff_amp_sorted$genes[1]
+byy_young <- BA11_young23[topGene_diffamp, ]
+aLR_young <- LR_rhythmicity(tt_young, byy_young)
+byy_young_fit <- sinCurve(tt_base, aLR_young$amp, aLR_young$phase, aLR_young$offset)
+	
+byy_old <- BA11_old23[topGene_diffamp, ]
+aLR_old <- LR_rhythmicity(tt_old, byy_old)
+byy_old_fit <- sinCurve(tt_base, aLR_old$amp, aLR_old$phase, aLR_old$offset)
 
-diff_offset_young <- fitSinCurve(TOD_young,as.numeric(BA11young_sig[index_offset,-1]))
-amp_y <- diff_offset_young$amp
-phase_y <- diff_offset_young$phase
-offset_y <- diff_offset_young$offset
+ymax <- max(c(byy_young, byy_old))
+ymin <- min(c(byy_young, byy_old))
 
-f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
-curve(f_y,add=T,col="red",lwd=3)
+title_young <- paste0("young group, amp = ", signif(result_diff_amp_sorted$amp_young[1],2))
+title_old <- paste0("old group, amp = ", signif(result_diff_amp_sorted$amp_old[1],2))
 
-## diff basal old
-plot(TOD_old,as.numeric(BA11old_sig[index_offset,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group",ylim = c(4.5,6.5))
+par(mfrow = c(1,2))
+plot(tt_young, byy_young ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_young, ylim = c(ymin, ymax))
+lines(tt_base, byy_young_fit, col = 2, lwd =3)
 
-diff_offset_old <- fitSinCurve(TOD_old,as.numeric(BA11old_sig[index_offset,-1]))
-amp_o <- diff_offset_old$amp
-phase_o <- diff_offset_old$phase
-offset_o <- diff_offset_old$offset
-
-f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
-curve(f_o,add=T,col="blue",lwd=3)
-
+plot(tt_old, byy_old ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_old)
+lines(tt_base, byy_old_fit, col = 4, lwd =3)
 ```
 
 
-## Differential Fit
+### Differential phase
 
+Perform differential phase analysis
 ```{r}
-TOD_old <- as.numeric(BA11old[1,-1])
-TOD_young <- as.numeric(BA11young[1,-1])
-for (i in 2:nrow(BA11)){
-  p_sigma <- LR_diff(TOD_young,as.numeric(BA11young_sig[i,-1]),TOD_old,as.numeric(BA11old_sig[i,-1]),type="rhythmicity")$pvalue
-  if(p_sigma < 0.05){
-    index_sigma <- i # index of first gene detected with differential rhythmicity.
-    break
-  }
+result_diff_phase <- data.frame(genes = genes_both,
+		phase_young = NA,
+		phase_old = NA, 
+		phase_diff = NA, 
+		pvalue = NA
+		)
+
+for(gg in 1:nrow(result_diff_phase)){
+  ayy_young <- BA11_young23[gg, ]
+  ayy_old <- BA11_old23[gg, ]
+
+  adiff_phase <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="phase") # 
+
+  result_diff_phase$phase_young[gg] <- adiff_phase$phase_1
+  result_diff_phase$phase_old[gg] <- adiff_phase$phase_2
+  result_diff_phase$phase_diff[gg] <- adiff_phase$phase_2 - adiff_phase$phase_1
+  result_diff_phase$pvalue[gg] <- adiff_phase$pvalue
 }
 
-LR_diff(TOD_young,as.numeric(BA11young_sig[index_sigma,-1]),TOD_old,as.numeric(BA11old_sig[index_sigma,-1]),type="rhythmicity") # perform LR differential rhythmicity test 
+result_diff_phase_sorted <- result_diff_phase[order(result_diff_phase$pvalue), ]
 ```
+
+Save the result
+
+```{r, eval = FALSE}
+write.csv(result_diff_phase_sorted, file = "result_diff_phase_sorted.csv", row.names = FALSE)
+```
+
+Visualize the most significant gene
 
 ```{r}
-# plot result
-par(mfrow = c(2, 2))
-## diff rhythmicity young
-plot(TOD_young,as.numeric(BA11young_sig[index_sigma,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Young Group",ylim=c(4,6))
+topGene_diffphase <- result_diff_phase_sorted$genes[1]
+byy_young <- BA11_young23[topGene_diffphase, ]
+aLR_young <- LR_rhythmicity(tt_young, byy_young)
+byy_young_fit <- sinCurve(tt_base, aLR_young$amp, aLR_young$phase, aLR_young$offset)
+	
+byy_old <- BA11_old23[topGene_diffphase, ]
+aLR_old <- LR_rhythmicity(tt_old, byy_old)
+byy_old_fit <- sinCurve(tt_base, aLR_old$amp, aLR_old$phase, aLR_old$offset)
 
-diff_sigma_young <- fitSinCurve(TOD_young,as.numeric(BA11young_sig[index_sigma,-1]))
-amp_y <- diff_sigma_young$amp
-phase_y <- diff_sigma_young$phase
-offset_y <- diff_sigma_young$offset
+ymax <- max(c(byy_young, byy_old))
+ymin <- min(c(byy_young, byy_old))
 
-f_y <- function(x){amp_y*sin(pi/12*(x+phase_y))+offset_y}
-curve(f_y,add=T,col="red",lwd=3)
+title_young <- paste0("young group, phase = ", signif(result_diff_phase_sorted$phase_young[1],2))
+title_old <- paste0("old group, phase = ", signif(result_diff_phase_sorted$phase_old[1],2))
 
-## diff rhythmicity old
-plot(TOD_old,as.numeric(BA11old_sig[index_sigma,-1]),pch=20,ylab="Expression Value",xlab="Time of Death (TOD)", main="Age Old Group",ylim=c(4,6))
+par(mfrow = c(1,2))
+plot(tt_young, byy_young ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_young, ylim = c(ymin, ymax))
+lines(tt_base, byy_young_fit, col = 2, lwd =3)
 
-diff_sigma_old <- fitSinCurve(TOD_old,as.numeric(BA11old_sig[index_sigma,-1]))
-amp_o <- diff_sigma_old$amp
-phase_o <- diff_sigma_old$phase
-offset_o <- diff_sigma_old$offset
-
-f_o <- function(x){amp_o*sin(pi/12*(x+phase_o))+offset_o}
-curve(f_o,add=T,col="blue",lwd=3)
-
+plot(tt_old, byy_old ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_old, ylim = c(ymin, ymax))
+lines(tt_base, byy_old_fit, col = 4, lwd =3)
 ```
 
 
+### Differential basal level
 
+Perform differential basal level analysis
+```{r}
+result_diff_basal <- data.frame(genes = genes_both,
+		basal_young = NA,
+		basal_old = NA, 
+		basal_diff = NA, 
+		pvalue = NA
+		)
+
+for(gg in 1:nrow(result_diff_basal)){
+  ayy_young <- BA11_young23[gg, ]
+  ayy_old <- BA11_old23[gg, ]
+
+  adiff_basal <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="offset") # 
+
+  result_diff_basal$basal_young[gg] <- adiff_basal$offset_1
+  result_diff_basal$basal_old[gg] <- adiff_basal$offset_2
+  result_diff_basal$basal_diff[gg] <- adiff_basal$offset_2 - adiff_basal$offset_1
+  result_diff_basal$pvalue[gg] <- adiff_basal$pvalue
+}
+
+result_diff_basal_sorted <- result_diff_basal[order(result_diff_basal$pvalue), ]
+```
+
+Save the result
+
+```{r, eval = FALSE}
+write.csv(result_diff_basal_sorted, file = "result_diff_basal_sorted.csv", row.names = FALSE)
+```
+
+Visualize the most significant gene
+
+```{r}
+topGene_diffbasal <- result_diff_basal_sorted$genes[1]
+byy_young <- BA11_young23[topGene_diffbasal, ]
+aLR_young <- LR_rhythmicity(tt_young, byy_young)
+byy_young_fit <- sinCurve(tt_base, aLR_young$amp, aLR_young$phase, aLR_young$offset)
+	
+byy_old <- BA11_old23[topGene_diffbasal, ]
+aLR_old <- LR_rhythmicity(tt_old, byy_old)
+byy_old_fit <- sinCurve(tt_base, aLR_old$amp, aLR_old$phase, aLR_old$offset)
+
+ymax <- max(c(byy_young, byy_old))
+ymin <- min(c(byy_young, byy_old))
+
+title_young <- paste0("young group, basal = ", signif(result_diff_basal_sorted$basal_young[1],2))
+title_old <- paste0("old group, basal = ", signif(result_diff_basal_sorted$basal_old[1],2))
+
+par(mfrow = c(1,2))
+plot(tt_young, byy_young ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_young, ylim = c(ymin, ymax))
+lines(tt_base, byy_young_fit, col = 2, lwd =3)
+
+plot(tt_old, byy_old ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_old, ylim = c(ymin, ymax))
+lines(tt_base, byy_old_fit, col = 4, lwd =3)
+```
+
+## Differential fit
+
+### Candidate gene selection
+The prerequisite for differential fit is  that  there  should  exist circadian  rhythmicity  in  either  young and old groups under comparisons.
+Therefore, we suggested users to set $p \le 0.05$ from our previous likelihood-based test to ensure the existence of the circadian rhythmicity in either conditions.
+
+
+```{r}
+## genes that have circadian rhythmicity in either young and old groups
+logic_either <- thisResult_old$pvalue<0.05 | thisResult_young$pvalue<0.05
+genes_either <- thisResult_old$genes[logic_either]
+
+BA11_old581 <- BA11_old[genes_either,]
+BA11_young581 <- BA11_young[genes_either,]
+```
+
+### Differential fit
+
+Perform differential fit analysis
+```{r}
+result_diff_fit <- data.frame(genes = genes_either,
+		sigma2_young = NA,
+		sigma2_old = NA, 
+		sigma2_diff = NA, 
+		pvalue = NA
+		)
+
+for(gg in 1:nrow(result_diff_fit)){
+  ayy_young <- BA11_young581[gg, ]
+  ayy_old <- BA11_old581[gg, ]
+
+  adiff_fit <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="fit") # 
+
+  result_diff_fit$sigma2_young[gg] <- adiff_fit$sigma2_1
+  result_diff_fit$sigma2_old[gg] <- adiff_fit$sigma2_2
+  result_diff_fit$sigma2_diff[gg] <- adiff_fit$sigma2_2 - adiff_fit$sigma2_1
+  result_diff_fit$pvalue[gg] <- adiff_fit$pvalue
+}
+
+result_diff_fit_sorted <- result_diff_fit[order(result_diff_fit$pvalue), ]
+```
+
+Save the result
+
+```{r, eval = FALSE}
+write.csv(result_diff_fit_sorted, file = "result_diff_fit_sorted.csv", row.names = FALSE)
+```
+
+Visualize the most significant gene
+
+```{r}
+topGene_difffit <- result_diff_fit_sorted$genes[3]
+byy_young <- BA11_young581[topGene_difffit, ]
+aLR_young <- LR_rhythmicity(tt_young, byy_young)
+byy_young_fit <- sinCurve(tt_base, aLR_young$amp, aLR_young$phase, aLR_young$offset)
+	
+byy_old <- BA11_old581[topGene_difffit, ]
+aLR_old <- LR_rhythmicity(tt_old, byy_old)
+byy_old_fit <- sinCurve(tt_base, aLR_old$amp, aLR_old$phase, aLR_old$offset)
+
+ymax <- max(c(byy_young, byy_old))
+ymin <- min(c(byy_young, byy_old))
+
+title_young <- paste0("young group, sigma2 = ", signif(result_diff_fit_sorted$sigma2_young[1],2))
+title_old <- paste0("old group, sigma2 = ", signif(result_diff_fit_sorted$sigma2_old[1],2))
+
+par(mfrow = c(1,2))
+plot(tt_young, byy_young ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_young, ylim = c(ymin, ymax))
+lines(tt_base, byy_young_fit, col = 2, lwd =3)
+
+plot(tt_old, byy_old ,pch=20, xlab = "Time of Death (TOD)", ylab="Expression Value", main = title_old, ylim = c(ymin, ymax))
+lines(tt_base, byy_old_fit, col = 4, lwd =3)
+```
 
 
 ```{r}
 sessionInfo()
 ```
+

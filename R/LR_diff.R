@@ -67,10 +67,12 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     else if(type=="offset"){
       LRTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else if(type=="rhythmicity"){
+    else if(type=="fit"){
       LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else("Please check your input! type = 'all','amplitude','phase','offset' or 'rhythmicity' and test = 'LR' or 'Wald'")
+    else{
+    	stop("Please check your input! type = 'all','amplitude','phase','offset' or 'fit' and test = 'LR' or 'Wald'")
+    }
   }
   
   

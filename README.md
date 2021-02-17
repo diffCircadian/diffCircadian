@@ -62,7 +62,7 @@ yy2 <- Amp2 * sin(2*pi/24 * (tt2 + Phase2)) + Offset2 + rnorm(n,0,1)
 
 ```{R}
 ## Differential pattern fitting
-LR_diff(tt1, yy1, tt2, yy2, type="rhythmicity")
+LR_diff(tt1, yy1, tt2, yy2, type="fit")
 
 ## Differential amplitute
 LR_diff(tt1, yy1, tt2, yy2, type="amplitude")
