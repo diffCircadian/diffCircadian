@@ -30,7 +30,7 @@ LR_diff(
 
 \item{FN}{"TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE".}
 
-\item{type}{Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".}
+\item{type}{Test differential circadian pattern in differential "amplitude", "phase", "basal" (basal level), "fit" or "all". Default is "all".}
 }
 \value{
 A list, see details below. 

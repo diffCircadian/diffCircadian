@@ -449,7 +449,7 @@ for(gg in 1:nrow(result_diff_basal)){
   ayy_young <- BA11_young23[gg, ]
   ayy_old <- BA11_old23[gg, ]
 
-  adiff_basal <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="offset") # 
+  adiff_basal <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="basal") # 
 
   result_diff_basal$basal_young[gg] <- adiff_basal$offset_1
   result_diff_basal$basal_old[gg] <- adiff_basal$offset_2
