@@ -9,11 +9,10 @@
 ##' @param period Period of the since curve. Default is 24.
 ##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is LR.
 ##' @param FN "TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE". 
-<<<<<<< HEAD
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "basal", "fit" or "all". Default is "all".   
-=======
+
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".   
->>>>>>> parent of 8655d70 (update LR_diff basal)
+
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset.}
 ##' Formula 2: \eqn{yy = A * sin(2\pi/period * tt) + B * cos(2*\pi/period * tt) + offset.}
