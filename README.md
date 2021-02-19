@@ -70,7 +70,7 @@ LR_diff(tt1, yy1, tt2, yy2, type="amplitude")
 ## Differential phase 
 LR_diff(tt1, yy1, tt2, yy2, type="phase")
 
-## Differential basal level
-LR_diff(tt1, yy1, tt2, yy2, type="basal")
+## Differential offset (basal level)
+LR_diff(tt1, yy1, tt2, yy2, type="offset")
 ```
 

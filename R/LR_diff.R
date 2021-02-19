@@ -9,7 +9,11 @@
 ##' @param period Period of the since curve. Default is 24.
 ##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "Wald". Default is LR.
 ##' @param FN "TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE". 
+<<<<<<< HEAD
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "basal", "fit" or "all". Default is "all".   
+=======
+##' @param type Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".   
+>>>>>>> parent of 8655d70 (update LR_diff basal)
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset.}
 ##' Formula 2: \eqn{yy = A * sin(2\pi/period * tt) + B * cos(2*\pi/period * tt) + offset.}
@@ -64,14 +68,14 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     else if(type=="phase"){
       LRTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else if(type=="basal"){
+    else if(type=="offset"){
       LRTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
     else if(type=="fit"){
       LRTest_diff_sigma2(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
     else{
-    	stop("Please check your input! type = 'all','amplitude','phase','basal' or 'fit' and test = 'LR' or 'Wald'")
+    	stop("Please check your input! type = 'all','amplitude','phase','offset' or 'fit' and test = 'LR' or 'Wald'")
     }
   }
   
