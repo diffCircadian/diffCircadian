@@ -253,7 +253,7 @@ BA11_young <- BA11[,pheno_young$ID]
 tt_young <- pheno_young$tod
 ```
 
-We also performed circadian Lrhythmicity detection in young and old groups, respectively, to facilitate further differential circadian analysis.
+We also performed circadian rhythmicity detection in young and old groups, respectively, to facilitate further differential circadian analysis.
 
 ```{r}
 ## circadian analysis in the old group
@@ -350,7 +350,7 @@ write.csv(result_diff_amp_sorted, file = "result_diff_amp_sorted.csv", row.names
 
 **Visualize the most significant gene**
 
-```{r}
+```{r fig1, fig.height = 4, fig.width = 10}
 topGene_diffamp <- result_diff_amp_sorted$genes[1]
 byy_young <- BA11_young23[topGene_diffamp, ]
 aLR_young <- LR_rhythmicity(tt_young, byy_young)
@@ -409,7 +409,7 @@ write.csv(result_diff_phase_sorted, file = "result_diff_phase_sorted.csv", row.n
 
 **Visualize the most significant gene**
 
-```{r}
+```{r fig2, fig.height = 4, fig.width = 10}
 topGene_diffphase <- result_diff_phase_sorted$genes[1]
 byy_young <- BA11_young23[topGene_diffphase, ]
 aLR_young <- LR_rhythmicity(tt_young, byy_young)
@@ -449,7 +449,7 @@ for(gg in 1:nrow(result_diff_basal)){
   ayy_young <- BA11_young23[gg, ]
   ayy_old <- BA11_old23[gg, ]
 
-  adiff_basal <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="offset") # 
+  adiff_basal <- LR_diff(tt_young,ayy_young,tt_old,ayy_old,type="basal") # 
 
   result_diff_basal$basal_young[gg] <- adiff_basal$offset_1
   result_diff_basal$basal_old[gg] <- adiff_basal$offset_2
@@ -468,7 +468,7 @@ write.csv(result_diff_basal_sorted, file = "result_diff_basal_sorted.csv", row.n
 
 **Visualize the most significant gene**
 
-```{r}
+```{r fig3, fig.height = 4, fig.width = 10}
 topGene_diffbasal <- result_diff_basal_sorted$genes[1]
 byy_young <- BA11_young23[topGene_diffbasal, ]
 aLR_young <- LR_rhythmicity(tt_young, byy_young)
@@ -542,7 +542,7 @@ write.csv(result_diff_fit_sorted, file = "result_diff_fit_sorted.csv", row.names
 
 **Visualize the most significant gene**
 
-```{r}
+```{r fig4, fig.height = 4, fig.width = 10}
 topGene_difffit <- result_diff_fit_sorted$genes[3]
 byy_young <- BA11_young581[topGene_difffit, ]
 aLR_young <- LR_rhythmicity(tt_young, byy_young)
