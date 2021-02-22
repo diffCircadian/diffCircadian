@@ -5,7 +5,7 @@
 \alias{BA11}
 \title{Brodmann’s Areas (BA) 11 Brain Aging Data}
 \format{
-A data frame with 8325 rows and 293 variables. First row is time of death (TOD) of each subject and rest of rows are gene expression values. First column is gene symbol. For rest of columns, each column represents one sample.
+A data frame with 5217 rows and 146 variables. Each row is gene expression value. Each column represents one sample.
 }
 \source{
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE71620}

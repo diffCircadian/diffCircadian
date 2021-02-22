@@ -11,7 +11,7 @@
 ##' @param FN "TRUE" if using finite sample likelihood-based tests and "FALSE" if using general large sample likelihood-based tests. Default is "TRUE". 
 ##' @param type Test differential circadian pattern in differential "amplitude", "phase", "basal", "fit" or "all". Default is "all".   
 
-##' @param type Test differential circadian pattern in differential "amplitude", "phase", "offset" (basal level), "rhythmicity" or "all". Default is "all".   
+##' @param type Test differential circadian pattern in differential "amplitude", "phase", "basal", "fit" or "all". Default is "all".   
 
 ##' @return A list, see details below. 
 ##' Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset.}
@@ -67,7 +67,7 @@ LR_diff <- function(tt1,yy1,tt2,yy2,period=24,method="LR",FN=TRUE,type="all"){
     else if(type=="phase"){
       LRTest_diff_phase(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
-    else if(type=="offset"){
+    else if(type=="basal"){
       LRTest_diff_offset(tt1=tt1,yy1=yy1,tt2=tt2,yy2=yy2,period=period,FN=FN)
     }
     else if(type=="fit"){
