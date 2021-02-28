@@ -156,7 +156,9 @@ install_github("diffCircadian/diffCircadian")
 ```
 
 ## How to cite the package
-To be updated.
+* Ding, H., Meng, L., Liu, A.C., Gumz, M.L., Bryant, A.J., Mcclung, C.A., Tseng, G.C., Esser, K.A. and Huo, Z., 2021. Likelihood-based Tests for Detecting Circadian Rhythmicity and Differential Circadian Patterns in Transcriptomic Applications. *bioRxiv*.
+
+* The manuscript can be found here: https://www.biorxiv.org/content/10.1101/2021.02.23.432538v1
 
 ## Maintainer
 Haocheng Ding (haochengding@ufl.edu)
