@@ -13,7 +13,7 @@ LR_rhythmicity(tt, yy, period = 24, method = "LR", FN = TRUE)
 
 \item{period}{Period of the since curve. Default is 24.}
 
-\item{method}{Testing methods which can be "Wald", "LR", "F" or "Permutation". Default is "LR".}
+\item{method}{Testing methods can be "Wald" or "LR". Default is "LR".}
 
 \item{FN}{Type of Test, finite sample if TRUE or large sample if FALSE. Default is TRUE.}
 }

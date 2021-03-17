@@ -5,7 +5,7 @@
 ##' @param tt Time vector
 ##' @param yy Expression vector
 ##' @param period Period of the since curve. Default is 24.
-##' @param method Testing methods which can be "Wald", "LR", "F" or "Permutation". Default is "LR".
+##' @param method Testing methods can be "Wald" or "LR". Default is "LR".
 ##' @param FN Type of Test, finite sample if TRUE or large sample if FALSE. Default is TRUE. 
 ##' @return A list of amp, phase, offset, sigma02, sigmaA2, l0, l1, df, stat, and pvalue. 
 ##' Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset}
