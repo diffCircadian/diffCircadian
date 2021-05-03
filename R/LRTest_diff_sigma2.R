@@ -43,13 +43,12 @@ LRTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   n2 <- length(tt2)
   stopifnot(length(tt2) == length(yy2))
   
-  this_opt_commonSigma <- opt_commonSigma(tt1, yy1, tt2, yy2, period=period)
-  
-  ## extract parameters	  
-  sigma2_1 <- this_opt_commonSigma$sigma2_1
-  sigma2_2 <- this_opt_commonSigma$sigma2_2
-  sigma2_C <- this_opt_commonSigma$sigma2_C
-  
+  fit1 <- fitSinCurve(tt1, yy1, period = 24)
+  fit2 <- fitSinCurve(tt2, yy2, period = 24)
+  sigma2_1 <- 1/n1 * fit1$rss
+  sigma2_2 <- 1/n2 * fit2$rss		
+  sigma2_C <- 1/(n1 + n2) * (sigma2_1 * n1 + sigma2_2 * n2)
+
   ## H0 (sigma2_C)
   l0_1 <- -n1/2*log(2*pi*sigma2_C) # - 1/(2*sigma2_C)*sum(residual_1^2)
   l0_2 <- -n2/2*log(2*pi*sigma2_C) # - 1/(2*sigma2_C)*sum(residual_2^2)
@@ -63,8 +62,7 @@ LRTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   dfdiff <- 1
   if(FN==FALSE){
     pvalue <- pchisq(-2*(l0-la),dfdiff,lower.tail = F)
-  }
-  else if(FN==TRUE){
+  } else if(FN==TRUE){
     LR_stat <- -2*(l0-la)
     r <- 1
     k <- 6
