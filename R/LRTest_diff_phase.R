@@ -38,6 +38,7 @@
 
 
 LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
+
 	n1 <- length(tt1)
 	stopifnot(n1 == length(yy1))
 	n2 <- length(tt2)
@@ -55,46 +56,39 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
 	phase1 <- fit1$phase
 	phase2 <- fit2$phase
 	
-	E1 <- A1 * cos(w * phase1)
-	F1 <- A1 * sin(w * phase1)
-
-	E2 <- A2 * cos(w * phase2)
-	F2 <- A2 * sin(w * phase2)
-	
 	basal1 <- fit1$offset
 	basal2 <- fit2$offset
 	
-    sigma2_1 <- 1/n1 * fit1$rss
-    sigma2_2 <- 1/n2 * fit2$rss	
+  sigma2_1 <- 1/n1 * fit1$rss
+  sigma2_2 <- 1/n2 * fit2$rss	
 	
 	theta1 <- 1/sigma2_1
 	theta2 <- 1/sigma2_2
 	
-	p1 <- c(E1, F1, basal1, theta1)
-	p2 <- c(E2, F2, basal2, theta2)
+	p1 <- c(A1, phase1, basal1, theta1)
+	p2 <- c(A2, phase2, basal2, theta2)
 	
 	x_Ha <- c(p1, p2)
-		
-	asin1 <- sin(w * tt1)
-	acos1 <- cos(w * tt1)
-	asin2 <- sin(w * tt2)
-	acos2 <- cos(w * tt2)
-	
-	eval_f_list <- function(x,asin1,acos1,asin2,acos2) {		
+			
+	eval_f_list <- function(x) {		
 		p1 <- x[1:4]
 		p2 <- x[5:8]
 			
-		E1 <- p1[1]
-		F1 <- p1[2]
+		A1 <- p1[1]
+		phase1 <- p1[2]
 		basel1 <- p1[3]
-		theta1 <- p1[4]
-		yhat1 <- E1 * asin1 + F1 * acos1 + basel1
+		theta1 <- p1[4]				
+		asin1 <- sin(w * (tt1 + phase1) )
+		acos1 <- cos(w * (tt1 + phase1) )
+		yhat1 <- A1 * asin1 + basel1
 		
-		E2 <- p2[1]
-		F2 <- p2[2]
+		A2 <- p2[1]
+		phase2 <- p2[2]
 		basel2 <- p2[3]
 		theta2 <- p2[4]
-		yhat2 <- E2 * asin2 + F2 * acos2 + basel2
+		asin2 <- sin(w * (tt2 + phase2) )
+		acos2 <- cos(w * (tt2 + phase2) )
+		yhat2 <- A2 * asin2 + basel2
 						
 		ll1_a <- log(theta1)/2
 		ll1_b <- (yy1 - yhat1)^2 * theta1 / 2
@@ -104,73 +98,46 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
 		ll2_b <- (yy2 - yhat2)^2 * theta2 / 2
 		ll2 <- ll2_a - ll2_b
 		
-		partial_E1 <- - theta1 * sum((yy1 - yhat1) * asin1)
-		partial_F1 <- - theta1 * sum((yy1 - yhat1) * acos1)
+		partial_A1 <- - theta1 * sum((yy1 - yhat1) * asin1)
+		partial_phase1 <- - theta1 * A1 * w * sum((yy1 - yhat1) * acos1)
 		partial_C1 <- - theta1 * sum(yy1 - yhat1) 
 		partial_theta1 <-  sum((yy1 - yhat1)^2)/2 - n1/2/theta1
 
-		partial_E2 <- - theta2 * sum((yy2 - yhat2) * asin2)
-		partial_F2 <- - theta2 * sum((yy2 - yhat2) * acos2)
+		partial_A2 <- - theta2 * sum((yy2 - yhat2) * asin2)
+		partial_phase2 <- - theta2 * A2 * w * sum((yy2 - yhat2) * acos2)
 		partial_C2 <- - theta2 * sum(yy2 - yhat2) 
 		partial_theta2 <-  sum((yy2 - yhat2)^2)/2 - n2/2/theta2
 		
 		
 	    return( list( "objective" = -sum(ll1) - sum(ll2),
-	                  "gradient"  = c(partial_E1, partial_F1, partial_C1, partial_theta1, 
-						  				partial_E2, partial_F2, partial_C2, partial_theta2)	
+	                  "gradient"  = c(partial_A1, partial_phase1, partial_C1, partial_theta1, 
+						  				partial_A2, partial_phase2, partial_C2, partial_theta2)	
 			 		) 
 			 )
 	}
 				
 	# Equality constraints
-	eval_g_eq <- function(x,asin1,acos1,asin2,acos2)
+	eval_g_eq <- function(x)
 	{
 		p1 <- x[1:4]
 		p2 <- x[5:8]
 			
-		E1 <- p1[1]
-		F1 <- p1[2]
-		#basel1 <- p1[3]
-		theta1 <- p1[4]
-		#yhat1 <- E1 * asin1 + F1 * acos1 + basel1
+		phase1 <- p1[2]
+		phase2 <- p2[2]
 		
-		E2 <- p2[1]
-		F2 <- p2[2]
-		#basel2 <- p2[3]
-		theta2 <- p2[4]
-		#yhat2 <- E2 * asin2 + F2 * acos2 + basel2
-		
-		atan(F1/E1) - atan(F2/E2)		
+		phase1 - phase2
 	}
 	
 	# Equality constraints
-	eval_g_eq_jac <- function(x,asin1,acos1,asin2,acos2)
-	{
-		p1 <- x[1:4]
-		p2 <- x[5:8]
-			
-		E1 <- p1[1]
-		F1 <- p1[2]
-		#basel1 <- p1[3]
-		theta1 <- p1[4]
-		#yhat1 <- E1 * asin1 + F1 * acos1 + basel1
-		
-		E2 <- p2[1]
-		F2 <- p2[2]
-		#basel2 <- p2[3]
-		theta2 <- p2[4]
-		#yhat2 <- E2 * asin2 + F2 * acos2 + basel2
-		
-		A2_1 <- (E1^2 + F1^2)
-		A2_2 <- (E2^2 + F2^2)
-		
-		c(- F1/A2_1, E1/A2_1, 0, 0,
-			F2/A2_2, - E2/A2_2, 0, 0)
+	eval_g_eq_jac <- function(x)
+	{				
+		c(0, 1, 0, 0,
+			0, -1, 0, 0)
 	}
 	
 	
 	# Lower and upper bounds
-	lb <- c(-Inf,-Inf,-Inf,0, -Inf, -Inf,-Inf, 0)
+	lb <- c(0,-Inf,-Inf,0, 0, -Inf,-Inf, 0)
 	ub <- c(Inf,Inf,Inf,Inf,Inf,Inf,Inf,Inf)
 	#initial values
 	
@@ -194,19 +161,15 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
 	                ub = ub,
 	                #eval_g_ineq = eval_g_ineq,
 	                eval_g_eq = eval_g_eq,
-					eval_jac_g_eq = eval_g_eq_jac,
-	                opts = opts,
-					asin1=asin1,
-					acos1=acos1,
-					asin2=asin2,
-					acos2=acos2)
+									eval_jac_g_eq = eval_g_eq_jac,
+	                opts = opts)
 
 	#
 	#x_Ha
 	x_H0 <- res$solution
 		
-	l0 <- - eval_f_list(x_H0,asin1,acos1,asin2,acos2)$objective
-	la <- - eval_f_list(x_Ha,asin1,acos1,asin2,acos2)$objective
+	l0 <- - eval_f_list(x_H0)$objective
+	la <- - eval_f_list(x_Ha)$objective
 	
 	LR_stat <- -2*(l0-la)
 	
@@ -223,15 +186,15 @@ LRTest_diff_phase <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
     	stop("FN has to be TRUE or FALSE")
     }
   	
-	amp_c <- sqrt(x_H0[1]^2 + x_H0[2]^2)
-	amp_c2 <- sqrt(x_H0[5]^2 + x_H0[6]^2)
+	phase_c <- x_H0[2]
+	phase_c2 <- x_H0[6]
   
-    res <- list(amp_1=A1, amp_2=A2, amp_c=amp_c, 
-                l0=l0, 
-                la=la, 
-                #df = dfdiff, 
-                stat=-2*(l0-la), 
-                pvalue=pvalue)
-    return(res)
+	res <- list(phase_1=phase1, phase_2=phase2, phase_c=phase_c, 
+	              l0=l0, 
+	              la=la, 
+	              #df = dfdiff, 
+	              stat=-2*(l0-la), 
+	              pvalue=pvalue)
+	  return(res)
 }
 
