@@ -36,50 +36,43 @@
 
 
 WaldTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
-  n1 <- length(tt1)
-  stopifnot(n1 == length(yy1))
-  n2 <- length(tt2)
-  stopifnot(length(tt2) == length(yy2))
-  
-  w <- 2*pi/period
-  
-  fit1 <- fitSinCurve(tt1, yy1, period = 24)
-  fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	n1 <- length(tt1)
+	stopifnot(n1 == length(yy1))
+	n2 <- length(tt2)
+	stopifnot(length(tt2) == length(yy2))
+	
+	#period <- 24
+	w <- 2*pi/period
+	
+	fit1 <- fitSinCurve(tt1, yy1, period = 24)
+	fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	
+	A1 <- fit1$amp
+	A2 <- fit2$amp
+	
+	phase1 <- fit1$phase
+	phase2 <- fit2$phase
+	
+	basal1 <- fit1$offset
+	basal2 <- fit2$offset
+	
   sigma2_1 <- 1/n1 * fit1$rss
-  sigma2_2 <- 1/n2 * fit2$rss		
-  
-  ## fit Ha, individual curves
-  par1 <- fitSinCurve(tt1,yy1)
-  sigma2_1 <- 1/n1 * par1$rss
-  theta1 <- 1/sigma2_1
-  
-  par2 <- fitSinCurve(tt2,yy2)
-  sigma2_2 <- 1/n2 * par2$rss
-  theta2 <- 1/sigma2_2
-  
-  this_opt_commonSigma <- opt_commonSigma(tt1, yy1, tt2, yy2, period = period, parStart = c(sigma2_1,sigma2_2))
-  thetac <- 1/this_opt_commonSigma$sigma2_C
-  
-  beta_ha <- c(par1$amp, 
-               par1$phase, 
-               par1$offset, 
-               theta1, 
-               par2$amp,
-               par2$phase, 
-               par2$offset, 
-               theta2
-  )
-  #
-  beta_h0 <- c(par1$amp, 
-               par1$phase, 
-               par1$offset, 
-               thetac, 
-               par2$amp,
-               par2$phase, 
-               par2$offset, 
-               thetac
-  )
-  #
+  sigma2_2 <- 1/n2 * fit2$rss	
+  sigma2_c <- 1/(n1 + n2) * (sigma2_1 * n1 + sigma2_2 * n2)
+	
+	theta1 <- 1/sigma2_1
+	theta2 <- 1/sigma2_2
+	thetaC <- 1/sigma2_c
+	
+	p1 <- c(A1, phase1, basal1, theta1)
+	p2 <- c(A2, phase2, basal2, theta2)
+	
+	x_Ha <- c(p1, p2)
+	x_H0 <- c(A1, phase1, basal1, thetaC, A2, phase2, basal2, thetaC)
+
+  beta_ha <- x_Ha
+  beta_h0 <- x_H0
+
   
   I8 <- fisherInformation2(beta_ha, tt1, yy1, tt2, yy2, period=period)	
   beta_diff <- matrix(beta_ha - beta_h0,ncol=1)	
@@ -103,10 +96,9 @@ WaldTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   }
   
   
-  res <- list(amp_1=par1$amp, amp_2=par2$amp, amp_c=this_opt_commonSigma$sigma2_C, 
-              #df = dfdiff, 
-              stat = stat, 
-              pvalue = pvalue)
+  res <- list(sigma2_1=sigma2_1, sigma2_2=sigma2_2, sigma2_c=sigma2_c,
+              stat=stat, 
+              pvalue=pvalue)
   return(res)
 }
 

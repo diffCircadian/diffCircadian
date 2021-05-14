@@ -37,50 +37,138 @@
 
 
 WaldTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
-  n1 <- length(tt1)
-  stopifnot(n1 == length(yy1))
-  n2 <- length(tt2)
-  stopifnot(length(tt2) == length(yy2))
-  
-  w <- 2*pi/period
-  ## fit Ha, individual curves
-  par1 <- fitSinCurve(tt1,yy1)
-  sum_diffy_1_sq <- par1$rss
-  theta1 <- n1/sum_diffy_1_sq
-  
-  par2 <- fitSinCurve(tt2,yy2)
-  sum_diffy_2_sq <- par2$rss
-  theta2 <- n2/sum_diffy_2_sq
-  
-  beta0 <- c(par1$amp, 
-             par1$phase, 
-             (par1$offset + par2$offset)/2, 
-             theta1,
-             par2$amp, 
-             par2$phase, 
-             theta2
-  )
-  this_opt_commonAmp <- opt_commonOffset(tt1, yy1, tt2, yy2, period=period, parStart=beta0)
-  
-  beta_ha <- c(par1$amp, 
-               par1$phase, 
-               par1$offset, 
-               theta1, 
-               par2$amp,
-               par2$phase, 
-               par2$offset, 
-               theta2
-  )
-  #
-  beta_h0 <- c(this_opt_commonAmp[1], 
-               this_opt_commonAmp[2], 
-               this_opt_commonAmp[3], 
-               this_opt_commonAmp[4], 
-               this_opt_commonAmp[5],
-               this_opt_commonAmp[6], 
-               this_opt_commonAmp[3], 
-               this_opt_commonAmp[7]
-  )
+	n1 <- length(tt1)
+	stopifnot(n1 == length(yy1))
+	n2 <- length(tt2)
+	stopifnot(length(tt2) == length(yy2))
+	
+	#period <- 24
+	w <- 2*pi/period
+	
+	fit1 <- fitSinCurve(tt1, yy1, period = 24)
+	fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	
+	A1 <- fit1$amp
+	A2 <- fit2$amp
+	
+	phase1 <- fit1$phase
+	phase2 <- fit2$phase
+	
+	basal1 <- fit1$offset
+	basal2 <- fit2$offset
+	
+  sigma2_1 <- 1/n1 * fit1$rss
+  sigma2_2 <- 1/n2 * fit2$rss	
+	
+	theta1 <- 1/sigma2_1
+	theta2 <- 1/sigma2_2
+	
+	p1 <- c(A1, phase1, basal1, theta1)
+	p2 <- c(A2, phase2, basal2, theta2)
+	
+	x_Ha <- c(p1, p2)
+			
+	eval_f_list <- function(x) {		
+		p1 <- x[1:4]
+		p2 <- x[5:8]
+			
+		A1 <- p1[1]
+		phase1 <- p1[2]
+		basel1 <- p1[3]
+		theta1 <- p1[4]				
+		asin1 <- sin(w * (tt1 + phase1) )
+		acos1 <- cos(w * (tt1 + phase1) )
+		yhat1 <- A1 * asin1 + basel1
+		
+		A2 <- p2[1]
+		phase2 <- p2[2]
+		basel2 <- p2[3]
+		theta2 <- p2[4]
+		asin2 <- sin(w * (tt2 + phase2) )
+		acos2 <- cos(w * (tt2 + phase2) )
+		yhat2 <- A2 * asin2 + basel2
+						
+		ll1_a <- log(theta1)/2
+		ll1_b <- (yy1 - yhat1)^2 * theta1 / 2
+		ll1 <- ll1_a - ll1_b
+		
+		ll2_a <- log(theta2)/2
+		ll2_b <- (yy2 - yhat2)^2 * theta2 / 2
+		ll2 <- ll2_a - ll2_b
+		
+		partial_A1 <- - theta1 * sum((yy1 - yhat1) * asin1)
+		partial_phase1 <- - theta1 * A1 * w * sum((yy1 - yhat1) * acos1)
+		partial_C1 <- - theta1 * sum(yy1 - yhat1) 
+		partial_theta1 <-  sum((yy1 - yhat1)^2)/2 - n1/2/theta1
+
+		partial_A2 <- - theta2 * sum((yy2 - yhat2) * asin2)
+		partial_phase2 <- - theta2 * A2 * w * sum((yy2 - yhat2) * acos2)
+		partial_C2 <- - theta2 * sum(yy2 - yhat2) 
+		partial_theta2 <-  sum((yy2 - yhat2)^2)/2 - n2/2/theta2
+		
+		
+	    return( list( "objective" = -sum(ll1) - sum(ll2),
+	                  "gradient"  = c(partial_A1, partial_phase1, partial_C1, partial_theta1, 
+						  				partial_A2, partial_phase2, partial_C2, partial_theta2)	
+			 		) 
+			 )
+	}
+				
+	# Equality constraints
+	eval_g_eq <- function(x)
+	{
+		p1 <- x[1:4]
+		p2 <- x[5:8]
+			
+		basal1 <- p1[3]
+		basal2 <- p2[3]
+		
+		basal1 - basal2
+	}
+	
+	# Equality constraints
+	eval_g_eq_jac <- function(x)
+	{				
+		c(0, 0, 1, 0,
+			0, 0, -1, 0)
+	}
+	
+	
+	# Lower and upper bounds
+	lb <- c(0,-Inf,-Inf,0, 0, -Inf,-Inf, 0)
+	ub <- c(Inf,Inf,Inf,Inf,Inf,Inf,Inf,Inf)
+	#initial values
+	
+	## Error in is.nloptr(ret) : 
+#  If you want to use equality constraints, then you should use one of these algorithms NLOPT_LD_AUGLAG, NLOPT_LN_AUGLAG, NLOPT_LD_AUGLAG_EQ, NLOPT_LN_AUGLAG_EQ, NLOPT_GN_ISRES, NLOPT_LD_SLSQP
+
+  local_opts <- list( "algorithm" = "NLOPT_LD_MMA", "xtol_rel" = 1.0e-15 )
+  "local_opts" = local_opts
+	opts <- list( "algorithm"= "NLOPT_LD_SLSQP",
+	              "xtol_rel"= 1.0e-15,
+	              "maxeval"= 160000,
+	              "local_opts" = local_opts,
+	              "print_level" = 0
+				  #"check_derivatives"=TRUE
+				  )
+
+	res <- nloptr ( x0 = x_Ha,
+	                eval_f = eval_f_list,
+	                #eval_grad_f=eval_g,					
+	                lb = lb,
+	                ub = ub,
+	                #eval_g_ineq = eval_g_ineq,
+	                eval_g_eq = eval_g_eq,
+									eval_jac_g_eq = eval_g_eq_jac,
+	                opts = opts)
+
+	#
+	#x_Ha
+	x_H0 <- res$solution
+
+  beta_ha <- x_Ha
+  beta_h0 <- x_H0
+
   #
   I8 <- fisherInformation2(beta_ha, tt1, yy1, tt2, yy2, period=period)	
   beta_diff <- matrix(beta_ha - beta_h0,ncol=1)	
@@ -104,7 +192,10 @@ WaldTest_diff_offset <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   }
   
   
-  res <- list(offset_1=par1$offset, offset_2=par2$offset, offset_c=this_opt_commonAmp[3], 
+	offset_c <- x_H0[3]
+	offset_c2 <- x_H0[7]
+  
+  res <- list(offset_1=basal1, offset_2=basal2, offset_c=offset_c, 
               #df = dfdiff, 
               stat = stat, 
               pvalue = pvalue)
