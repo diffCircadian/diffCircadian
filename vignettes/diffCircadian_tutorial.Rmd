@@ -156,7 +156,7 @@ install_github("diffCircadian/diffCircadian")
 ```
 
 ## How to cite the package
-* Ding, H., Meng, L., Liu, A.C., Gumz, M.L., Bryant, A.J., Mcclung, C.A., Tseng, G.C., Esser, K.A. and Huo, Z., 2021. Likelihood-based Tests for Detecting Circadian Rhythmicity and Differential Circadian Patterns in Transcriptomic Applications. *bioRxiv*.
+* Ding, H., Meng, L., Liu, A.C., Gumz, M.L., Bryant, A.J., Mcclung, C.A., Tseng, G.C., Esser, K.A. and Huo, Z., 2021. Likelihood-based Tests for Detecting Circadian Rhythmicity and Differential Circadian Patterns in Transcriptomic Applications. *Briefings in Bioinformatics* (Accepted).
 
 * The manuscript can be found here: https://www.biorxiv.org/content/10.1101/2021.02.23.432538v1
 
@@ -200,7 +200,7 @@ for(gg in 1:nrow(thisResult)){
 	
 	thisResult$amp[gg] <- aLR$amp
 	thisResult$phase[gg] <- aLR$phase
-	thisResult$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult$peakTime[gg] <- aLR$peakTime
 	thisResult$basal[gg] <- aLR$offset
 	thisResult$pvalue[gg] <- aLR$pvalue
 	thisResult$R2[gg] <- aLR$R2
@@ -273,7 +273,7 @@ for(gg in 1:nrow(thisResult_old)){
 	
 	thisResult_old$amp[gg] <- aLR$amp
 	thisResult_old$phase[gg] <- aLR$phase
-	thisResult_old$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult_old$peakTime[gg] <- aLR$peakTime
 	thisResult_old$basal[gg] <- aLR$offset
 	thisResult_old$pvalue[gg] <- aLR$pvalue
 }
@@ -294,7 +294,7 @@ for(gg in 1:nrow(thisResult_young)){
 	
 	thisResult_young$amp[gg] <- aLR$amp
 	thisResult_young$phase[gg] <- aLR$phase
-	thisResult_young$peakTime[gg] <- (6 - aLR$phase) %% 24
+	thisResult_young$peakTime[gg] <- aLR$peakTime
 	thisResult_young$basal[gg] <- aLR$offset
 	thisResult_young$pvalue[gg] <- aLR$pvalue
 }

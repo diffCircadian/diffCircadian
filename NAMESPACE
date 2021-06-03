@@ -3,5 +3,5 @@
 export(LR_diff)
 export(LR_rhythmicity)
 export(fitSinCurve)
-import(nloptr)
 import(minpack.lm)
+import(nloptr)

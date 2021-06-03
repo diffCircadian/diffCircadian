@@ -13,6 +13,7 @@
 ##' \item{B}{B based on formula 2}
 ##' \item{amp}{Amplitude based on formula 1}
 ##' \item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
+##' \item{peakTime}{Phase based on formula 1, peakTime is restricted within (0, period). phase + peakTime = period/4}
 ##' \item{offset}{Basal level based on formula 1 or on formula 2}
 ##' \item{df}{Degree of freedom for the Wald test}
 ##' \item{stat}{Wald statistics}
@@ -92,7 +93,9 @@ WaldTest <- function(tt, yy, period = 24, type=TRUE){
 	
   R2 <- 1-rss/tss
   res <- list(
-	  amp=amp,phase=phase,offset=offset,
+	  amp=amp,phase=phase,
+		peakTime = (6 - phase) %% period, 
+		offset=offset,
 	 stat=stat, 
 	 pvalue=pvalue,R2=R2
 		)

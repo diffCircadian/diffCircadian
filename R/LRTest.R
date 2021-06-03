@@ -11,6 +11,7 @@
 ##' Formula 2: \eqn{yy = A \times sin(2\pi/period \times tt) + B * cos(2*pi/period * tt) + offset}
 ##' \item{amp}{Amplitude based on formula 1}
 ##' \item{phase}{Phase based on formula 1, phase is restricted within (0, period)}
+##' \item{peakTime}{Phase based on formula 1, peakTime is restricted within (0, period). phase + peakTime = period/4}
 ##' \item{offset}{Basal level(vertical shift) based on formula 1 or on formula 2}
 ##' \item{sigma02}{Variance estimate under the null (intercept only)}
 ##' \item{sigmaA2}{Variance estimate under the alternative (since curve fitting)}
@@ -75,6 +76,7 @@ LRTest <- function(tt,yy, period = 24,type=TRUE){
     res <- list(
 	  amp = amp,
 	  phase = phase,
+		peakTime = (6 - phase) %% period, 
 	  offset = offset, 
 	  sigma02=sigma02, sigmaA2=sigmaA2, 
 	  l0=l0, 
