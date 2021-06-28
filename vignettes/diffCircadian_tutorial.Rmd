@@ -195,7 +195,7 @@ for(gg in 1:nrow(thisResult)){
 	if(gg %% 1000 == 0){
 		cat('processed', gg, 'genes\n')
 	}
-	yy <- BA11[gg, ]
+	yy <- as.numeric(BA11[gg, ]) ## make sure yy is a numeric vector instead of dataframe. 
 	aLR <- LR_rhythmicity(tt, yy)
 	
 	thisResult$amp[gg] <- aLR$amp
@@ -268,7 +268,7 @@ for(gg in 1:nrow(thisResult_old)){
 	if(gg %% 1000 == 0){
 		cat('processed', gg, 'genes\n')
 	}
-	yy_old <- BA11_old[gg, ]
+	yy_old <- as.numeric(BA11_old[gg, ]) ## make sure yy is a numeric vector instead of dataframe. 
 	aLR <- LR_rhythmicity(tt_old, yy_old)
 	
 	thisResult_old$amp[gg] <- aLR$amp
@@ -289,7 +289,7 @@ for(gg in 1:nrow(thisResult_young)){
 	if(gg %% 1000 == 0){
 		cat('processed', gg, 'genes\n')
 	}
-	yy_young <- BA11_young[gg, ]
+	yy_young <- as.numeric(BA11_young[gg, ]) ## make sure yy is a numeric vector instead of dataframe. 
 	aLR <- LR_rhythmicity(tt_young, yy_young)
 	
 	thisResult_young$amp[gg] <- aLR$amp
