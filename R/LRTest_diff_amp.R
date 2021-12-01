@@ -47,8 +47,8 @@ LRTest_diff_amp<- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
 	#period <- 24
 	w <- 2*pi/period
 	
-	fit1 <- fitSinCurve(tt1, yy1, period = 24)
-	fit2 <- fitSinCurve(tt2, yy2, period = 24)
+	fit1 <- fitSinCurve(tt1, yy1, period = period)
+	fit2 <- fitSinCurve(tt2, yy2, period = period)
 	
 	A1 <- fit1$amp
 	A2 <- fit2$amp

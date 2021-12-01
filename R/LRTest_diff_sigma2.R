@@ -43,8 +43,8 @@ LRTest_diff_sigma2 <- function(tt1, yy1, tt2, yy2, period = 24,FN=TRUE){
   n2 <- length(tt2)
   stopifnot(length(tt2) == length(yy2))
   
-  fit1 <- fitSinCurve(tt1, yy1, period = 24)
-  fit2 <- fitSinCurve(tt2, yy2, period = 24)
+  fit1 <- fitSinCurve(tt1, yy1, period = period)
+  fit2 <- fitSinCurve(tt2, yy2, period = period)
   sigma2_1 <- 1/n1 * fit1$rss
   sigma2_2 <- 1/n2 * fit2$rss		
   sigma2_C <- 1/(n1 + n2) * (sigma2_1 * n1 + sigma2_2 * n2)
