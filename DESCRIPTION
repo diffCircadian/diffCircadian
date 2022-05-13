@@ -3,11 +3,11 @@ Type: Package
 Title: An R package for circadian and differential circadian analysis.
 Version: 0.0.0
 Date: 2020-04-04
-Author: Zhiguang Huo
+Author: Zhiguang Huo, Haocheng Ding
 Maintainer: Zhiguang Huo <zhuo@ufl.edu>
-biocViews: StatisticalMethod, Software
+biocViews: Statistical Method, Software
 VignetteBuilder: knitr
-Description: Statistical methods for ircadian and differential circadian analysis.
+Description: Statistical methods for circadian and differential circadian analysis.
 License: GPL-3
 Depends: R (>= 3.6)
 Imports: nloptr, minpack.lm
