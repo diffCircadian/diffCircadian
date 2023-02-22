@@ -32,7 +32,7 @@
 ##' WaldTest(tt, yy)
 
 WaldTest <- function(tt, yy, period = 24, type=TRUE){
-  afit <- fitSinCurve(tt, yy)
+  afit <- fitSinCurve(tt, yy, period=period)
   n <- length(tt)
   rss <- afit$rss
   tss <- afit$tss
